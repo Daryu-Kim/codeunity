@@ -1,0 +1,11 @@
+@import "/_variabled";
+
+body {
+    transition: all 200ms ease-in-out;
+    background-color: map-get($LIGHT_THEME, background-color);
+}
+
+body.dark-theme {
+    background-color: map-get($DARK-THEME, background-color);
+    color: map-get($DARK-THEME, text-color);
+}

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+@import "/_variabled";
+
+@font-face {
+  font-family: 'D2Coding';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
+}
+
+$BASE_FONT_SIZE: 10px;
+$breakpoints: (
+  0px: 1.0,
+  768px: 1.2,
+  1280px: 1.4
+);
+
+* {
+  font-family: 'Noto Sans KR';
+}
+
+.f-code {
+  font-family: 'D2Coding';
+}
+
+.fc-accent {
+  color: $ACCENT_COLOR;
+}
+
+@for $i from 1 through 9 {
+  .fw-#{$i} {
+    font-weight: $i * 100;
+  }
+}
+
+@for $i from 10 through 28 {
+  .fs-#{$i} {
+    font-size: 1rem * ($i / 10);
+  }
+}
+
+@each $breakpoint, $font-size in $breakpoints {
+  @media (min-width: $breakpoint) {
+    html {
+      font-size: $font-size * $BASE_FONT_SIZE;
+    }
+  }
+}
