@@ -1,7 +1,101 @@
-@import "/_variabled";
-@import "/font.scss";
-@import "/reset.scss";
+@import "../../_variabled";
+@import "../../font.scss";
+@import "../../reset.scss";
 
-.login-title {
-    
+body {
+    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
+    &.dark-theme {
+        background-color: map-get($map: $DARK_THEME, $key: bg-color);
+        > .box {
+            background-color: map-get($map: $DARK_THEME, $key: sub-bg-color);
+        }
+    }
+}
+
+.wrapper {
+    height: 100vh;
+}
+
+.logoLight {
+    background: {
+        position: 0 -52px;
+        image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
+    };
+    width: 175px;
+    height: 51px;
+}
+
+.logoDark {
+    background: {
+        position: 0 0;
+        image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
+    };
+    width: 175px;
+    height: 51px;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.box {
+    padding: 1.6rem;
+    border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.formParent {
+    width: 100%;
+}
+
+.formGroup {
+    width: 100%;
+    padding: 0.8rem;
+    border: 0.5px solid $SUB_L_COLOR;
+    position: relative;
+}
+
+.input {
+    border: none;
+    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
+    &:focus {
+        outline: none;
+    }
+    &.active {
+        padding-top: 0.8rem;
+    }
+}
+
+.inputDes {
+    width: 100%;
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    &.active {
+        top: 0;
+        transform: none;
+    }
+}
+
+.logoDark {
+    display: none;
+}
+
+.wrapper.dark-theme {
+    background-color: map-get($DARK_THEME, bg-color);
+}
+
+.wrapper.dark-theme .logoDark {
+    display: block;
+}
+
+.wrapper.dark-theme .logoLight {
+    display: none;
 }

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
-@import "/_variabled";
+@import "./_variabled";
 
 @font-face {
   font-family: 'D2Coding';
@@ -32,7 +32,7 @@ $breakpoints: (
 }
 
 @for $i from 10 through 28 {
-  .fs-#{$i} {
+  .fs_#{$i} {
     font-size: 1rem * ($i / 10);
   }
 }

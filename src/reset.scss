@@ -1,8 +1,10 @@
-@import "/_variabled";
+@import "./_variabled";
 
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  transition: all 150ms ease-in-out;
 }
 
 body {

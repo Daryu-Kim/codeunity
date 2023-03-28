@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login/Login';
+import LoginTest from './pages/Login/InstagramLogin';
 import './App.module.scss';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         {/* <Route path='/' element= */}
         <Route path='/login' element={<Login />} />
+        <Route path='/logintest' element={<LoginTest />} />
       </Routes>
     </BrowserRouter>
   );
