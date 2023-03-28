@@ -2,16 +2,13 @@
 
 body {
   background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
-  * {
+  p {
     color: map-get($map: $LIGHT_THEME, $key: primary-color);
   }
   &.darkTheme {
     background-color: map-get($map: $DARK_THEME, $key: bg-color);
-    * {
+    p {
       color: map-get($map: $DARK_THEME, $key: primary-color);
-      &:focus {
-        color: $ACCENT_COLOR;
-      }
     }
   }
 }
@@ -24,9 +21,11 @@ body {
   background: transparent;
   border: none;
   outline: none;
-  &:focus {
-    color: $ACCENT_COLOR;
-  }
+  user-select: none;
+}
+
+i {
+  font-style: normal;
 }
 
 body {

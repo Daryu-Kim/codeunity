@@ -9,31 +9,26 @@ body.darkTheme {
   }
 }
 
-.wrapper {
-  height: 100vh;
-  background-color: transparent;
-}
+// .logoLight {
+//   background: {
+//     position: 0 -52px;
+//     image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
+//   };
+//   width: 175px;
+//   height: 51px;
+// }
 
-.logoLight {
-  background: {
-    position: 0 -52px;
-    image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-  }
+// .logoDark {
+//   background: {
+//     position: 0 0;
+//     image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
+//   };
+//   width: 175px;
+//   height: 51px;
+// }
 
-  ;
-  width: 175px;
-  height: 51px;
-}
+.logo {
 
-.logoDark {
-  background: {
-    position: 0 0;
-    image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-  }
-
-  ;
-  width: 175px;
-  height: 51px;
 }
 
 .container {
@@ -48,17 +43,20 @@ body.darkTheme {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  width: 30rem;
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  grid-gap: 1.6rem;
+  grid-gap: 2.4rem;
 }
 
 .formParent {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 0.8rem;
 }
 
 .formGroup {
@@ -71,9 +69,11 @@ body.darkTheme {
   align-items: center;
   height: 4.8rem;
   background-color: map-get($map: $LIGHT_THEME, $key: sub-bg-color);
-
   &.active {
     align-items: flex-end;
+  }
+  &:hover {
+    border-color: $ACCENT_COLOR;
   }
 }
 
@@ -83,16 +83,18 @@ body.darkTheme {
 
   &:focus {
     outline: none;
+    color: $ACCENT_COLOR;
   }
 }
 
 .inputDes {
-  width: 100%;
+  width: fit-content;
   position: absolute;
   left: 1.2rem;
   top: 50%;
   transform: translateY(-50%);
   color: $SUB_L_COLOR;
+  cursor: text;
 
   &.active {
     top: 0.4rem;
@@ -101,16 +103,101 @@ body.darkTheme {
 }
 
 .inputToggle {
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
   position: absolute;
   top: 50%;
   right: 1.2rem;
   transform: translateY(-50%);
+  cursor: pointer;
+  color: $ACCENT_COLOR;
+}
+
+.searchPW {
+  width: fit-content;
+  align-self: flex-end;
+  color: $ACCENT_COLOR;
+  text-decoration: none;
 }
 
 .loginBtn {
   width: 100%;
-  background-color: $ACCENT_COLOR;
+  background-color: $ACCENT_LIGHT_COLOR;
+  cursor: pointer;
+  color: white;
+  border-radius: 0.8rem;
+  padding: 0.8rem 1.6rem;
+  &:hover {
+    background-color: $ACCENT_COLOR;
+  }
+}
 
+.hrBox {
+  width: 100%;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  > hr {
+    width: 100%;
+    height: 0.1rem;
+    background-color: $SUB_COLOR;
+  }
+  > p {
+    width: 34%;
+    color: $SUB_COLOR;
+    text-align: center;
+  }
+}
+
+.githubBtn {
+  width: 100%;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 0.8rem 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 0.8rem;
+  border-radius: 0.8rem;
+  * {
+    color: white;
+  }
+}
+
+.github {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.joinBox {
+  display: flex;
+  align-items: center;
+  grid-gap: 0.4rem;
+}
+
+.joinDes {
+  color: $SUB_COLOR;
+}
+
+.joinBtn {
+  width: fit-content;
+  align-self: flex-end;
+  color: $ACCENT_COLOR;
+  text-decoration: none;
+}
+
+.company {
+  position: fixed;
+  bottom: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.companyName {
+  color: $ACCENT_COLOR;
 }
