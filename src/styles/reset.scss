@@ -1,0 +1,40 @@
+@import "./_variabled";
+
+body {
+  background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
+  * {
+    color: map-get($map: $LIGHT_THEME, $key: primary-color);
+  }
+  &.darkTheme {
+    background-color: map-get($map: $DARK_THEME, $key: bg-color);
+    * {
+      color: map-get($map: $DARK_THEME, $key: primary-color);
+      &:focus {
+        color: $ACCENT_COLOR;
+      }
+    }
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 150ms ease-in-out;
+  background: transparent;
+  border: none;
+  outline: none;
+  &:focus {
+    color: $ACCENT_COLOR;
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: all 200ms ease-in-out;
+  background-color: map-get($LIGHT_THEME, background-color);
+  &.dark-theme {
+    background-color: map-get($DARK-THEME, background-color);
+  }
+}
