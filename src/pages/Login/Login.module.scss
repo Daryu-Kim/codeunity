@@ -1,101 +1,116 @@
-@import "../../_variabled";
-@import "../../font.scss";
-@import "../../reset.scss";
+@import "../../styles/_variabled";
+@import "../../styles/reset.scss";
 
-body {
-    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
-    &.dark-theme {
-        background-color: map-get($map: $DARK_THEME, $key: bg-color);
-        > .box {
-            background-color: map-get($map: $DARK_THEME, $key: sub-bg-color);
-        }
-    }
+body.darkTheme {
+  background-color: map-get($map: $DARK_THEME, $key: bg-color);
+
+  .formGroup {
+    background-color: map-get($map: $DARK_THEME, $key: sub-bg-color);
+  }
 }
 
 .wrapper {
-    height: 100vh;
+  height: 100vh;
+  background-color: transparent;
 }
 
 .logoLight {
-    background: {
-        position: 0 -52px;
-        image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-    };
-    width: 175px;
-    height: 51px;
+  background: {
+    position: 0 -52px;
+    image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
+  }
+
+  ;
+  width: 175px;
+  height: 51px;
 }
 
 .logoDark {
-    background: {
-        position: 0 0;
-        image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-    };
-    width: 175px;
-    height: 51px;
+  background: {
+    position: 0 0;
+    image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
+  }
+
+  ;
+  width: 175px;
+  height: 51px;
 }
 
 .container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .box {
-    padding: 1.6rem;
-    border: 1px solid grey;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 1.6rem;
 }
 
 .formParent {
-    width: 100%;
+  width: 100%;
 }
 
 .formGroup {
-    width: 100%;
-    padding: 0.8rem;
-    border: 0.5px solid $SUB_L_COLOR;
-    position: relative;
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border: 0.1rem solid $SUB_L_COLOR;
+  border-radius: 0.8rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 4.8rem;
+  background-color: map-get($map: $LIGHT_THEME, $key: sub-bg-color);
+
+  &.active {
+    align-items: flex-end;
+  }
 }
 
 .input {
-    border: none;
-    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
-    &:focus {
-        outline: none;
-    }
-    &.active {
-        padding-top: 0.8rem;
-    }
+  width: 100%;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .inputDes {
-    width: 100%;
-    position: absolute;
-    left: 0.8rem;
-    top: 50%;
-    transform: translateY(-50%);
-    &.active {
-        top: 0;
-        transform: none;
-    }
+  width: 100%;
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $SUB_L_COLOR;
+
+  &.active {
+    top: 0.4rem;
+    transform: none;
+  }
 }
 
-.logoDark {
-    display: none;
+.inputToggle {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  right: 1.2rem;
+  transform: translateY(-50%);
 }
 
-.wrapper.dark-theme {
-    background-color: map-get($DARK_THEME, bg-color);
-}
+.loginBtn {
+  width: 100%;
+  background-color: $ACCENT_COLOR;
 
-.wrapper.dark-theme .logoDark {
-    display: block;
-}
-
-.wrapper.dark-theme .logoLight {
-    display: none;
 }

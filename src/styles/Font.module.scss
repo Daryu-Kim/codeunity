@@ -17,16 +17,16 @@ $breakpoints: (
   font-family: 'Noto Sans KR';
 }
 
-.f-code {
+.f_code {
   font-family: 'D2Coding';
 }
 
-.fc-accent {
+.fc_accent {
   color: $ACCENT_COLOR;
 }
 
 @for $i from 1 through 9 {
-  .fw-#{$i} {
+  .fw_#{$i} {
     font-weight: $i * 100;
   }
 }

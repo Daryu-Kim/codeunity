@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from "./Login.module.scss";
-import font from "../../Font.module.scss";
+import font from "../../styles/Font.module.scss";
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { checkDarkMode } from "../../modules/Functions";
 
 const footerArr: string[] = [
   "Meta",
@@ -18,14 +21,24 @@ const footerArr: string[] = [
 ];
 
 function InstagramLogin() {
-  const [isActive, setIsActive] = useState(false);
+  const [isIDActive, setIsIDActive] = useState(false);
+  const [isPWActive, setIsPWActive] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIDInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim().length > 0) {
-      setIsActive(true);
+      setIsIDActive(true);
     } else {
-      setIsActive(false);
+      setIsIDActive(false);
+    }
+  };
+
+  const handlePWInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.trim().length > 0) {
+      setIsPWActive(true);
+    } else {
+      setIsPWActive(false);
     }
   };
 
@@ -37,21 +50,75 @@ function InstagramLogin() {
     document.body.classList.toggle("dark");
   };
 
+  const toggleDark = () => {
+    const bodyClass = document.body.classList;
+    // bodyClass.toggle(styles.darkTheme);
+    bodyClass.contains(styles.darkTheme) ?
+    localStorage.setItem("isDarkMode", "light") :
+    localStorage.setItem("isDarkMode", "dark") 
+    checkDarkMode(styles);
+    setIsDarkMode(bodyClass.contains(styles.darkTheme));
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.box}>
         <div className={styles.logoBox}>
-          <div className={styles.logoLight}></div>
-          <div className={styles.logoDark}></div>
+          <div
+            className={
+              isDarkMode ?
+              styles.logoDark :
+              styles.logoLight
+            }
+          ></div>
         </div>
         
         <div className={styles.formParent}>
-          <label htmlFor="idInput" className={styles.formGroup}>
-            <p className={isActive ? `${styles.inputDes} ${styles.active} ${font.fs_12}` : `${styles.inputDes} ${font.fs_14}`}>
+          <label
+            htmlFor="idInput"
+            className={
+              isIDActive ?
+              `${styles.formGroup} ${styles.active}` :
+              `${styles.formGroup}`
+            }
+          >
+            <p
+              className={
+                isIDActive ?
+                `${styles.inputDes} ${styles.active} ${font.fs_12}` :
+                `${styles.inputDes} ${font.fs_14}`
+              }
+            >
               전화번호, 사용자 이름 또는 이메일
             </p>
-            <input id="idInput" type="text" onChange={handleInputChange} className={isActive ? `${styles.input} ${styles.active} ${font.fs_12}` : `${styles.input} ${font.fs_14}`}/>
+            <input
+              id="idInput"
+              type="text"
+              onChange={handleIDInputChange}
+              className={
+                isIDActive ?
+                `${styles.input} ${styles.active} ${font.fs_14}` :
+                `${styles.input} ${font.fs_14}`
+              }
+            />
           </label>
+          <label htmlFor="pwInput" className={isPWActive ? `${styles.formGroup} ${styles.active}` : `${styles.formGroup}`}>
+            <p className={isPWActive ? `${styles.inputDes} ${styles.active} ${font.fs_12}` : `${styles.inputDes} ${font.fs_14}`}>
+              비밀번호
+            </p>
+            <input id="pwInput" type={isPasswordVisible ? "text" : "password"} onChange={handlePWInputChange} className={isPWActive ? `${styles.input} ${styles.active} ${font.fs_14}` : `${styles.input} ${font.fs_14}`}/>
+            <FontAwesomeIcon
+              icon={!isPasswordVisible ? faEye : faEyeSlash}
+              className={styles.inputToggle}
+              onClick={togglePasswordVisiblity}
+            />
+          </label>
+          <button
+            className={styles.loginBtn}
+            onClick={toggleDark}
+          >
+            로그인
+          </button>
         </div>
       </div>
       {/* <div className={styles.container}>
