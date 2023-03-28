@@ -54,7 +54,7 @@ function Login() {
               styles.logoLight
             }
           ></div> */}
-          <p className={`${styles.logo} ${font.fs_28} ${font.fw_9}`}>
+          <p className={`${font.fs_28} ${font.fw_9}`}>
             CodeUnity
           </p>
         </div>
