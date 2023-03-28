@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const checkDarkMode = (styles: {
     readonly [key: string]: string;
 } ) => {
@@ -9,3 +11,15 @@ export const checkDarkMode = (styles: {
         bodyClass.add(styles.darkTheme);
     }
 };
+
+export const toastError = (msg: string) => {
+    if (localStorage.getItem("isDarkMode") == "dark") {
+        toast.error(msg, {
+            theme: "dark"
+        });
+    } else {
+        toast.error(msg, {
+            theme: "light"
+        });
+    }
+}
