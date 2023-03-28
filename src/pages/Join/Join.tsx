@@ -33,18 +33,15 @@ const Join = () => {
   const [isPWCActive, setIsPWCActive] = useState(false);
   const [isPhoneActive, setIsPhoneActive] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordConfirmVisible, setIsPasswordConfirmVisible] =
+    useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const togglePasswordVisiblity = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-
-  const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.trim().length > 0) {
-      setIsPhoneActive(true);
-    } else {
-      setIsPhoneActive(false);
-    }
+  const togglePasswordConfirmVisiblity = () => {
+    setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
   };
 
   const toggleDark = () => {
@@ -107,9 +104,7 @@ const Join = () => {
     const passwordRegExp =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     if (!passwordRegExp.test(currentPassword)) {
-      setPasswordMessage(
-        "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
-      );
+      setPasswordMessage("숫자+영문자+특수문자로 8자리 이상 입력해주세요!");
       setIsPassword(false);
     } else {
       setPasswordMessage("안전한 비밀번호 입니다.");
@@ -138,6 +133,12 @@ const Join = () => {
     const currentPhone = getNumber;
     setPhone(currentPhone);
     const phoneRegExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    if (currentPhone) {
+      setIsPhoneActive(true);
+    } else {
+      setIsPhoneActive(false);
+    }
 
     if (!phoneRegExp.test(currentPhone)) {
       setPhoneMessage("올바른 형식이 아닙니다!");
@@ -171,8 +172,8 @@ const Join = () => {
           </p>
         </div>
 
-        <div className={`${font.fs_20} ${font.fw_7}`}>
-          개발자들의 머문자리를 보려면 가입하세요.
+        <div className={`${font.fs_20} ${font.fw_7} ${styles.headText}`}>
+          개발자들이 머문자리를 보려면 가입하세요.
         </div>
         <button className={styles.githubBtn}>
           <FontAwesomeIcon icon={faGithub} className={styles.github} />
@@ -213,7 +214,7 @@ const Join = () => {
                   : `${styles.input} ${font.fs_14}`
               }
             />
-            <p className="message">{emailMessage}</p>
+            <p className={styles.message}>{emailMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -243,7 +244,7 @@ const Join = () => {
                   : `${styles.input} ${font.fs_14}`
               }
             />
-            <p className="message">{nameMessage}</p>
+            <p className={styles.message}>{nameMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -263,7 +264,7 @@ const Join = () => {
               비밀번호
             </p>
             <input
-              type="password"
+              type={isPasswordVisible ? "text" : "password"}
               id="password"
               name="password"
               value={password}
@@ -279,7 +280,7 @@ const Join = () => {
               className={styles.inputToggle}
               onClick={togglePasswordVisiblity}
             />
-            <p className="message">{passwordMessage}</p>
+            <p className={styles.message}>{passwordMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -299,7 +300,7 @@ const Join = () => {
               비밀번호 확인
             </p>
             <input
-              type="password"
+              type={isPasswordConfirmVisible ? "text" : "password"}
               id="passwordConfirm"
               name="passwordConfirm"
               value={passwordConfirm}
@@ -310,8 +311,12 @@ const Join = () => {
                   : `${styles.input} ${font.fs_14}`
               }
             />
-
-            <p className="message">{passwordConfirmMessage}</p>
+            <FontAwesomeIcon
+              icon={!isPasswordConfirmVisible ? faEye : faEyeSlash}
+              className={styles.inputToggle}
+              onClick={togglePasswordConfirmVisiblity}
+            />
+            <p className={styles.message}>{passwordConfirmMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -342,7 +347,7 @@ const Join = () => {
               }
             />
 
-            <p className="message">{phoneMessage}</p>
+            <p className={styles.message}>{phoneMessage}</p>
           </label>
         </div>
 

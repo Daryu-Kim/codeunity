@@ -26,6 +26,10 @@ body.darkTheme {
   grid-gap: 2.4rem;
 }
 
+.headText {
+  text-align: center;
+}
+
 .githubBtn {
   width: 100%;
   background-color: black;
@@ -98,12 +102,21 @@ body.darkTheme {
 }
 
 .inputToggle {
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
   position: absolute;
   top: 50%;
-  right: 1.2rem;
+  right: 0.8rem;
   transform: translateY(-50%);
+  cursor: pointer;
+  color: $ACCENT_COLOR;
+}
+
+.message {
+  margin-right: 30px;
+  width: 350px;
+  line-height: 1rem;
+  color: $ACCENT_COLOR;
 }
 
 .loginBtn {
