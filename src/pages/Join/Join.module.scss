@@ -14,7 +14,7 @@ body.darkTheme {
 
 .box {
   position: fixed;
-  top: 50%;
+  top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 30rem;
@@ -79,7 +79,7 @@ body.darkTheme {
 .input {
   width: 100%;
   border: none;
-
+  position: absolute;
   &:focus {
     outline: none;
     color: $ACCENT_COLOR;
@@ -154,4 +154,19 @@ body.darkTheme {
 
 .intoLoginSpan {
   color: $ACCENT_LIGHT_COLOR;
+}
+
+.company {
+  position: fixed;
+  bottom: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.companyName {
+  color: $ACCENT_COLOR;
 }
