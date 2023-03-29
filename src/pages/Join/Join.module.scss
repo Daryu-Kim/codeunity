@@ -7,29 +7,9 @@ body.darkTheme {
   }
 }
 
-// .logoLight {
-//   background: {
-//     position: 0 -52px;
-//     image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-//   };
-//   width: 175px;
-//   height: 51px;
-// }
-
-// .logoDark {
-//   background: {
-//     position: 0 0;
-//     image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-//   };
-//   width: 175px;
-//   height: 51px;
-// }
-
-.container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.wrapper {
+  height: 100vh;
+  background-color: transparent;
 }
 
 .box {
@@ -44,6 +24,31 @@ body.darkTheme {
   align-items: center;
   justify-content: center;
   grid-gap: 2.4rem;
+}
+
+.headText {
+  text-align: center;
+}
+
+.githubBtn {
+  width: 100%;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 0.8rem 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 0.8rem;
+  border-radius: 0.8rem;
+  * {
+    color: white;
+  }
+}
+
+.github {
+  width: 2.4rem;
+  height: 2.4rem;
 }
 
 .formParent {
@@ -101,17 +106,17 @@ body.darkTheme {
   height: 2.4rem;
   position: absolute;
   top: 50%;
-  right: 1.2rem;
+  right: 0.8rem;
   transform: translateY(-50%);
   cursor: pointer;
   color: $ACCENT_COLOR;
 }
 
-.searchPW {
-  width: fit-content;
-  align-self: flex-end;
+.message {
+  margin-right: 30px;
+  width: 350px;
+  line-height: 1rem;
   color: $ACCENT_COLOR;
-  text-decoration: none;
 }
 
 .loginBtn {
@@ -143,55 +148,10 @@ body.darkTheme {
   }
 }
 
-.githubBtn {
-  width: 100%;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  padding: 0.8rem 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-gap: 0.8rem;
-  border-radius: 0.8rem;
-  * {
-    color: white;
-  }
+.intoLogin {
+  margin-top: 10px;
 }
 
-.github {
-  width: 2.4rem;
-  height: 2.4rem;
-}
-
-.joinBox {
-  display: flex;
-  align-items: center;
-  grid-gap: 0.4rem;
-}
-
-.joinDes {
-  color: $SUB_COLOR;
-}
-
-.joinBtn {
-  width: fit-content;
-  align-self: flex-end;
-  color: $ACCENT_COLOR;
-  text-decoration: none;
-}
-
-.company {
-  position: fixed;
-  bottom: 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.companyName {
-  color: $ACCENT_COLOR;
+.intoLoginSpan {
+  color: $ACCENT_LIGHT_COLOR;
 }
