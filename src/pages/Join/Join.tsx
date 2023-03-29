@@ -172,9 +172,9 @@ const Join = () => {
           </p>
         </div>
 
-        <div className={`${font.fs_20} ${font.fw_7} ${styles.headText}`}>
+        {/* <div className={`${font.fs_20} ${font.fw_7} ${styles.headText}`}>
           개발자들이 머문자리를 보려면 가입하세요.
-        </div>
+        </div> */}
         <button className={styles.githubBtn}>
           <FontAwesomeIcon icon={faGithub} className={styles.github} />
           <p className={`${font.fs_16} ${font.fw_7}`}>GitHub로 로그인</p>
@@ -318,7 +318,7 @@ const Join = () => {
             />
             <p className={styles.message}>{passwordConfirmMessage}</p>
           </label>
-          <label
+          {/* <label
             htmlFor="idInput"
             className={
               isPhoneActive
@@ -348,7 +348,7 @@ const Join = () => {
             />
 
             <p className={styles.message}>{phoneMessage}</p>
-          </label>
+          </label> */}
         </div>
 
         <button
@@ -361,6 +361,12 @@ const Join = () => {
           계정이 있으신가요?{" "}
           <span className={`${styles.intoLoginSpan} ${font.fw_7}`}>로그인</span>
         </div>
+      </div>
+      <div className={styles.company}>
+        <p className={styles.companyDes}>from</p>
+        <i className={`${styles.companyName} ${font.fw_9} ${font.fs_14}`}>
+          DW Duo
+        </i>
       </div>
     </div>
   );
