@@ -48,15 +48,15 @@ export const getTargetData = () => {
 
 export async function signInGitHub() {
   // await signInWithPopup(auth, new GithubAuthProvider())
-  await get("https://github.com/login/oauth/authorize?client_id=0436e48b08b5dd10f81e")
-  .then((result) => {
-    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-    const credential = GithubAuthProvider.credentialFromResult(result);
-    const token = credential?.accessToken;
+  // await get("https://github.com/login/oauth/authorize?client_id=0436e48b08b5dd10f81e")
+  // .then((result) => {
+  //   // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+  //   const credential = GithubAuthProvider.credentialFromResult(result);
+  //   const token = credential?.accessToken;
 
-    // The signed-in user info.
-    const user = result.user;                                                                                             
-  });
+  //   // The signed-in user info.
+  //   const user = result.user;                                                                                             
+  // });
 }
 
 export const signInEmail = async (email: string, password: string) =>  {
