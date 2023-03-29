@@ -2,8 +2,6 @@
 @import "../../styles/reset.scss";
 
 body.darkTheme {
-  background-color: map-get($map: $DARK_THEME, $key: bg-color);
-
   .formGroup {
     background-color: map-get($map: $DARK_THEME, $key: sub-bg-color);
   }
@@ -26,10 +24,6 @@ body.darkTheme {
 //   width: 175px;
 //   height: 51px;
 // }
-
-.logo {
-
-}
 
 .container {
   position: fixed;
