@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Login.module.scss";
 import font from "../../styles/Font.module.scss";
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { checkDarkMode, toastError, toggleDarkMode } from "../../modules/Functions";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import {
+  checkDarkMode,
+  toastError,
+  toggleDarkMode,
+} from "../../modules/Functions";
 import { Link } from "react-router-dom";
 import { signInEmail } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
-import { validate, res } from 'react-email-validator';
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
@@ -47,22 +50,17 @@ function Login() {
     if (!idValue) {
       toastError("이메일을 입력해주세요!");
     } else {
-      console.log(Validator.isEmail(idValue));
       if (!pwValue) {
         toastError("비밀번호를 입력해주세요!");
       } else {
         signInEmail(email, password);
       }
     }
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        theme="dark"
-      />
+      <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       <div className={styles.box}>
         <div className={styles.logoBox}>
           {/* <div
@@ -72,25 +70,23 @@ function Login() {
               styles.logoLight
             }
           ></div> */}
-          <p className={`${font.fs_28} ${font.fw_9}`}>
-            CodeUnity
-          </p>
+          <p className={`${font.fs_28} ${font.fw_9}`}>CodeUnity</p>
         </div>
-        
+
         <div className={styles.formParent}>
           <label
             htmlFor="idInput"
             className={
-              isIDActive ?
-              `${styles.formGroup} ${styles.active}` :
-              `${styles.formGroup}`
+              isIDActive
+                ? `${styles.formGroup} ${styles.active}`
+                : `${styles.formGroup}`
             }
           >
             <p
               className={
-                isIDActive ?
-                `${styles.inputDes} ${styles.active} ${font.fs_12}` :
-                `${styles.inputDes} ${font.fs_14}`
+                isIDActive
+                  ? `${styles.inputDes} ${styles.active} ${font.fs_12}`
+                  : `${styles.inputDes} ${font.fs_14}`
               }
             >
               전화번호, 사용자 이름 또는 이메일
@@ -101,21 +97,38 @@ function Login() {
               onChange={handleIDInputChange}
               value={idValue}
               className={
-                isIDActive ?
-                `${styles.input} ${styles.active} ${font.fs_14}` :
-                `${styles.input} ${font.fs_14}`
+                isIDActive
+                  ? `${styles.input} ${styles.active} ${font.fs_14}`
+                  : `${styles.input} ${font.fs_14}`
               }
             />
           </label>
-          <label htmlFor="pwInput" className={isPWActive ? `${styles.formGroup} ${styles.active}` : `${styles.formGroup}`}>
-            <p className={isPWActive ? `${styles.inputDes} ${styles.active} ${font.fs_12}` : `${styles.inputDes} ${font.fs_14}`}>
+          <label
+            htmlFor="pwInput"
+            className={
+              isPWActive
+                ? `${styles.formGroup} ${styles.active}`
+                : `${styles.formGroup}`
+            }
+          >
+            <p
+              className={
+                isPWActive
+                  ? `${styles.inputDes} ${styles.active} ${font.fs_12}`
+                  : `${styles.inputDes} ${font.fs_14}`
+              }
+            >
               비밀번호
             </p>
             <input
               id="pwInput"
               type={isPasswordVisible ? "text" : "password"}
               onChange={handlePWInputChange}
-              className={isPWActive ? `${styles.input} ${styles.active} ${font.fs_14}` : `${styles.input} ${font.fs_14}`}
+              className={
+                isPWActive
+                  ? `${styles.input} ${styles.active} ${font.fs_14}`
+                  : `${styles.input} ${font.fs_14}`
+              }
               value={pwValue}
             />
             <FontAwesomeIcon
@@ -124,7 +137,10 @@ function Login() {
               onClick={togglePasswordVisiblity}
             />
           </label>
-          <Link to="" className={`${styles.searchPW} ${font.fs_12} ${font.fw_5}`}>
+          <Link
+            to=""
+            className={`${styles.searchPW} ${font.fs_12} ${font.fw_5}`}
+          >
             비밀번호를 잊으셨나요?
           </Link>
         </div>
@@ -144,8 +160,13 @@ function Login() {
           <p className={`${font.fs_16} ${font.fw_7}`}>GitHub로 로그인</p>
         </button>
         <div className={styles.joinBox}>
-          <p className={`${styles.joinDes} ${font.fs_12}`}>계정이 없으신가요?</p>
-          <Link to="/join" className={`${styles.joinBtn} ${font.fs_12} ${font.fw_5}`}>
+          <p className={`${styles.joinDes} ${font.fs_12}`}>
+            계정이 없으신가요?
+          </p>
+          <Link
+            to="/join"
+            className={`${styles.joinBtn} ${font.fs_12} ${font.fw_5}`}
+          >
             가입하기
           </Link>
         </div>

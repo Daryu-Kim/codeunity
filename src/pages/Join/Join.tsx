@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import styles from "./Join.module.scss";
 import font from "../../styles/Font.module.scss";
-import { checkDarkMode } from "../../modules/Functions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+  checkDarkMode,
+  toastError,
+  toggleDarkMode,
+} from "../../modules/Functions";
+import { Link } from "react-router-dom";
+
+import { signInEmail } from "../../modules/Firebase";
+import { ToastContainer } from "react-toastify";
 
 import "./Join.module.scss";
 
 const Join = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [phone, setPhone] = useState("");
-
   const [emailMessage, setEmailMessage] = useState("");
   const [nameMessage, setNameMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
@@ -37,6 +39,11 @@ const Join = () => {
     useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  const [emailValue, setEmailValue] = useState("");
+  const [idValue, setIdValue] = useState("");
+  const [pwValue, setPwValue] = useState("");
+  const [pwCValue, setPwCValue] = useState("");
+
   const togglePasswordVisiblity = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -55,113 +62,75 @@ const Join = () => {
   };
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsEmailActive(true);
     } else {
       setIsEmailActive(false);
     }
     const currentEmail = e.target.value;
-    setEmail(currentEmail);
+
     const emailRegExp =
       /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
 
-    if (!emailRegExp.test(currentEmail)) {
-      setEmailMessage("이메일의 형식이 올바르지 않습니다!");
-      setIsEmail(false);
-    } else {
-      setEmailMessage("사용 가능한 이메일 입니다.");
-      setIsEmail(true);
-    }
+    // if (!emailRegExp.test(currentEmail)) {
+    //   setEmailMessage("이메일의 형식이 올바르지 않습니다!");
+    //   setIsEmail(false);
+    // } else {
+    //   setEmailMessage("사용 가능한 이메일 입니다.");
+    //   setIsEmail(true);
+    // }
   };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIdValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsIDActive(true);
     } else {
       setIsIDActive(false);
     }
-
-    const currentName = e.target.value;
-    setName(currentName);
-
-    if (currentName.length < 2 || currentName.length > 5) {
-      setNameMessage("닉네임은 2글자 이상 5글자 이하로 입력해주세요!");
-      setIsName(false);
-    } else {
-      setNameMessage("사용가능한 닉네임 입니다.");
-      setIsName(true);
-    }
   };
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPwValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsPWActive(true);
     } else {
       setIsPWActive(false);
     }
-    const currentPassword = e.target.value;
-    setPassword(currentPassword);
-    const passwordRegExp =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    if (!passwordRegExp.test(currentPassword)) {
-      setPasswordMessage("숫자+영문자+특수문자로 8자리 이상 입력해주세요!");
-      setIsPassword(false);
-    } else {
-      setPasswordMessage("안전한 비밀번호 입니다.");
-      setIsPassword(true);
-    }
   };
 
   const onChangePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPwCValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsPWCActive(true);
     } else {
       setIsPWCActive(false);
     }
-    const currentPasswordConfirm = e.target.value;
-    setPasswordConfirm(currentPasswordConfirm);
-    if (password !== currentPasswordConfirm) {
-      setPasswordConfirmMessage("비밀번호가 일치하지 않습니다.");
-      setIsPasswordConfirm(false);
-    } else {
-      setPasswordConfirmMessage("비밀번호가 일치합니다.");
-      setIsPasswordConfirm(true);
-    }
   };
 
-  const onChangePhone = (getNumber: string) => {
-    const currentPhone = getNumber;
-    setPhone(currentPhone);
-    const phoneRegExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-
-    if (currentPhone) {
-      setIsPhoneActive(true);
+  const emailLogin = (
+    email: string,
+    name: string,
+    password: string,
+    passwordc: string
+  ) => {
+    if (!emailValue) {
+      toastError("이메일을 입력해주세요!");
+    } else if (!idValue) {
+      toastError("닉네임을 입력해주세요!");
+    } else if (!pwValue) {
+      toastError("비밀번호를 입력해주세요!");
+    } else if (!pwCValue) {
+      toastError("비밀번호 확인을 입력해주세요!");
     } else {
-      setIsPhoneActive(false);
-    }
-
-    if (!phoneRegExp.test(currentPhone)) {
-      setPhoneMessage("올바른 형식이 아닙니다!");
-      setIsPhone(false);
-    } else {
-      setPhoneMessage("사용 가능한 번호입니다.");
-      setIsPhone(true);
-    }
-  };
-
-  const addHyphen = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentNumber = e.target.value;
-    setPhone(currentNumber);
-    if (currentNumber.length === 3 || currentNumber.length === 8) {
-      setPhone(currentNumber + "-");
-      onChangePhone(currentNumber + "-");
-    } else {
-      onChangePhone(currentNumber);
+      signInEmail(email, password);
     }
   };
 
   return (
     <div className={styles.wrapper}>
+      <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       <div className={styles.box}>
         <div className={styles.logoBox}>
           <p
@@ -206,7 +175,7 @@ const Join = () => {
               id="email"
               name="name"
               type="text"
-              value={email}
+              value={emailValue}
               onChange={onChangeEmail}
               className={
                 isEmailActive
@@ -236,7 +205,7 @@ const Join = () => {
             <input
               id="name"
               name="name"
-              value={name}
+              value={idValue}
               onChange={onChangeName}
               className={
                 isIDActive
@@ -267,7 +236,7 @@ const Join = () => {
               type={isPasswordVisible ? "text" : "password"}
               id="password"
               name="password"
-              value={password}
+              value={pwValue}
               onChange={onChangePassword}
               className={
                 isPWActive
@@ -303,7 +272,7 @@ const Join = () => {
               type={isPasswordConfirmVisible ? "text" : "password"}
               id="passwordConfirm"
               name="passwordConfirm"
-              value={passwordConfirm}
+              value={pwCValue}
               onChange={onChangePasswordConfirm}
               className={
                 isPWCActive
@@ -354,12 +323,20 @@ const Join = () => {
         <button
           type="submit"
           className={`${styles.loginBtn} ${font.fs_16} ${font.fw_7}`}
+          onClick={() => emailLogin(emailValue, idValue, pwValue, pwCValue)}
         >
           가입
         </button>
         <div className={styles.intoLogin}>
-          계정이 있으신가요?{" "}
-          <span className={`${styles.intoLoginSpan} ${font.fw_7}`}>로그인</span>
+          <p className={`${styles.joinDes} ${font.fs_12}`}>
+            계정이 있으신가요?
+          </p>
+          <Link
+            to="/login"
+            className={`${styles.intoLoginLink} ${font.fs_12} ${font.fw_5}`}
+          >
+            로그인
+          </Link>
         </div>
       </div>
       <div className={styles.company}>

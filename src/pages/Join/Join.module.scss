@@ -149,11 +149,16 @@ body.darkTheme {
 }
 
 .intoLogin {
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  grid-gap: 0.4rem;
 }
 
-.intoLoginSpan {
-  color: $ACCENT_LIGHT_COLOR;
+.intoLoginLink {
+  width: fit-content;
+  align-self: flex-end;
+  color: $ACCENT_COLOR;
+  text-decoration: none;
 }
 
 .company {
