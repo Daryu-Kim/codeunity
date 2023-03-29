@@ -2,12 +2,12 @@
 
 body {
   background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
-  p {
+  p, input {
     color: map-get($map: $LIGHT_THEME, $key: primary-color);
   }
   &.darkTheme {
     background-color: map-get($map: $DARK_THEME, $key: bg-color);
-    p {
+    p, input {
       color: map-get($map: $DARK_THEME, $key: primary-color);
     }
   }
