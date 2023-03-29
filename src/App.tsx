@@ -1,18 +1,15 @@
 // import React, { useRef } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import Main from "./pages/Main/Main";
 import Login from "./pages/Login/Login";
 import Join from "./pages/Join/Join";
 import "./styles/reset.scss";
 
 function App() {
-  // const body = useRef<HTMLDivElement>(null);
-  // const themeToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   e.target.checked ? body.current?.classList.add("dark-theme") : body.current?.classList.remove("dark-theme");
-  // };
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element= */}
+        <Route path='/*' element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
       </Routes>

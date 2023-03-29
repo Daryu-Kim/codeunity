@@ -8,7 +8,8 @@ import {
   onAuthStateChanged,
   setPersistence,
   signInWithEmailAndPassword,
-  signInWithPopup
+  signInWithPopup,
+  signOut
 } from "firebase/auth";
 import "react-toastify/dist/ReactToastify.css"
 import { toastError } from "./Functions";
@@ -30,13 +31,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 setPersistence(auth, browserLocalPersistence);
 
 onAuthStateChanged(auth, () => {
   const user = auth.currentUser;
-  console.log(user);
 });
 
 export const getMyData = () => {
