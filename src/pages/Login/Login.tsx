@@ -4,10 +4,11 @@ import styles from "./Login.module.scss";
 import font from "../../styles/Font.module.scss";
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { checkDarkMode, toastError } from "../../modules/Functions";
+import { checkDarkMode, toastError, toggleDarkMode } from "../../modules/Functions";
 import { Link } from "react-router-dom";
 import { signInEmail } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
+import { validate, res } from 'react-email-validator';
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
@@ -17,6 +18,8 @@ function Login() {
 
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
+
+  checkDarkMode(styles);
 
   const handleIDInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIdValue(e.target.value.trim());
@@ -40,20 +43,11 @@ function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const toggleDark = () => {
-    const bodyClass = document.body.classList;
-    // bodyClass.toggle(styles.darkTheme);
-    bodyClass.contains(styles.darkTheme) ?
-    localStorage.setItem("isDarkMode", "light") :
-    localStorage.setItem("isDarkMode", "dark") 
-    checkDarkMode(styles);
-    setIsDarkMode(bodyClass.contains(styles.darkTheme));
-  };
-
   const emailLogin = (email: string, password: string) => {
     if (!idValue) {
       toastError("이메일을 입력해주세요!");
     } else {
+      console.log(Validator.isEmail(idValue));
       if (!pwValue) {
         toastError("비밀번호를 입력해주세요!");
       } else {
