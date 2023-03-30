@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 export const toastError = (msg) => {
-  if (localStorage.getItem("isDarkMode") == "dark") {
+  if (isDarkMode()) {
     toast.error(msg, {
       theme: "dark",
     });
@@ -12,8 +12,25 @@ export const toastError = (msg) => {
   }
 };
 
-export const resolvePromise = (promise) => {
-  Promise.resolve(promise).then((value) => {
-    return value;
-  });
+export const toastLoading = (msg) => {
+  if (isDarkMode()) {
+    toast.loading(msg, {
+      theme: "dark",
+    });
+  } else {
+    toast.loading(msg, {
+      theme: "light",
+    });
+  }
 };
+
+export const toastClear = () => {
+  toast.dismiss();
+};
+
+export const isDarkMode = () => {
+  return (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+}

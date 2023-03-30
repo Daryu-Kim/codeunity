@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import MainSideBar from "../../components/MainSideBar/MainSideBar";
-import { auth, firestore, getAllUserUID, getUserData } from '../../modules/Firebase';
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { signOut } from '@firebase/auth';
-import { resolvePromise } from '../../modules/Functions';
+import { getAuth, signOut } from '@firebase/auth';
+import { useDocument } from "react-firebase-hooks/firestore";
+import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
 
 const blockBoxData = [
   { icon: faFont, title: "텍스트" },
@@ -17,30 +17,46 @@ const blockBoxData = [
 ];
 
 const MainHome = () => {
-  const user = auth.currentUser;
-  const [userName, setUserName] = useState("");
-  const userData = getUserData();
-  const tempUIDs = getAllUserUID();
-  let allUserUID = []; 
+  const auth = getAuth();
+  const firestore = getFirestore();
+  const uid = localStorage.getItem("uid");
+  const [value, load, err] = useDocument(
+    doc(firestore, "Users", uid)
+  );
+  // const [userName, setUserName] = useState("");
   
-  userData.then((value) => {
-    console.log(value);
-  });
+  // const [allUID, allUIDLoad, allUIDError] = useCollection(
+  //   query(
+  //     collection(firestore, "Users"),
+  //     where("userID", "!=", user.uid)
+  //   )
+  // )
+  // const [myDoc, myDocLoad, myDocError] = useDocument(
+  //   doc(firestore, "Users", user.uid)
+  // )
+  // const [userName, setUserName] = useState("");
+  // // const myID = getMyUID();
+  // // const myDoc = getUserData(myID);
+  // // myDoc.then((result) => {
+  // //   myData = result;
+  // //   console.log(myData)
+  // //   setUserName(myData.userName);
+  // // })
+
+  // if (allUID) {
+  //   const allUIDArr = [];
+  //   allUID.forEach((ele) => {
+  //     allUIDArr.push(ele.data());
+  //   })
+  //   console.log(allUIDArr)
+  // }
   
-  // Promise.resolve(userData)
-  // .then((value) => {
-  //   setUserName(value?.userName);
-  //   console.log(value);
+
+  // const myData = getMyData();
+  // myData.then((result) => {
+  //   console.log(result);
   // });
 
-  // resolvePromise(tempUIDs)
-  // console.log(temp)
-  // Promise.resolve(tempUIDs)
-  // .then((value) => {
-  //   allUserUID = value;
-  // });
-
-  // console.log(tempUIDs)
 
   const renderBlockData = () => {
     const mapBlockData = blockBoxData.map(
@@ -59,7 +75,7 @@ const MainHome = () => {
       }
     );
     return mapBlockData;
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -70,7 +86,7 @@ const MainHome = () => {
             <div className={styles.writePostTopImg}></div>
             <div className={styles.writePostTopInputBox}>
               <p className={`${font.fs_16} ${font.fc_sub_light}`}>
-                { userName }님, 무슨 생각을 하고 계신가요?
+                { }님, 무슨 생각을 하고 계신가요?
               </p>
             </div>
           </div>

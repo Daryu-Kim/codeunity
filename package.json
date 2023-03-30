@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/node": "^7.20.7",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
@@ -23,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-email-validator": "^1.0.2",
     "react-firebase-hooks": "^5.1.1",
+    "react-login-github": "^1.0.8",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.2",

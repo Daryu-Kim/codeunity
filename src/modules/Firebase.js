@@ -21,8 +21,10 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -51,118 +53,26 @@ onAuthStateChanged(auth, () => {
   const user = auth.currentUser;
 });
 
-export const getMyData = () => {
-  return auth.currentUser;
-};
-
-export const getTargetData = () => {};
-
-export async function signInGitHub() {
-  // await signInWithPopup(auth, new GithubAuthProvider())
-  // await get("https://github.com/login/oauth/authorize?client_id=0436e48b08b5dd10f81e")
-  // .then((result) => {
-  //   // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-  //   const credential = GithubAuthProvider.credentialFromResult(result);
-  //   const token = credential?.accessToken;
-  //   // The signed-in user info.
-  //   const user = result.user;
-  // });
-}
-
-export const signInEmail = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      const currentUser = auth.currentUser;
-      console.log(user);
-
-      if (currentUser) {
-        await updateDoc(doc(firestore, "Users", user.uid), {
-          verifiedEmail: user.emailVerified,
-          userImg: user.photoURL,
-        });
-      }
-
-      return true;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode == "auth/wrong-password") {
-        toastError("비밀번호가 맞지 않습니다!");
-      }
-      if (errorCode == "auth/internal-error") {
-        toastError("알 수 없는 오류입니다!");
-      }
-      if (errorCode == "auth/invalid-email") {
-        toastError("이메일 형식이 맞지 않습니다!");
-      }
-      if (errorCode == "auth/user-not-found") {
-        toastError("이메일 또는 비밀번호가 잘못되었습니다!");
-      }
-      console.log(`${errorCode}: ${errorMessage}`);
-      return false;
-    });
-};
-
-export const signUpEmail = (email, nickname, password, confirmPassword) => {
-  if (password !== confirmPassword) {
-    toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-    return false;
-  }
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
-      const currentUser = auth.currentUser;
-      console.log(user);
-
-      // update user's display name
-      if (currentUser) {
-        await updateProfile(currentUser, {
-          displayName: nickname,
-        });
-
-        await setDoc(doc(firestore, "Users", user.uid), {
-          followerCount: 0,
-          followingCount: 0,
-          userDesc: "",
-          userID: user.uid,
-          userImg: user.photoURL,
-          userName: user.displayName,
-          verifiedEmail: user.emailVerified,
-        });
-      }
-
-      return true;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode == "auth/email-already-in-use") {
-        toastError("이미 사용 중인 이메일입니다.");
-      }
-      if (errorCode == "auth/invalid-email") {
-        toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
-      }
-      if (errorCode == "auth/weak-password") {
-        toastError("비밀번호는 최소 6자 이상이어야 합니다.");
-      }
-      console.log(`${errorCode}: ${errorMessage}`);
-      return false;
-    });
-};
-
-export const getUserData = async () => {
-  const uid = await auth.currentUser?.uid;
+export const getUserData = async (uid) => {
   const docSnap = await getDoc(doc(firestore, "Users", uid));
   if (docSnap.exists()) {
     return docSnap.data();
   }
 };
 
+export const getMyData = async () => {
+  const myUID = sessionStorage.getItem("uid");
+  const myDoc = await getDoc(doc(firestore, "Users", myUID));
+  if (myDoc.exists()) {
+    const myData = myDoc.data()
+    return myData;
+  }
+}
+
 export const getAllUserUID = async () => {
-  const allSnapshot = await getDocs(collection(firestore, "Users"));
+  const myUID = sessionStorage.getItem("uid");
+  console.log(myUID)
+  const allSnapshot = await getDocs(query(collection(firestore, "Users"), where("userID", "!=", myUID)));
   const allUserUID = [];
   allSnapshot.forEach((snapshot) => {
     allUserUID.push(snapshot.data().userID);

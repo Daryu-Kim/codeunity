@@ -4,14 +4,15 @@ import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { toastError } from "../../modules/Functions";
+import { toastClear, toastError, toastLoading } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
 
-import { auth, signUpEmail } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 
 import "./Join.module.scss";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const Join = () => {
   const [emailMessage, setEmailMessage] = useState("");
@@ -34,13 +35,10 @@ const Join = () => {
   const [pwValue, setPwValue] = useState("");
   const [pwCValue, setPwCValue] = useState("");
 
-  const [user] = useAuthState(auth);
+  const auth = getAuth();
+  const firestore = getFirestore();
+
   const navigate = useNavigate();
-  if (user) {
-    navigate("/login", {
-      replace: true,
-    });
-  }
 
   const togglePasswordVisiblity = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -56,18 +54,6 @@ const Join = () => {
     } else {
       setIsEmailActive(false);
     }
-    const currentEmail = e.target.value;
-
-    const emailRegExp =
-      /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
-
-    // if (!emailRegExp.test(currentEmail)) {
-    //   setEmailMessage("이메일의 형식이 올바르지 않습니다!");
-    //   setIsEmail(false);
-    // } else {
-    //   setEmailMessage("사용 가능한 이메일 입니다.");
-    //   setIsEmail(true);
-    // }
   };
 
   const onChangeName = (e) => {
@@ -97,7 +83,7 @@ const Join = () => {
     }
   };
 
-  const emailLogin = (email, nickname, password, passwordc) => {
+  const emailLogin = (email, password) => {
     if (!emailValue) {
       toastError("이메일을 입력해주세요!");
     } else if (!idValue) {
@@ -106,11 +92,60 @@ const Join = () => {
       toastError("비밀번호를 입력해주세요!");
     } else if (!pwCValue) {
       toastError("비밀번호 확인을 입력해주세요!");
+    } else if (pwValue.length < 6) {
+      toastError("비밀번호는 최소 6자리 이상이어야 합니다!");
+    } else if (pwValue !== pwCValue) {
+      toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     } else {
-      signUpEmail(email, nickname, password, passwordc);
+      createUserWithEmailAndPassword(email, password);
     }
   };
 
+  const [
+    createUserWithEmailAndPassword,
+    createUser,
+    createLoading,
+    createError,
+  ] = useCreateUserWithEmailAndPassword(auth);
+
+  if (createError) {
+    console.log(createError.code);
+    if (createError.code == "auth/email-already-in-use") {
+      toastError("이미 사용 중인 이메일입니다.");
+    }
+    if (createError.code == "auth/invalid-email") {
+      toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
+    }
+    if (createError.code == "auth/too-many-requests") {
+      toastError("잠시 후 다시 시도해주세요!");
+    }
+  }
+  if (createLoading) {
+    console.log("Creating..");
+    toastLoading("회원가입 중입니다...");
+  }
+  if (createUser) {
+    console.log(createUser);
+    const user = createUser.user;
+    setDoc(doc(firestore, "Users", user.uid), {
+      followerCount: 0,
+      followingCount: 0,
+      userDesc: "",
+      userID: user.uid,
+      userImg: "",
+      userName: idValue,
+      verifiedEmail: user.emailVerified,
+    })
+    .then(() => {
+      localStorage.setItem("uid", user.uid);
+      toastClear();
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 500);
+    });
+  }
+
+  // Renderer
   return (
     <div className={styles.wrapper}>
       <ToastContainer position="top-right" autoClose={2000} theme="dark" />

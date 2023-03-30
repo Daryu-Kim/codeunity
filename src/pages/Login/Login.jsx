@@ -4,11 +4,13 @@ import styles from "./Login.module.scss";
 import font from "../../styles/Font.module.scss";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { toastError } from "../../modules/Functions";
+import { toastClear, toastError, toastLoading } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, signInEmail, signInGitHub } from "../../modules/Firebase";
+import { signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGithub } from "react-firebase-hooks/auth";
+import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import LoginGithub from "react-login-github"
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
@@ -18,13 +20,15 @@ function Login() {
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
 
-  const [user] = useAuthState(auth);
+  const auth = getAuth();
+
+  // const [user] = useAuthState(auth);
   const navigate = useNavigate();
-  if (user) {
-    navigate("/", {
-      replace: true,
-    });
-  }
+  // if (user) {
+  //   navigate("/", {
+  //     replace: true,
+  //   });
+  // }
 
   const handleIDInputChange = (e) => {
     setIdValue(e.target.value.trim());
@@ -48,22 +52,71 @@ function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const emailLogin = (email, password) => {
+  const formCheck = (email, password) => {
     if (!idValue) {
       toastError("이메일을 입력해주세요!");
     } else {
       if (!pwValue) {
         toastError("비밀번호를 입력해주세요!");
       } else {
-        signInEmail(email, password);
+        signInWithEmailAndPassword(email, password);
       }
     }
   };
 
-  const githubLogin = () => {
-    signInGitHub();
-  };
+  /* Email Login */
+  const [signInWithEmailAndPassword, emailUser, emailLoading, emailError] = useSignInWithEmailAndPassword(auth);
+  if (emailError) {
+    // if Login Error
+    if (emailError.code == "auth/wrong-password") {
+      toastError("비밀번호가 맞지 않습니다!");
+    }
+    if (emailError.code == "auth/internal-error") {
+      toastError("알 수 없는 오류입니다!");
+    }
+    if (emailError.code == "auth/invalid-email") {
+      toastError("이메일 형식이 맞지 않습니다!");
+    }
+    if (emailError.code == "auth/user-not-found") {
+      toastError("이메일 또는 비밀번호가 잘못되었습니다!");
+    }
+    if (emailError.code == "auth/too-many-requests") {
+      toastError("잠시 후 다시 시도해주세요!");
+    }
+  }
+  if (emailLoading) {
+    // if Logging..
+    console.log("logging..");
+    toastLoading("로그인 중입니다...");
+  }
+  if (emailUser) {
+    // if Login Completed!
+    console.log(emailUser);
+    toastClear();
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 500);
+  }
 
+  /* GitHub Login */
+  const [signInWithGithub, gitUser, gitLoading, gitError] = useSignInWithGithub(auth);
+  
+  if (gitError) {
+    // if Login Error
+    console.log(gitError.message);
+  }
+  if (gitLoading) {
+    // if Logging..
+    console.log("logging..");
+  }
+  if (gitUser) {
+    // if Login Completed!
+    console.log(gitUser);
+    localStorage.setItem("uid", gitUser.user.uid);
+    navigate("/", { replace: true });
+  }
+
+  // Renderer
   return (
     <div className={styles.wrapper}>
       <ToastContainer position="top-right" autoClose={2000} />
@@ -152,7 +205,7 @@ function Login() {
         </div>
         <button
           className={`${styles.loginBtn} ${font.fs_16} ${font.fw_7}`}
-          onClick={() => emailLogin(idValue, pwValue)}
+          onClick={() => formCheck(idValue, pwValue)}
         >
           로그인
         </button>
@@ -161,10 +214,12 @@ function Login() {
           <p className={font.fs_12}>또는</p>
           <hr />
         </div>
-        <button className={styles.githubBtn} onClick={githubLogin}>
+        <div
+          className={styles.githubBtn} onClick={signInWithGithub}
+        >
           <FontAwesomeIcon icon={faGithub} className={styles.github} />
           <p className={`${font.fs_16} ${font.fw_7}`}>GitHub로 로그인</p>
-        </button>
+        </div>
         <div className={styles.joinBox}>
           <p className={`${styles.joinDes} ${font.fs_12}`}>
             계정이 없으신가요?
