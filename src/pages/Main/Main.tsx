@@ -10,6 +10,7 @@ import MainFooter from "../../components/MainFooter/MainFooter";
 import MainProfile from "../../components/MainProfile/MainProfile";
 import MainChat from "../../components/MainChat/MainChat";
 import MainQnA from "../../components/MainQnA/MainQnA";
+import { checkDarkMode } from "../../modules/Functions";
 
 const Main = () => {
   const [user] = useAuthState(auth);
@@ -20,6 +21,7 @@ const Main = () => {
       replace: true,
     });
   }
+  checkDarkMode(styles);
   return (
     <div>
       <MainHeader />
