@@ -10,8 +10,8 @@ import {
   toggleDarkMode,
 } from "../../modules/Functions";
 import { Link } from "react-router-dom";
-import { signInEmail } from "../../modules/Firebase";
-import { ToastContainer } from "react-toastify";
+import { getMyData, getTargetData, signInEmail, signInGitHub } from "../../modules/Firebase";
+import { ToastContainer } from "react-toastify"
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
@@ -58,9 +58,16 @@ function Login() {
     }
   };
 
+  const githubLogin = () => {
+    signInGitHub();
+  };
+
   return (
     <div className={styles.wrapper}>
-      <ToastContainer position="top-right" autoClose={2000} theme="dark" />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+      />
       <div className={styles.box}>
         <div className={styles.logoBox}>
           {/* <div
@@ -155,7 +162,7 @@ function Login() {
           <p className={font.fs_12}>또는</p>
           <hr />
         </div>
-        <button className={styles.githubBtn}>
+        <button className={styles.githubBtn} onClick={githubLogin}>
           <FontAwesomeIcon icon={faGithub} className={styles.github} />
           <p className={`${font.fs_16} ${font.fw_7}`}>GitHub로 로그인</p>
         </button>

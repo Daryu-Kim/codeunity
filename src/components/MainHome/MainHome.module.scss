@@ -1,0 +1,57 @@
+@import "../../styles/reset.scss";
+@import "../../styles/_variabled";
+
+body {
+  .box {
+    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
+  }
+  .writePostBtn {
+    background-color: map-get($map: $LIGHT_THEME, $key: sub-bg-color);
+  }
+
+  &.darkTheme {
+    .box {
+      background-color: map-get($map: $DARK_THEME, $key: bg-color);
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.6rem 2.4rem;
+}
+
+.writePostBtn {
+  width: 100%;
+  max-width: 65rem;
+  padding: 0.8rem 1.6rem;
+}
+
+.writePostTopImg {
+  width: 3.6rem;
+  height: 3.6rem;
+  background: {
+    position: center;
+    image: url("https://picsum.photos/300");
+    repeat: no-repeat;
+    size: cover;
+  }
+  border: {
+    radius: 50%;
+    width: 0.2rem;
+    color: $ACCENT_COLOR;
+    style: solid;
+  }
+}
+
+.writePostTopInputBox {
+  
+}

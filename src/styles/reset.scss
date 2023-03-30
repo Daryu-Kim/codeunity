@@ -1,14 +1,31 @@
 @import "./_variabled";
 
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: all 200ms ease-in-out;
+  height: 100vh;
+  width: 100vw;
   background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
-  p {
+  p, input {
     color: map-get($map: $LIGHT_THEME, $key: primary-color);
+  }
+  .subBg {
+    background-color: map-get($map: $LIGHT_THEME, $key: sub-bg-color);
+  }
+  .mainBg {
+    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
   }
   &.darkTheme {
     background-color: map-get($map: $DARK_THEME, $key: bg-color);
-    p {
+    p, input {
       color: map-get($map: $DARK_THEME, $key: primary-color);
+    }
+    .subBg {
+      background-color: map-get($map: $DARK_THEME, $key: sub-bg-color);
+    }
+    .mainBg {
+      background-color: map-get($map: $DARK_THEME, $key: bg-color);
     }
   }
 }
@@ -26,14 +43,4 @@ body {
 
 i {
   font-style: normal;
-}
-
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: all 200ms ease-in-out;
-  background-color: map-get($LIGHT_THEME, background-color);
-  &.dark-theme {
-    background-color: map-get($DARK-THEME, background-color);
-  }
 }
