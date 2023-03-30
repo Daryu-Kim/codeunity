@@ -137,7 +137,7 @@ function Login() {
                   : `${styles.inputDes} ${font.fs_14}`
               }
             >
-              비밀
+              비밀번호
             </p>
             <input
               id="pwInput"

@@ -9,9 +9,11 @@ import {
   setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut
+  signOut,
+  createUserWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
-import "react-toastify/dist/ReactToastify.css"
+import "react-toastify/dist/ReactToastify.css";
 import { toastError } from "./Functions";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,7 +27,7 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
@@ -43,8 +45,7 @@ export const getMyData = () => {
   return auth.currentUser;
 };
 
-export const getTargetData = () => {
-};
+export const getTargetData = () => {};
 
 export async function signInGitHub() {
   // await signInWithPopup(auth, new GithubAuthProvider())
@@ -53,40 +54,74 @@ export async function signInGitHub() {
   //   // This gives you a GitHub Access Token. You can use it to access the GitHub API.
   //   const credential = GithubAuthProvider.credentialFromResult(result);
   //   const token = credential?.accessToken;
-
   //   // The signed-in user info.
-  //   const user = result.user;                                                                                             
+  //   const user = result.user;
   // });
 }
 
-export const signInEmail = (email: string, password: string) =>  {
+export const signInEmail = (email: string, password: string) => {
   signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in
-    const user = userCredential.user;
-    console.log(user);
-    return true;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    if (errorCode == "auth/wrong-password") {
-      toastError("비밀번호가 맞지 않습니다!");
-    }
-    if (errorCode == "auth/internal-error") {
-      toastError("알 수 없는 오류입니다!");
-    }
-    if (errorCode == "auth/invalid-email") {
-      toastError("이메일 형식이 맞지 않습니다!");
-    }
-    // if (errorCode == "auth/invalid-password") {
-    //   toastError("비밀번호는 최소 6자리여야 합니다!");
-    // }
-    if (errorCode == "auth/user-not-found") {
-      toastError("이메일 또는 비밀번호가 잘못되었습니다!");
-    }
-    console.log(`${errorCode}: ${errorMessage}`);
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log(user);
+      return true;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode == "auth/wrong-password") {
+        toastError("비밀번호가 맞지 않습니다!");
+      }
+      if (errorCode == "auth/internal-error") {
+        toastError("알 수 없는 오류입니다!");
+      }
+      if (errorCode == "auth/invalid-email") {
+        toastError("이메일 형식이 맞지 않습니다!");
+      }
+      // if (errorCode == "auth/invalid-password") {
+      //   toastError("비밀번호는 최소 6자리여야 합니다!");
+      // }
+      if (errorCode == "auth/user-not-found") {
+        toastError("이메일 또는 비밀번호가 잘못되었습니다!");
+      }
+      console.log(`${errorCode}: ${errorMessage}`);
+      return false;
+    });
+};
+
+export const signUp = (
+  email: string,
+  nickname: string,
+  password: string,
+  confirmPassword: string
+) => {
+  if (password !== confirmPassword) {
+    toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     return false;
-  });
-}
+  }
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+      // update user's display name
+
+      return true;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode == "auth/email-already-in-use") {
+        toastError("이미 사용 중인 이메일입니다.");
+      }
+      if (errorCode == "auth/invalid-email") {
+        toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
+      }
+      if (errorCode == "auth/weak-password") {
+        toastError("비밀번호는 최소 6자 이상이어야 합니다.");
+      }
+      console.log(`${errorCode}: ${errorMessage}`);
+      return false;
+    });
+};
