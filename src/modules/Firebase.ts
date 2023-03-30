@@ -91,7 +91,7 @@ export const signInEmail = (email: string, password: string) => {
     });
 };
 
-export const signUp = (
+export const signUpEmail = (
   email: string,
   nickname: string,
   password: string,
@@ -104,9 +104,16 @@ export const signUp = (
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      const currentUser = auth.currentUser;
       console.log(user);
       // update user's display name
 
+      if (currentUser) {
+        updateProfile(currentUser, {
+          displayName: nickname,
+        });
+      }
+      
       return true;
     })
     .catch((error) => {

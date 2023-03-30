@@ -11,7 +11,7 @@ import {
 } from "../../modules/Functions";
 import { Link } from "react-router-dom";
 
-import { signInEmail, signUp } from "../../modules/Firebase";
+import { signInEmail, signUpEmail } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 
 import "./Join.module.scss";
@@ -118,7 +118,7 @@ const Join = () => {
     } else if (!pwCValue) {
       toastError("비밀번호 확인을 입력해주세요!");
     } else {
-      console.log(signUp(email, nickname, password, passwordc));
+      console.log(signUpEmail(email, nickname, password, passwordc));
     }
   };
 
