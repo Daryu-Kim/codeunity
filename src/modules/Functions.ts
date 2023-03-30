@@ -11,3 +11,10 @@ export const toastError = (msg: string) => {
     });
   }
 };
+
+export const resolvePromise = (promise: Promise<any>) => {
+  Promise.resolve(promise)
+  .then((value) => {
+    return value;
+  });
+}

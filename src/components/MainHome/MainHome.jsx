@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import MainSideBar from "../../components/MainSideBar/MainSideBar";
-import { auth, getAllUserUID, getUserData } from '../../modules/Firebase';
+import { auth, firestore, getAllUserUID, getUserData } from '../../modules/Firebase';
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { signOut } from '@firebase/auth';
+import { resolvePromise } from '../../modules/Functions';
 
-interface blockInterface {
-  icon: IconDefinition;
-  title: string;
-}
-
-const blockBoxData: blockInterface[] = [
+const blockBoxData = [
   { icon: faFont, title: "텍스트" },
   { icon: faImage, title: "이미지" },
   { icon: faVideo, title: "비디오" },
@@ -22,27 +18,29 @@ const blockBoxData: blockInterface[] = [
 
 const MainHome = () => {
   const user = auth.currentUser;
-  const [userName, setUserName] = useState<string | null>(null);
+  const [userName, setUserName] = useState("");
   const userData = getUserData();
   const tempUIDs = getAllUserUID();
-  let allUserUID: string[] = [];
+  let allUserUID = [];  
   
   Promise.resolve(userData)
   .then((value) => {
     setUserName(value?.userName);
     console.log(value);
   });
-  
-  Promise.resolve(tempUIDs)
-  .then((value) => {
-    allUserUID = value;
-  });
+
+  const temp = resolvePromise(tempUIDs)
+  console.log(temp)
+  // Promise.resolve(tempUIDs)
+  // .then((value) => {
+  //   allUserUID = value;
+  // });
 
   console.log(allUserUID)
 
-  const renderBlockData = (): JSX.Element[] => {
+  const renderBlockData = () => {
     const mapBlockData = blockBoxData.map(
-      (item: blockInterface, index: number) => {
+      (item, index) => {
         return (
           <div className={styles.writePostBlockItem} key={index}>
             <FontAwesomeIcon
