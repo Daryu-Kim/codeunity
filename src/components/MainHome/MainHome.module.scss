@@ -20,6 +20,7 @@
   max-width: 65rem;
   padding: 0.8rem 1.6rem;
   background-color: var(--sub-bg);
+  border-radius: 0.8rem;
 }
 
 .writePostTopBox {
@@ -47,6 +48,9 @@
 .writePostTopInputBox {
   border-radius: 100rem;
   width: 100%;
-  padding: 0.8rem 1.2rem;
+  padding: 0.8rem 1.6rem;
   background-color: var(--thd-bg);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
