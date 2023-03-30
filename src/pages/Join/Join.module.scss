@@ -77,9 +77,10 @@ body.darkTheme {
 }
 
 .input {
-  width: 100%;
+  width: 92.5%;
   border: none;
   position: absolute;
+  color: $SUB_COLOR;
   &:focus {
     outline: none;
     color: $ACCENT_COLOR;
@@ -152,6 +153,10 @@ body.darkTheme {
   display: flex;
   align-items: center;
   grid-gap: 0.4rem;
+}
+
+.loginDes {
+  color: $SUB_COLOR;
 }
 
 .intoLoginLink {

@@ -23,12 +23,6 @@ const Join = () => {
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
 
-  const [isEmail, setIsEmail] = useState(false);
-  const [isname, setIsName] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-  const [isPhone, setIsPhone] = useState(false);
-
   const [isEmailActive, setIsEmailActive] = useState(false);
   const [isIDActive, setIsIDActive] = useState(false);
   const [isPWActive, setIsPWActive] = useState(false);
@@ -328,7 +322,7 @@ const Join = () => {
           가입
         </button>
         <div className={styles.intoLogin}>
-          <p className={`${styles.joinDes} ${font.fs_12}`}>
+          <p className={`${styles.loginDes} ${font.fs_12}`}>
             계정이 있으신가요?
           </p>
           <Link
