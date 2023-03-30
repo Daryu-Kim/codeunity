@@ -2,6 +2,72 @@
 @import "../../styles/_variabled";
 
 .wrapper {
-    height: 4.8rem;
-    background-color: var(--sub-bg);
+  height: 4.8rem;
+  background-color: var(--sub-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  * {
+    margin: 0 1.4rem;
+  }
+}
+
+.leftMenu {
+  position: absolute;
+  left: 20%;
+  display: flex;
+  height: 4.8rem;
+  align-items: center;
+  font-size: 1.6rem;
+}
+
+.rightMenu {
+  position: absolute;
+  right: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  position: absolute;
+  left: 0;
+  width: 5rem;
+}
+
+.tabMenu {
+  background-color: #fff;
+  border: 1px solid red;
+  height: 100%;
+}
+
+.navIcon {
+  font-size: 3.2rem;
+  color: var(--accent);
+  cursor: pointer;
+
+  &:hover {
+    filter: opacity(75%);
+  }
+}
+
+.myProfile {
+  width: 3.6rem;
+  height: 3.6rem;
+
+  background: {
+    position: center;
+    repeat: no-repeat;
+    size: cover;
+  }
+  border: {
+    radius: 50%;
+    width: 0.2rem;
+    color: var(--accent);
+    style: solid;
+  }
+  cursor: pointer;
+
+  &:hover {
+    filter: opacity(75%);
+  }
 }
