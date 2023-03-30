@@ -15,6 +15,15 @@ import {
 } from "firebase/auth";
 import "react-toastify/dist/ReactToastify.css";
 import { toastError } from "./Functions";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  setDoc,
+  updateDoc
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,6 +43,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const firestore = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -61,10 +71,22 @@ export async function signInGitHub() {
 
 export const signInEmail = (email: string, password: string) => {
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
+      const currentUser = auth.currentUser;
       console.log(user);
+
+      if (currentUser) {
+        await updateDoc(
+          doc(firestore, "Users", user.uid),
+          {
+            verifiedEmail: user.emailVerified,
+            userImg: user.photoURL,
+          }
+        );
+      }
+
       return true;
     })
     .catch((error) => {
@@ -98,16 +120,29 @@ export const signUpEmail = (
     return false;
   }
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       const user = userCredential.user;
       const currentUser = auth.currentUser;
       console.log(user);
-      
+
       // update user's display name
       if (currentUser) {
-        updateProfile(currentUser, {
+        await updateProfile(currentUser, {
           displayName: nickname,
         });
+
+        await setDoc(
+          doc(firestore, "Users", user.uid),
+          {
+            followerCount: 0,
+            followingCount: 0,
+            userDesc: "",
+            userID: user.uid,
+            userImg: user.photoURL,
+            userName: user.displayName,
+            verifiedEmail: user.emailVerified,
+          }
+        );
       }
       
       return true;
@@ -128,3 +163,20 @@ export const signUpEmail = (
       return false;
     });
 };
+
+export const getUserData = async () => {
+  const uid = await auth.currentUser?.uid as string;
+  const docSnap = await getDoc(doc(firestore, "Users", uid));
+  if (docSnap.exists()) {
+    return docSnap.data();
+  }
+};
+
+export const getAllUserUID = async () => {
+  const allSnapshot = await getDocs(collection(firestore, "Users"));
+  const allUserUID: string[] = [];
+  allSnapshot.forEach((snapshot) => {
+    allUserUID.push(snapshot.data().userID);
+  });
+  return allUserUID;
+}

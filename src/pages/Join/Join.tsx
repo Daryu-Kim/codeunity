@@ -37,7 +37,7 @@ const Join = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   if (user) {
-    navigate("/", {
+    navigate("/login", {
       replace: true,
     });
   }
