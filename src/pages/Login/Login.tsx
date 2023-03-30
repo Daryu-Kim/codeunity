@@ -10,8 +10,14 @@ import {
   toggleDarkMode,
 } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, getMyData, getTargetData, signInEmail, signInGitHub } from "../../modules/Firebase";
-import { ToastContainer } from "react-toastify"
+import {
+  auth,
+  getMyData,
+  getTargetData,
+  signInEmail,
+  signInGitHub,
+} from "../../modules/Firebase";
+import { ToastContainer } from "react-toastify";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function Login() {
@@ -73,10 +79,7 @@ function Login() {
 
   return (
     <div className={styles.wrapper}>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-      />
+      <ToastContainer position="top-right" autoClose={2000} />
       <div className={styles.box}>
         <div className={styles.logoBox}>
           {/* <div
@@ -134,7 +137,7 @@ function Login() {
                   : `${styles.inputDes} ${font.fs_14}`
               }
             >
-              비밀번호
+              비밀
             </p>
             <input
               id="pwInput"
