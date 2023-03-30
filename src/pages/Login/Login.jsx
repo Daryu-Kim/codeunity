@@ -6,11 +6,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { toastError } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  signInEmail,
-  signInGitHub,
-} from "../../modules/Firebase";
+import { auth, signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -30,7 +26,7 @@ function Login() {
     });
   }
 
-  const handleIDInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIDInputChange = (e) => {
     setIdValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsIDActive(true);
@@ -39,7 +35,7 @@ function Login() {
     }
   };
 
-  const handlePWInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePWInputChange = (e) => {
     setPwValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsPWActive(true);
@@ -52,7 +48,7 @@ function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const emailLogin = (email: string, password: string) => {
+  const emailLogin = (email, password) => {
     if (!idValue) {
       toastError("이메일을 입력해주세요!");
     } else {

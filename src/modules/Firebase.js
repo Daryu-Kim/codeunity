@@ -22,7 +22,7 @@ import {
   getDocs,
   getFirestore,
   setDoc,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -69,7 +69,7 @@ export async function signInGitHub() {
   // });
 }
 
-export const signInEmail = (email: string, password: string) => {
+export const signInEmail = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       // Signed in
@@ -78,13 +78,10 @@ export const signInEmail = (email: string, password: string) => {
       console.log(user);
 
       if (currentUser) {
-        await updateDoc(
-          doc(firestore, "Users", user.uid),
-          {
-            verifiedEmail: user.emailVerified,
-            userImg: user.photoURL,
-          }
-        );
+        await updateDoc(doc(firestore, "Users", user.uid), {
+          verifiedEmail: user.emailVerified,
+          userImg: user.photoURL,
+        });
       }
 
       return true;
@@ -109,12 +106,7 @@ export const signInEmail = (email: string, password: string) => {
     });
 };
 
-export const signUpEmail = (
-  email: string,
-  nickname: string,
-  password: string,
-  confirmPassword: string
-) => {
+export const signUpEmail = (email, nickname, password, confirmPassword) => {
   if (password !== confirmPassword) {
     toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     return false;
@@ -131,20 +123,17 @@ export const signUpEmail = (
           displayName: nickname,
         });
 
-        await setDoc(
-          doc(firestore, "Users", user.uid),
-          {
-            followerCount: 0,
-            followingCount: 0,
-            userDesc: "",
-            userID: user.uid,
-            userImg: user.photoURL,
-            userName: user.displayName,
-            verifiedEmail: user.emailVerified,
-          }
-        );
+        await setDoc(doc(firestore, "Users", user.uid), {
+          followerCount: 0,
+          followingCount: 0,
+          userDesc: "",
+          userID: user.uid,
+          userImg: user.photoURL,
+          userName: user.displayName,
+          verifiedEmail: user.emailVerified,
+        });
       }
-      
+
       return true;
     })
     .catch((error) => {
@@ -165,7 +154,7 @@ export const signUpEmail = (
 };
 
 export const getUserData = async () => {
-  const uid = await auth.currentUser?.uid as string;
+  const uid = await auth.currentUser?.uid;
   const docSnap = await getDoc(doc(firestore, "Users", uid));
   if (docSnap.exists()) {
     return docSnap.data();
@@ -174,9 +163,9 @@ export const getUserData = async () => {
 
 export const getAllUserUID = async () => {
   const allSnapshot = await getDocs(collection(firestore, "Users"));
-  const allUserUID: string[] = [];
+  const allUserUID = [];
   allSnapshot.forEach((snapshot) => {
     allUserUID.push(snapshot.data().userID);
   });
   return allUserUID;
-}
+};

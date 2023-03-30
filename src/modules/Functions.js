@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-export const toastError = (msg: string) => {
+export const toastError = (msg) => {
   if (localStorage.getItem("isDarkMode") == "dark") {
     toast.error(msg, {
       theme: "dark",
@@ -12,9 +12,8 @@ export const toastError = (msg: string) => {
   }
 };
 
-export const resolvePromise = (promise: Promise<any>) => {
-  Promise.resolve(promise)
-  .then((value) => {
+export const resolvePromise = (promise) => {
+  Promise.resolve(promise).then((value) => {
     return value;
   });
-}
+};

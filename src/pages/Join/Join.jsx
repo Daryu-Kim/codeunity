@@ -49,7 +49,7 @@ const Join = () => {
     setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
   };
 
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeEmail = (e) => {
     setEmailValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsEmailActive(true);
@@ -70,7 +70,7 @@ const Join = () => {
     // }
   };
 
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeName = (e) => {
     setIdValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsIDActive(true);
@@ -79,7 +79,7 @@ const Join = () => {
     }
   };
 
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangePassword = (e) => {
     setPwValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsPWActive(true);
@@ -88,7 +88,7 @@ const Join = () => {
     }
   };
 
-  const onChangePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangePasswordConfirm = (e) => {
     setPwCValue(e.target.value.trim());
     if (e.target.value.trim().length > 0) {
       setIsPWCActive(true);
@@ -97,12 +97,7 @@ const Join = () => {
     }
   };
 
-  const emailLogin = (
-    email: string,
-    nickname: string,
-    password: string,
-    passwordc: string
-  ) => {
+  const emailLogin = (email, nickname, password, passwordc) => {
     if (!emailValue) {
       toastError("이메일을 입력해주세요!");
     } else if (!idValue) {
@@ -121,9 +116,7 @@ const Join = () => {
       <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       <div className={styles.box}>
         <div className={styles.logoBox}>
-          <p
-            className={`${styles.logo} ${font.fs_28} ${font.fw_9}`}
-          >
+          <p className={`${styles.logo} ${font.fs_28} ${font.fw_9}`}>
             CodeUnity
           </p>
         </div>
