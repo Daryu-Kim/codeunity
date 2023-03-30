@@ -14,7 +14,7 @@ const MainHome = () => {
           <div className={styles.writePostTopBox}>
             <div className={styles.writePostTopImg}></div>
             <div className={styles.writePostTopInputBox}>
-            { user?.displayName }님, 무슨 생각을 하고 계신가요?
+              { user?.displayName }님, 무슨 생각을 하고 계신가요?
             </div>
           </div>
         </div>

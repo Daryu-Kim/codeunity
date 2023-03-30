@@ -1,17 +1,7 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
 
-body {
-    .wrapper {
-        background-color: map-get($map: $LIGHT_THEME, $key: sub-bg-color);
-    }
-    &.darkTheme {
-        .wrapper {
-            background-color: map-get($map: $DARK-THEME, $key: sub-bg-color);
-        }
-    }
-}
-
 .wrapper {
     height: 4.8rem;
+    background-color: var(--sub-bg);
 }

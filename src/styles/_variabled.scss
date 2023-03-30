@@ -1,17 +1,36 @@
-$ACCENT_COLOR: #9564C5;
-$ACCENT_LIGHT_COLOR: #AB7ED2;
-$ACCENT_DARK_COLOR: #7E43B1;
 $LIGHT_THEME: (
-  bg-color: #fff,
-  sub-bg-color: #f3f3f3,
-  thd-bg-color: #E6E6E6,
-  primary-color: #101010,
+  bg: #fff,
+  sub-bg: #f3f3f3,
+  thd-bg: #E6E6E6,
+  primary: #101010,
+  accent: #9564C5,
+  accent-light: #AB7ED2,
+  accent-dark: #7E43B1,
+  sub: #666,
+  sub-light: #aaa,
 );
 $DARK_THEME: (
-  bg-color: #242028,
-  sub-bg-color: #343038,
-  thd-bg-color: #444048,
-  primary-color: #fff,
+  bg: #242028,
+  sub-bg: #343038,
+  thd-bg: #444048,
+  primary: #fff,
+  accent: #9564C5,
+  accent-light: #AB7ED2,
+  accent-dark: #7E43B1,
+  sub: #666,
+  sub-light: #aaa,
 );
-$SUB_COLOR: #666;
-$SUB_L_COLOR: #aaa;
+
+:root {
+  @each $k, $v in $LIGHT_THEME {
+    #{"--" + $k}: #{$v};
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @each $k, $v in $DARK_THEME {
+      #{"--" + $k}: #{$v};
+    }
+  }
+}

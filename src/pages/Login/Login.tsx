@@ -9,9 +9,10 @@ import {
   toastError,
   toggleDarkMode,
 } from "../../modules/Functions";
-import { Link } from "react-router-dom";
-import { getMyData, getTargetData, signInEmail, signInGitHub } from "../../modules/Firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, getMyData, getTargetData, signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify"
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
@@ -21,6 +22,14 @@ function Login() {
 
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
+
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+  if (user) {
+    navigate("/", {
+      replace: true,
+    });
+  }
 
   checkDarkMode(styles);
 
@@ -53,7 +62,7 @@ function Login() {
       if (!pwValue) {
         toastError("비밀번호를 입력해주세요!");
       } else {
-        signInEmail(email, password);
+        console.log(signInEmail(email, password));
       }
     }
   };

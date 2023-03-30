@@ -6,27 +6,9 @@ body {
   transition: all 200ms ease-in-out;
   height: 100vh;
   width: 100vw;
-  background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
+  background-color: var(--bg);
   p, input {
-    color: map-get($map: $LIGHT_THEME, $key: primary-color);
-  }
-  .subBg {
-    background-color: map-get($map: $LIGHT_THEME, $key: sub-bg-color);
-  }
-  .mainBg {
-    background-color: map-get($map: $LIGHT_THEME, $key: bg-color);
-  }
-  &.darkTheme {
-    background-color: map-get($map: $DARK_THEME, $key: bg-color);
-    p, input {
-      color: map-get($map: $DARK_THEME, $key: primary-color);
-    }
-    .subBg {
-      background-color: map-get($map: $DARK_THEME, $key: sub-bg-color);
-    }
-    .mainBg {
-      background-color: map-get($map: $DARK_THEME, $key: bg-color);
-    }
+    color: var(--primary);
   }
 }
 

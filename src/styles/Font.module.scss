@@ -23,7 +23,7 @@ $breakpoints: (
 }
 
 .fc_accent {
-  color: $ACCENT_COLOR;
+  color: var(--accent);
 }
 
 @for $i from 1 through 9 {

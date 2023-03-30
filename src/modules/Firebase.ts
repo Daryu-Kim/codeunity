@@ -59,12 +59,13 @@ export async function signInGitHub() {
   // });
 }
 
-export const signInEmail = async (email: string, password: string) =>  {
-    await signInWithEmailAndPassword(auth, email, password)
+export const signInEmail = (email: string, password: string) =>  {
+  signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in
     const user = userCredential.user;
     console.log(user);
+    return true;
     // ...
   })
   .catch((error) => {
@@ -86,5 +87,6 @@ export const signInEmail = async (email: string, password: string) =>  {
       toastError("이메일 또는 비밀번호가 잘못되었습니다!");
     }
     console.log(`${errorCode}: ${errorMessage}`);
+    return false;
   });
 }
