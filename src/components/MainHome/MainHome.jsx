@@ -21,22 +21,26 @@ const MainHome = () => {
   const [userName, setUserName] = useState("");
   const userData = getUserData();
   const tempUIDs = getAllUserUID();
-  let allUserUID = [];  
+  let allUserUID = []; 
   
-  Promise.resolve(userData)
-  .then((value) => {
-    setUserName(value?.userName);
+  userData.then((value) => {
     console.log(value);
   });
+  
+  // Promise.resolve(userData)
+  // .then((value) => {
+  //   setUserName(value?.userName);
+  //   console.log(value);
+  // });
 
-  const temp = resolvePromise(tempUIDs)
-  console.log(temp)
+  // resolvePromise(tempUIDs)
+  // console.log(temp)
   // Promise.resolve(tempUIDs)
   // .then((value) => {
   //   allUserUID = value;
   // });
 
-  console.log(allUserUID)
+  // console.log(tempUIDs)
 
   const renderBlockData = () => {
     const mapBlockData = blockBoxData.map(
