@@ -66,7 +66,6 @@ export const signInEmail = (email: string, password: string) => {
       const user = userCredential.user;
       console.log(user);
       return true;
-      // ...
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -80,9 +79,6 @@ export const signInEmail = (email: string, password: string) => {
       if (errorCode == "auth/invalid-email") {
         toastError("이메일 형식이 맞지 않습니다!");
       }
-      // if (errorCode == "auth/invalid-password") {
-      //   toastError("비밀번호는 최소 6자리여야 합니다!");
-      // }
       if (errorCode == "auth/user-not-found") {
         toastError("이메일 또는 비밀번호가 잘못되었습니다!");
       }
@@ -106,8 +102,8 @@ export const signUpEmail = (
       const user = userCredential.user;
       const currentUser = auth.currentUser;
       console.log(user);
+      
       // update user's display name
-
       if (currentUser) {
         updateProfile(currentUser, {
           displayName: nickname,

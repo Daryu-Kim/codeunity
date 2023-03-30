@@ -1,7 +1,6 @@
 import React from 'react'
 import MainSideBar from "../../components/MainSideBar/MainSideBar";
 import { auth } from '../../modules/Firebase';
-import { checkDarkMode } from '../../modules/Functions';
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

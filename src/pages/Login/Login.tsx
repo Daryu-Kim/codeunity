@@ -4,16 +4,10 @@ import styles from "./Login.module.scss";
 import font from "../../styles/Font.module.scss";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import {
-  checkDarkMode,
-  toastError,
-  toggleDarkMode,
-} from "../../modules/Functions";
+import { toastError } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
 import {
   auth,
-  getMyData,
-  getTargetData,
   signInEmail,
   signInGitHub,
 } from "../../modules/Firebase";
@@ -24,7 +18,6 @@ function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
   const [isPWActive, setIsPWActive] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
@@ -36,8 +29,6 @@ function Login() {
       replace: true,
     });
   }
-
-  checkDarkMode(styles);
 
   const handleIDInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIdValue(e.target.value.trim());
@@ -68,7 +59,7 @@ function Login() {
       if (!pwValue) {
         toastError("비밀번호를 입력해주세요!");
       } else {
-        console.log(signInEmail(email, password));
+        signInEmail(email, password);
       }
     }
   };

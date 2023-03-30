@@ -4,8 +4,11 @@ import Main from "./pages/Main/Main";
 import Login from "./pages/Login/Login";
 import Join from "./pages/Join/Join";
 import "./styles/reset.scss";
+// import { signOut } from "@firebase/auth";
+// import { auth } from "./modules/Firebase";
 
 function App() {
+  // signOut(auth);
   return (
     <BrowserRouter>
       <Routes>

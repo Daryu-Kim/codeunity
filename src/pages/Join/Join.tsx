@@ -4,17 +4,14 @@ import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import {
-  checkDarkMode,
-  toastError,
-  toggleDarkMode,
-} from "../../modules/Functions";
-import { Link } from "react-router-dom";
+import { toastError } from "../../modules/Functions";
+import { Link, useNavigate } from "react-router-dom";
 
-import { signInEmail, signUpEmail } from "../../modules/Firebase";
+import { auth, signUpEmail } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 
 import "./Join.module.scss";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Join = () => {
   const [emailMessage, setEmailMessage] = useState("");
@@ -31,28 +28,25 @@ const Join = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPasswordConfirmVisible, setIsPasswordConfirmVisible] =
     useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const [emailValue, setEmailValue] = useState("");
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
   const [pwCValue, setPwCValue] = useState("");
 
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+  if (user) {
+    navigate("/", {
+      replace: true,
+    });
+  }
+
   const togglePasswordVisiblity = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
   const togglePasswordConfirmVisiblity = () => {
     setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
-  };
-
-  const toggleDark = () => {
-    const bodyClass = document.body.classList;
-    // bodyClass.toggle(styles.darkTheme);
-    bodyClass.contains(styles.darkTheme)
-      ? localStorage.setItem("isDarkMode", "light")
-      : localStorage.setItem("isDarkMode", "dark");
-    checkDarkMode(styles);
-    setIsDarkMode(bodyClass.contains(styles.darkTheme));
   };
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +112,7 @@ const Join = () => {
     } else if (!pwCValue) {
       toastError("비밀번호 확인을 입력해주세요!");
     } else {
-      console.log(signUpEmail(email, nickname, password, passwordc));
+      signUpEmail(email, nickname, password, passwordc);
     }
   };
 
@@ -129,7 +123,6 @@ const Join = () => {
         <div className={styles.logoBox}>
           <p
             className={`${styles.logo} ${font.fs_28} ${font.fw_9}`}
-            onClick={toggleDark}
           >
             CodeUnity
           </p>
