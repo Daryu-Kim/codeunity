@@ -26,6 +26,18 @@ $breakpoints: (
   color: var(--accent);
 }
 
+.fc_sub {
+  color: var(--sub);
+}
+
+.fc_sub_light {
+  color: var(--sub-light);
+}
+
+.fc_sub_semi_light {
+  color: var(--sub-semi-light);
+}
+
 @for $i from 1 through 9 {
   .fw_#{$i} {
     font-weight: $i * 100;
