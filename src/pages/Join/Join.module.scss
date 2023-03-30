@@ -77,9 +77,10 @@ body.darkTheme {
 }
 
 .input {
-  width: 100%;
+  width: 92.5%;
   border: none;
   position: absolute;
+  color: $SUB_COLOR;
   &:focus {
     outline: none;
     color: $ACCENT_COLOR;
@@ -148,10 +149,21 @@ body.darkTheme {
   }
 }
 
-.intoLogin {}
+.intoLogin {
+  display: flex;
+  align-items: center;
+  grid-gap: 0.4rem;
+}
 
-.intoLoginSpan {
-  color: $ACCENT_LIGHT_COLOR;
+.loginDes {
+  color: $SUB_COLOR;
+}
+
+.intoLoginLink {
+  width: fit-content;
+  align-self: flex-end;
+  color: $ACCENT_COLOR;
+  text-decoration: none;
 }
 
 .company {
