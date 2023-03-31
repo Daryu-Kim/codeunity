@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MainSideBar.module.scss";
 import font from "../../styles/Font.module.scss";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCodeBranch,
@@ -35,6 +35,10 @@ const MainSideBar = () => {
           />
         </div>
         <div className={styles.underIconBox}>
+          <FontAwesomeIcon
+            icon={faDownload}
+            className={font.fs_20}
+          />
           <FontAwesomeIcon icon={faUser} className={font.fs_20} />
           {/* <div className={styles.myProfile}></div> */}
           <FontAwesomeIcon
