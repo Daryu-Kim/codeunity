@@ -3,6 +3,7 @@ import { Routes, useNavigate, Route } from "react-router";
 import { auth } from "../../modules/Firebase";
 import styles from "./Main.module.scss";
 import font from "../../styles/Font.module.scss";
+import MainSideBar from "../../components/MainSideBar/MainSideBar";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import MainHome from "../../components/MainHome/MainHome";
 import { signOut } from "@firebase/auth";
@@ -24,14 +25,16 @@ const Main = () => {
   
   return (
     <div className={styles.mainBox}>
-      <MainHeader />
-      <Routes>
-        <Route path="" element={<MainHome />}></Route>
-        <Route path="chat" element={<MainChat />}></Route>
-        <Route path="profile" element={<MainProfile />}></Route>
-        <Route path="qna" element={<MainQnA />}></Route>
-      </Routes>
-      <MainFooter />
+      <MainSideBar />
+      <div className={styles.subBox}>
+        <MainHeader />
+        <Routes>
+          <Route path="" element={<MainHome />}></Route>
+          <Route path="chat" element={<MainChat />}></Route>
+          <Route path="profile" element={<MainProfile />}></Route>
+          <Route path="qna" element={<MainQnA />}></Route>
+        </Routes>
+      </div>
     </div>
   );
 };

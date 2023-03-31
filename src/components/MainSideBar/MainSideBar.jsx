@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MainSideBar.module.scss";
 import font from "../../styles/Font.module.scss";
-import { faMoon } from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCodeBranch,
@@ -34,13 +34,15 @@ const MainSideBar = () => {
           />
         </div>
         <div className={styles.underIconBox}>
+          <FontAwesomeIcon icon={faUser} className={font.fs_28} />
+          {/* <div className={styles.myProfile}></div> */}
           <FontAwesomeIcon
             icon={faGear}
             className={`${styles.sidebarIcon} ${font.fs_28} ${font.bg}`}
           />
         </div>
       </div>
-      <div></div>
+      <div className={styles.contBox}></div>
     </div>
   );
 };

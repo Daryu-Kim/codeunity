@@ -107,7 +107,6 @@ const MainHome = () => {
 
   return (
     <div className={styles.wrapper}>
-      <MainSideBar />
       <div className={styles.box}>
         <div className={`${styles.writePostBtn}`}>
           <div className={styles.writePostTopBox}>

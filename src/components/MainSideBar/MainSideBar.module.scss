@@ -2,11 +2,10 @@
 @import "../../styles/_variabled";
 
 .mainSideBar {
-  width: 25%;
+  width: fit-content;
   display: flex;
   height: 100%;
   overflow: hidden;
-  background-color: var(--thd-bg);
 }
 
 .sidebarIcon {
@@ -34,8 +33,43 @@
   grid-gap: 2.4rem;
 }
 
+.myProfile {
+  width: 2.4rem;
+  height: 2.4rem;
+  aspect-ratio: 1 / 1;
+
+  background: {
+    position: center;
+    image: url("/assets/svgs/352174_user_icon.svg");
+    repeat: no-repeat;
+    size: cover;
+  }
+  border: {
+    radius: 50%;
+    width: 0.2rem;
+    color: var(--accent);
+    style: solid;
+  }
+  cursor: pointer;
+
+  &:hover {
+    filter: opacity(75%);
+  }
+}
+
+.contBox {
+  width: calc(25vw - 4rem);
+  background-color: var(--thd-bg);
+}
+
 @media screen and (min-width: 1280px) {
   .mainSideBar {
     display: block;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .contBox {
+    display: none;
   }
 }
