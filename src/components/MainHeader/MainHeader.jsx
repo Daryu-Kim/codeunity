@@ -10,6 +10,10 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper';
+import "swiper/css/free-mode";
+import 'swiper/css';
 
 const menuArr = [
   { id: 0, name: "HOME.jsx", content: faHouse },
@@ -34,16 +38,20 @@ const MainHeader = () => {
       <div className={styles.logoBox}>
         <img src={logo} className={styles.logo} />
       </div>
-      <div
+      <Swiper
+        slidesPerView={'auto'}
+        freeMode={true}
+        modules={[FreeMode]}
         className={`${styles.leftMenu} ${font.fs_12} ${font.fc_primary} ${font.fw_4}`}
       >
         {menuArr.map((item) => {
           return (
-            <div
+            <SwiperSlide
               key={item.id}
-              className={`${styles.tabMenu} ${
-                index === item.id ? styles.active : null
-              }`}
+              className={styles.tabMenu}
+              // className={`${styles.tabMenu} ${
+              //   index === item.id ? styles.active : null
+              // }`}
               onClick={() => {
                 setIndex(item.id);
               }}
@@ -53,22 +61,10 @@ const MainHeader = () => {
                 icon={item.content}
               />
               {item.name}
-            </div>
+            </SwiperSlide>
           );
         })}
-        {/* <div className={`${styles.tabMenu} ${styles.active}`}>
-          <FontAwesomeIcon icon={faHouse} />
-          Home.jsx
-        </div>
-        <div className={styles.tabMenu}>
-          <FontAwesomeIcon icon={faCircleQuestion} />
-          개발자 QnA.jsx
-        </div>
-        <div className={styles.tabMenu}>
-          <FontAwesomeIcon icon={faEnvelope} />
-          문의하기.jsx
-        </div> */}
-      </div>
+      </Swiper>
       <div className={styles.rightMenu}>
         <FontAwesomeIcon
           icon={faComments}
