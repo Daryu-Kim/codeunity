@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./MainHeader.module.scss";
 import font from "../../styles/Font.module.scss";
 import logo from "./임시로고.png";
@@ -9,19 +9,15 @@ import {
   faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
-// import styled from "styled-components";
 
 const menuArr = [
-  { name: "Tab1", content: "HOME.jsx" },
-  { name: "Tab2", content: "개발자 QnA.jsx" },
-  { name: "Tab3", content: "문의하기.jsx" },
+  { id: 0, name: "HOME.jsx", content: faHouse },
+  { id: 1, name: "개발자 QnA.jsx", content: faCircleQuestion },
+  { id: 2, name: "문의하기.jsx", content: faEnvelope },
 ];
 
-// const selectMenuHandler = (index) => {
-//   clickTab(index);
-// };
-
 const MainHeader = () => {
+  const [index, setIndex] = useState(0);
   return (
     <div className={styles.wrapper}>
       <div className={styles.logoBox}>
@@ -30,20 +26,26 @@ const MainHeader = () => {
       <div
         className={`${styles.leftMenu} ${font.fs_12} ${font.fc_primary} ${font.fw_4}`}
       >
-        {/* {menuArr.map((item, index) => {
-          <div
-            className={
-              index === currentTab
-                ? `${styles.tabMenu} ${styles.active}`
-                : "submenu"
-            }
-            onClick={() => selectMenuHandler(index)}
-          >
-            <FontAwesomeIcon icon={faHouse} />
-            {item.name}
-          </div>;
-        })} */}
-        <div className={`${styles.tabMenu} ${styles.active}`}>
+        {menuArr.map((item) => {
+          return (
+            <div
+              key={item.id}
+              className={`${styles.tabMenu} ${
+                index === item.id ? styles.active : null
+              }`}
+              onClick={() => {
+                setIndex(item.id);
+              }}
+            >
+              <FontAwesomeIcon
+                className={`${font.fs_14} ${font.fc_accent}`}
+                icon={item.content}
+              />
+              {item.name}
+            </div>
+          );
+        })}
+        {/* <div className={`${styles.tabMenu} ${styles.active}`}>
           <FontAwesomeIcon icon={faHouse} />
           Home.jsx
         </div>
@@ -54,7 +56,7 @@ const MainHeader = () => {
         <div className={styles.tabMenu}>
           <FontAwesomeIcon icon={faEnvelope} />
           문의하기.jsx
-        </div>
+        </div> */}
       </div>
       <div className={styles.rightMenu}>
         <FontAwesomeIcon
