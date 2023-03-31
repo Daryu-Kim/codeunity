@@ -7,7 +7,7 @@ import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@forta
 import { getAuth, signOut } from '@firebase/auth';
 import { useDocument, useDocumentData } from "react-firebase-hooks/firestore"
 import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const blockBoxData = [
   { icon: faFont, title: "텍스트" },
@@ -115,7 +115,7 @@ const MainHome = () => {
               onClick={() => profileImgClick(uid)}
             ></div>
             <div className={styles.writePostTopInputBox}>
-              <p className={`${font.fs_16} ${font.fc_sub_light} ${styles.writePostTopName}`}>
+              <p className={`${font.fs_14} ${font.fc_sub_light} ${styles.writePostTopName}`}>
                 {htmlWidth > 767 ?
                 `${userName}님, 무슨 생각중인가요?` :
                 `글쓰기..`}
