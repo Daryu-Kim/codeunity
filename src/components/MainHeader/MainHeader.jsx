@@ -9,7 +9,7 @@ import {
   faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
+// import styled from "styled-components";
 
 const menuArr = [
   { name: "Tab1", content: "HOME.jsx" },
@@ -17,9 +17,9 @@ const menuArr = [
   { name: "Tab3", content: "문의하기.jsx" },
 ];
 
-const selectMenuHandler = (index) => {
-  clickTab(index);
-};
+// const selectMenuHandler = (index) => {
+//   clickTab(index);
+// };
 
 const MainHeader = () => {
   return (
@@ -30,7 +30,7 @@ const MainHeader = () => {
       <div
         className={`${styles.leftMenu} ${font.fs_12} ${font.fc_primary} ${font.fw_4}`}
       >
-        {menuArr.map((item, index) => {
+        {/* {menuArr.map((item, index) => {
           <div
             className={
               index === currentTab
@@ -42,16 +42,19 @@ const MainHeader = () => {
             <FontAwesomeIcon icon={faHouse} />
             {item.name}
           </div>;
-        })}
-
-        {/* <div className={styles.tabMenu}>
+        })} */}
+        <div className={`${styles.tabMenu} ${styles.active}`}>
+          <FontAwesomeIcon icon={faHouse} />
+          Home.jsx
+        </div>
+        <div className={styles.tabMenu}>
           <FontAwesomeIcon icon={faCircleQuestion} />
           개발자 QnA.jsx
         </div>
         <div className={styles.tabMenu}>
           <FontAwesomeIcon icon={faEnvelope} />
           문의하기.jsx
-        </div> */}
+        </div>
       </div>
       <div className={styles.rightMenu}>
         <FontAwesomeIcon
