@@ -23,13 +23,24 @@ const MainHome = () => {
   const [document, loading, error, snapshot] = useDocumentData(
     doc(firestore, "Users", uid)
   );
+  const handleResize = () => {
+    setHtmlWidth(window.innerWidth);
+  }
   console.log(document)
   const [userName, setUserName] = useState(null);
+  const [htmlWidth, setHtmlWidth] = useState(0);
   useEffect(() => {
     if (document) {
       setUserName(document.userName);
     }
   }, [document])
+  
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, []);
   
   // const [value, load, err] = useDocument(
   //   doc(firestore, "Users", uid)
@@ -78,7 +89,7 @@ const MainHome = () => {
               className={`${font.fc_accent} ${font.fs_20}`}
               icon={item.icon}
             />
-            <p className={`${font.fs_14} ${font.fw_5} ${font.fc_sub_semi_light}`}>
+            <p className={`${font.fs_14} ${font.fw_5} ${font.fc_sub_semi_light} ${styles.postBlockTitle}`}>
               {item.title}
             </p>
           </div>
@@ -96,8 +107,10 @@ const MainHome = () => {
           <div className={styles.writePostTopBox}>
             <div className={styles.writePostTopImg}></div>
             <div className={styles.writePostTopInputBox}>
-              <p className={`${font.fs_16} ${font.fc_sub_light}`}>
-                { userName }님, 무슨 생각을 하고 계신가요?
+              <p className={`${font.fs_16} ${font.fc_sub_light} ${styles.writePostTopName}`}>
+                {htmlWidth > 767 ?
+                `${userName}님, 무슨 생각중인가요?` :
+                `글쓰기..`}
               </p>
             </div>
           </div>

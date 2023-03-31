@@ -1,2 +1,15 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
+
+.mainSideBar {
+    width: 25%;
+    display: none;
+    overflow: hidden;
+    background-color: var(--thd-bg);
+}
+
+@media screen and (min-width: 1280px) {
+    .mainSideBar {
+        display: block;
+    }
+}

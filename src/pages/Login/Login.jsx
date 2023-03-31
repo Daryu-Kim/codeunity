@@ -154,6 +154,7 @@ function Login() {
                   ? `${styles.input} ${styles.active} ${font.fs_14}`
                   : `${styles.input} ${font.fs_14}`
               }
+              autocomplete="off"
             />
           </label>
           <label
@@ -183,6 +184,7 @@ function Login() {
                   : `${styles.input} ${font.fs_14}`
               }
               value={pwValue}
+              autocomplete="off"
             />
             <FontAwesomeIcon
               icon={!isPasswordVisible ? faEye : faEyeSlash}

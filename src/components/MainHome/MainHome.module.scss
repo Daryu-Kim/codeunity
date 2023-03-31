@@ -3,11 +3,14 @@
 
 .wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  height: calc(100vh - 4.8rem - 4.4rem);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .box {
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,6 +37,7 @@
   width: 3.6rem;
   height: 3.6rem;
   aspect-ratio: 1 / 1;
+  cursor: pointer;
 
   background: {
     position: center;
@@ -49,8 +53,6 @@
     style: solid;
   }
 
-  cursor: pointer;
-
   &:hover {
     filter: opacity(75%);
   }
@@ -59,6 +61,7 @@
 .writePostTopInputBox {
   border-radius: 100rem;
   width: 100%;
+  height: 4rem;
   padding: 0.8rem 1.6rem;
   background-color: var(--thd-bg);
   display: flex;
@@ -96,6 +99,10 @@
   }
 }
 
+.postBlockTitle {
+  display: none;
+}
+
 .postBox {
   width: 100%;
   background-color: red;
@@ -107,4 +114,16 @@
 
 .postItem {
   padding: 1.6rem;
+}
+
+@media screen and (min-width: 1280px) {
+  .wrapper {
+    height: calc(100vh - 4.8rem);
+  }
+  .box {
+    width: 75%;
+  }
+  .postBlockTitle {
+    display: block;
+  }
 }

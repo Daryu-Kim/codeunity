@@ -201,6 +201,7 @@ const Join = () => {
                   ? `${styles.input} ${styles.active} ${font.fs_14}`
                   : `${styles.input} ${font.fs_14}`
               }
+              autocomplete="off"
             />
             <p className={styles.message}>{emailMessage}</p>
           </label>
@@ -231,6 +232,7 @@ const Join = () => {
                   ? `${styles.input} ${styles.active} ${font.fs_14}`
                   : `${styles.input} ${font.fs_14}`
               }
+              autocomplete="off"
             />
             <p className={styles.message}>{nameMessage}</p>
           </label>
@@ -262,6 +264,7 @@ const Join = () => {
                   ? `${styles.input} ${styles.active} ${font.fs_14}`
                   : `${styles.input} ${font.fs_14}`
               }
+              autocomplete="off"
             />
             <FontAwesomeIcon
               icon={!isPasswordVisible ? faEye : faEyeSlash}
@@ -298,6 +301,7 @@ const Join = () => {
                   ? `${styles.input} ${styles.active} ${font.fs_14}`
                   : `${styles.input} ${font.fs_14}`
               }
+              autocomplete="off"
             />
             <FontAwesomeIcon
               icon={!isPasswordConfirmVisible ? faEye : faEyeSlash}

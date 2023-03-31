@@ -22,7 +22,7 @@ const Main = () => {
   }
   
   return (
-    <div>
+    <div className={styles.mainBox}>
       <MainHeader />
       <Routes>
         <Route path="" element={<MainHome />}></Route>
