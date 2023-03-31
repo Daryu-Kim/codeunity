@@ -2,7 +2,7 @@
 @import "../../styles/_variabled";
 
 .wrapper {
-  height: 4.8rem;
+  height: 3.6rem;
   background-color: var(--sub-bg);
   display: flex;
   align-items: center;
@@ -30,17 +30,22 @@
   position: absolute;
   top: 0;
   left: 5%;
-  width: 5rem;
+  width: 3rem;
+  height: 3.6rem;
 }
 
 .tabMenu {
   // background-color: var(--sub-more-light);
   background-color: var(--thd-bg);
-  border: 0.1rem solid var(--bg);
-  height: 100%;
+  border: {
+    left: 0.1rem solid var(--bg);
+    right: 0.1rem solid var(--bg);
+  }
+  height: 3.6rem;
   padding: 0 1.6rem;
   display: flex;
   align-items: center;
+  grid-gap: 0.8rem;
   color: var(--primary);
 
   &.active {
@@ -53,15 +58,16 @@
 
 .navIcon {
   cursor: pointer;
-
+  width: 2.4rem;
+  height: 2.4rem;
   &:hover {
     filter: opacity(75%);
   }
 }
 
 .myProfile {
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
   margin-left: 3rem;
 
   background: {
