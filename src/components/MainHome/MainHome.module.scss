@@ -21,7 +21,7 @@
 
 .writePostBtn {
   width: 100%;
-  max-width: 65rem;
+  max-width: 70rem;
   padding: 0.8rem 1.6rem;
   background-color: var(--sub-bg);
   border-radius: 0.8rem;
@@ -105,6 +105,7 @@
 
 .postBox {
   width: 100%;
+  max-width: 70rem;
   background-color: red;
   display: flex;
   flex-direction: column;
@@ -114,6 +115,21 @@
 
 .postItem {
   padding: 1.6rem;
+}
+
+.scrollUpBtn {
+  width: 3.6rem;
+  height: 3.6rem;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.8rem;
+
+  background: {
+    color: var(--sub);
+    image: url("/assets/images/임시로고.png");
+    position: center;
+    repeat: no-repeat;
+    size: cover;
+  }
 }
 
 @media screen and (min-width: 1280px) {
