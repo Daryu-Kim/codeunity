@@ -1,26 +1,28 @@
 $LIGHT_THEME: (
   bg: #fff,
   sub-bg: #f3f3f3,
-  thd-bg: #E6E6E6,
+  thd-bg: #e6e6e6,
   primary: #101010,
-  accent: #9564C5,
-  accent-light: #AB7ED2,
-  accent-dark: #7E43B1,
+  accent: #9564c5,
+  accent-light: #ab7ed2,
+  accent-dark: #7e43b1,
   sub: #666,
   sub-semi-light: #888,
   sub-light: #aaa,
+  sub-more-light: #ccc,
 );
 $DARK_THEME: (
   bg: #242028,
   sub-bg: #343038,
   thd-bg: #444048,
   primary: #fff,
-  accent: #9564C5,
-  accent-light: #AB7ED2,
-  accent-dark: #7E43B1,
+  accent: #9564c5,
+  accent-light: #ab7ed2,
+  accent-dark: #7e43b1,
   sub: #666,
   sub-semi-light: #888,
   sub-light: #aaa,
+  sub-more-light: #ccc,
 );
 
 :root {

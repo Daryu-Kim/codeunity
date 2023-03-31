@@ -9,7 +9,7 @@
 }
 
 .logoBox {
-  width: 30%;
+  width: 25%;
 }
 
 .leftMenu {
@@ -17,7 +17,6 @@
   display: flex;
   height: 4.8rem;
   align-items: center;
-  font-size: 1.6rem;
 }
 
 .rightMenu {
@@ -35,16 +34,24 @@
 }
 
 .tabMenu {
-  background-color: #fff;
+  // background-color: var(--sub-more-light);
+  background-color: var(--thd-bg);
+  border: 0.1rem solid var(--bg);
   height: 100%;
-  padding: 0 1.5rem;
+  padding: 0 1.6rem;
   display: flex;
   align-items: center;
+  color: var(--primary);
+
+  &.active {
+    background-color: var(--bg);
+  }
+  &:hover {
+    filter: opacity(75%);
+  }
 }
 
 .navIcon {
-  font-size: 3.2rem;
-  color: var(--accent);
   cursor: pointer;
 
   &:hover {
@@ -59,7 +66,7 @@
 
   background: {
     position: center;
-    image: url("https://picsum.photos/300");
+    image: url("/assets/svgs/352174_user_icon.svg");
     repeat: no-repeat;
     size: cover;
   }
