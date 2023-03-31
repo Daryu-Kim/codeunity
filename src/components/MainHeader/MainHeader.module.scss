@@ -1,101 +1,35 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
 
-.wrapper {
-  height: 3.6rem;
+.menu {
+  width: 100%;
+  display: flex;
+  height: 2.8rem;
   background-color: var(--sub-bg);
-  display: flex;
-  align-items: center;
+  box-shadow: 0 0.4rem 1.2rem rgba($color: #141018, $alpha: 0.35);
 }
 
-.logoBox {
-  width: 25%;
-  height: 3.6rem;
-  padding-left: 3.6rem;
-}
-
-.leftMenu {
-  width: 65%;
-  display: flex;
-  height: 3.6rem;
-  align-items: center;
-}
-
-.rightMenu {
-  width: 10%;
-  display: flex;
-  padding-right: 3.6rem;
-  align-items: center;
-  justify-content: flex-end;
-  grid-gap: 1.6rem;
-}
-
-.logo {
-  // width: 3rem;
-  // height: 3.6rem;
-  height: 100%;
-}
-
-.tabMenu {
+#tabMenu
+ {
   background-color: var(--thd-bg);
   border: {
     left: 0.1rem solid var(--bg);
     right: 0.1rem solid var(--bg);
   }
-  width: 40%;
-  // width: fit-content;
-  height: 3.6rem;
-  padding: 0 1.8rem;
+  width: auto !important;
+  padding: 0 1.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  grid-gap: 0.8rem;
-  color: var(--primary);
+  grid-gap: 0.6rem;
+  color: var(--sub-light);
   cursor: pointer;
   &.active {
     background-color: var(--bg);
+    font-weight: 700;
+  color: var(--primary);
   }
   &:hover {
     filter: opacity(75%);
-  }
-}
-
-.navIcon {
-  cursor: pointer;
-  width: 2.4rem;
-  height: 2.4rem;
-  aspect-ratio: 1 / 1;
-  &:hover {
-    filter: opacity(75%);
-  }
-}
-
-.myProfile {
-  width: 2.4rem;
-  height: 2.4rem;
-  aspect-ratio: 1 / 1;
-
-  background: {
-    position: center;
-    image: url("/assets/svgs/352174_user_icon.svg");
-    repeat: no-repeat;
-    size: cover;
-  }
-  border: {
-    radius: 50%;
-    width: 0.2rem;
-    color: var(--accent);
-    style: solid;
-  }
-  cursor: pointer;
-
-  &:hover {
-    filter: opacity(75%);
-  }
-}
-
-@media screen and (max-width: 1199px) {
-  .rightMenu {
-    display: none;
   }
 }
