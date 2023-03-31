@@ -45,6 +45,12 @@ function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const activeEnter = (e) => {
+    if(e.key === "Enter") {
+      formCheck(idValue, pwValue);
+    }
+  }
+
   const formCheck = (email, password) => {
     if (!idValue) {
       toastError("이메일을 입력해주세요!");
@@ -93,22 +99,28 @@ function Login() {
   }
 
   /* GitHub Login */
-  const [signInWithGithub, gitUser, gitLoading, gitError] = useSignInWithGithub(auth);
+  // const [signInWithGithub, gitUser, gitLoading, gitError] = useSignInWithGithub(auth);
   
-  if (gitError) {
-    // if Login Error
-    console.log(gitError.message);
+  // if (gitError) {
+  //   // if Login Error
+  //   console.error(gitError);
+  // }
+  // if (gitLoading) {
+  //   // if Logging..
+  //   console.log("logging..");
+  // }
+  // if (gitUser) {
+  //   // if Login Completed!
+  //   console.log(gitUser);
+  //   localStorage.setItem("uid", gitUser.user.uid);
+  //   navigate("/", { replace: true });
+  // }
+
+  const signInWithGithub = () => {
+    window.open("https://github.com/login/oauth/authorize?client_id=4972759927ee7d81c2b5&redirect_uri=http://localhost:3000/callback");
   }
-  if (gitLoading) {
-    // if Logging..
-    console.log("logging..");
-  }
-  if (gitUser) {
-    // if Login Completed!
-    console.log(gitUser);
-    localStorage.setItem("uid", gitUser.user.uid);
-    navigate("/", { replace: true });
-  }
+
+  
 
   // Renderer
   return (
@@ -185,6 +197,7 @@ function Login() {
               }
               value={pwValue}
               autocomplete="off"
+              onKeyDown={(e) => activeEnter(e)}
             />
             <FontAwesomeIcon
               icon={!isPasswordVisible ? faEye : faEyeSlash}
