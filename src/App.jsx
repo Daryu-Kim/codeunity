@@ -6,6 +6,12 @@ import Join from "./pages/Join/Join";
 import "./styles/reset.scss";
 
 function App() {
+  const uid = localStorage.getItem("uid");
+
+  if (!uid) {
+    localStorage.setItem("uid", "undefined");
+  }
+  
   return (
     <BrowserRouter>
       <Routes>

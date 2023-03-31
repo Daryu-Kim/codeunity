@@ -14,6 +14,7 @@ import MainQnA from "../../components/MainQnA/MainQnA";
 const Main = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
+  console.log(user)
   
   if (!user) {
     navigate("/login", {

@@ -7,6 +7,7 @@ import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@forta
 import { getAuth, signOut } from '@firebase/auth';
 import { useDocument, useDocumentData } from "react-firebase-hooks/firestore"
 import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 const blockBoxData = [
   { icon: faFont, title: "텍스트" },
@@ -20,15 +21,14 @@ const MainHome = () => {
   const auth = getAuth();
   const firestore = getFirestore();
   const uid = localStorage.getItem("uid");
-  const [document, loading, error, snapshot] = useDocumentData(
-    doc(firestore, "Users", uid)
-  );
+  const [document, loading, error, snapshot] = useDocumentData(doc(firestore, "Users", uid));
   const handleResize = () => {
     setHtmlWidth(window.innerWidth);
   }
   console.log(document)
   const [userName, setUserName] = useState(null);
   const [htmlWidth, setHtmlWidth] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     if (document) {
       setUserName(document.userName);
@@ -79,6 +79,12 @@ const MainHome = () => {
   //   console.log(result);
   // });
 
+  const profileImgClick = (userID) => {
+    navigate("/profile", {
+      state: userID,
+      replace: true,
+    });
+  }
 
   const renderBlockData = () => {
     const mapBlockData = blockBoxData.map(
@@ -105,7 +111,10 @@ const MainHome = () => {
       <div className={styles.box}>
         <div className={`${styles.writePostBtn}`}>
           <div className={styles.writePostTopBox}>
-            <div className={styles.writePostTopImg}></div>
+            <div
+              className={styles.writePostTopImg}
+              onClick={() => profileImgClick(uid)}
+            ></div>
             <div className={styles.writePostTopInputBox}>
               <p className={`${font.fs_16} ${font.fc_sub_light} ${styles.writePostTopName}`}>
                 {htmlWidth > 767 ?
