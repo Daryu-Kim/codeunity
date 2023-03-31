@@ -3,17 +3,35 @@
 
 .mainSideBar {
   width: 25%;
-  display: none;
+  display: flex;
+  height: 100%;
   overflow: hidden;
   background-color: var(--thd-bg);
 }
 
 .sidebarIcon {
   cursor: pointer;
-
   &:hover {
-    filter: opacity(75%);
+    color: var(--accent-more-light);
   }
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--accent);
+  width: 4rem;
+  height: 100%;
+  padding: 1rem 0.5rem;
+  color: var(--accent-more-dark);
+}
+
+.onIconBox {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 2.4rem;
 }
 
 @media screen and (min-width: 1280px) {
