@@ -16,7 +16,7 @@ const MainSideBar = () => {
     <div className={styles.mainSideBar}>
       <div className={styles.iconBox}>
         <div className={styles.onIconBox}>
-          <div className={styles.logo}></div>
+          <div className={`${styles.logo} ${styles.sidebarIcon}`}></div>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
@@ -37,9 +37,9 @@ const MainSideBar = () => {
         <div className={styles.underIconBox}>
           <FontAwesomeIcon
             icon={faDownload}
-            className={font.fs_20}
+            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
           />
-          <FontAwesomeIcon icon={faUser} className={font.fs_20} />
+          <FontAwesomeIcon icon={faUser} className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`} />
           {/* <div className={styles.myProfile}></div> */}
           <FontAwesomeIcon
             icon={faGear}
