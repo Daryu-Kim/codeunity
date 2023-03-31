@@ -2,14 +2,22 @@
 @import "../../styles/_variabled";
 
 .mainSideBar {
-    width: 25%;
-    display: none;
-    overflow: hidden;
-    background-color: var(--thd-bg);
+  width: 25%;
+  display: none;
+  overflow: hidden;
+  background-color: var(--thd-bg);
+}
+
+.sidebarIcon {
+  cursor: pointer;
+
+  &:hover {
+    filter: opacity(75%);
+  }
 }
 
 @media screen and (min-width: 1280px) {
-    .mainSideBar {
-        display: block;
-    }
+  .mainSideBar {
+    display: block;
+  }
 }
