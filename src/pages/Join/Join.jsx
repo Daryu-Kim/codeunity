@@ -109,12 +109,16 @@ const Join = () => {
   ] = useCreateUserWithEmailAndPassword(auth);
 
   if (createError) {
+    toastClear();
     console.log(createError.code);
     if (createError.code == "auth/email-already-in-use") {
       toastError("이미 사용 중인 이메일입니다.");
     }
     if (createError.code == "auth/invalid-email") {
       toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
+    }
+    if (createError.code == "auth/weak-password") {
+      toastError("비밀번호는 최소  6자리 이상이어야 합니다!");
     }
     if (createError.code == "auth/too-many-requests") {
       toastError("잠시 후 다시 시도해주세요!");

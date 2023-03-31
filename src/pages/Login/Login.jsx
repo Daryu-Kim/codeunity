@@ -21,14 +21,7 @@ function Login() {
   const [pwValue, setPwValue] = useState("");
 
   const auth = getAuth();
-
-  // const [user] = useAuthState(auth);
   const navigate = useNavigate();
-  // if (user) {
-  //   navigate("/", {
-  //     replace: true,
-  //   });
-  // }
 
   const handleIDInputChange = (e) => {
     setIdValue(e.target.value.trim());
@@ -93,6 +86,7 @@ function Login() {
     // if Login Completed!
     console.log(emailUser);
     toastClear();
+    localStorage.setItem("uid", emailUser.user.uid);
     setTimeout(() => {
       navigate("/", { replace: true });
     }, 500);

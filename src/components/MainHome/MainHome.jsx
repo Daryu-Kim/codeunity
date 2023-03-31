@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MainSideBar from "../../components/MainSideBar/MainSideBar";
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { getAuth, signOut } from '@firebase/auth';
-import { useDocument } from "react-firebase-hooks/firestore";
+import { useDocument, useDocumentData } from "react-firebase-hooks/firestore"
 import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
 
 const blockBoxData = [
@@ -20,9 +20,20 @@ const MainHome = () => {
   const auth = getAuth();
   const firestore = getFirestore();
   const uid = localStorage.getItem("uid");
-  const [value, load, err] = useDocument(
+  const [document, loading, error, snapshot] = useDocumentData(
     doc(firestore, "Users", uid)
   );
+  console.log(document)
+  const [userName, setUserName] = useState(null);
+  useEffect(() => {
+    if (document) {
+      setUserName(document.userName);
+    }
+  }, [document])
+  
+  // const [value, load, err] = useDocument(
+  //   doc(firestore, "Users", uid)
+  // );
   // const [userName, setUserName] = useState("");
   
   // const [allUID, allUIDLoad, allUIDError] = useCollection(
@@ -86,7 +97,7 @@ const MainHome = () => {
             <div className={styles.writePostTopImg}></div>
             <div className={styles.writePostTopInputBox}>
               <p className={`${font.fs_16} ${font.fc_sub_light}`}>
-                { }님, 무슨 생각을 하고 계신가요?
+                { userName }님, 무슨 생각을 하고 계신가요?
               </p>
             </div>
           </div>
