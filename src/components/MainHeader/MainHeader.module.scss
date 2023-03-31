@@ -10,6 +10,7 @@
 
 .logoBox {
   width: 25%;
+  height: 3.6rem;
 }
 
 .leftMenu {
@@ -42,12 +43,13 @@
     right: 0.1rem solid var(--bg);
   }
   height: 3.6rem;
-  padding: 0 1.6rem;
+  padding: 0 1.8rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   grid-gap: 0.8rem;
   color: var(--primary);
-
+  cursor: pointer;
   &.active {
     background-color: var(--bg);
   }

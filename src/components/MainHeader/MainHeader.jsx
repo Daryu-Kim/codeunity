@@ -9,6 +9,7 @@ import {
   faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const menuArr = [
   { id: 0, name: "HOME.jsx", content: faHouse },
@@ -18,6 +19,16 @@ const menuArr = [
 
 const MainHeader = () => {
   const [index, setIndex] = useState(0);
+
+  const navigate = useNavigate();
+
+  const profileImgClick = (userID) => {
+    navigate("/profile", {
+      state: userID,
+      replace: true,
+    });
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.logoBox}>
@@ -63,7 +74,7 @@ const MainHeader = () => {
           icon={faComments}
           className={`${styles.navIcon} ${font.fs_28} ${font.fc_accent}`}
         />
-        <div className={styles.myProfile}></div>
+        <div className={styles.myProfile} onClick={profileImgClick}></div>
       </div>
     </div>
   );
