@@ -160,6 +160,15 @@
     }
   }
 
+  > .profileDesc {
+    text-align: center;
+    line-height: 115%;
+    width: 12.8rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   > .followBtn {
     border-radius: 0.8rem;
     background-color: var(--accent);

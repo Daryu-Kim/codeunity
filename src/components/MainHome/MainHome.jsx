@@ -60,6 +60,7 @@ const MainHome = () => {
     if (allUID != undefined) {
       setPopularData(
         allUID.map((item, index) => {
+          console.log(index)
           return (
             <SwiperSlide id={styles.popularItem} key={index}>
               <div
@@ -78,6 +79,20 @@ const MainHome = () => {
                 `}
               >
                 {item.userName}
+              </p>
+              <p
+                className={`
+                  ${styles.profileDesc}
+                  ${font.fs_12}
+                  ${font.fw_4}
+                  ${font.fc_sub}
+                `}
+              >
+                {
+                item.userDesc ?
+                item.userDesc :
+                `자기소개가 없습니다!`
+                }
               </p>
               <button
                 className={`
@@ -241,7 +256,8 @@ const MainHome = () => {
             인기 프로필을 팔로우해보세요!
           </p>
           <Swiper
-            slidesPerView={'auto'}
+            // slidesPerView={'auto'}
+            slidesPerView={1}
             spaceBetween={8}
             freeMode={true}
             modules={[FreeMode]}
