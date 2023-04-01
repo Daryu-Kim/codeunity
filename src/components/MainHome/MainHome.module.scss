@@ -118,6 +118,7 @@
 
 .popularBox {
   width: 100%;
+  max-width: 70rem;
   background-color: var(--sub-bg);
   padding: 1.6rem;
   border-radius: 0.8rem;
@@ -126,8 +127,17 @@
   grid-gap: 1.2rem;
 }
 
+.swiper-wrapper {
+  width: fit-content;
+}
+
+#popularSwiper {
+  width: 100%;
+}
+
 #popularItem {
-  width: 16rem !important;
+  // width: 16rem;
+  max-width: 16rem;
   border-radius: 0.8rem;
   background-color: var(--bg);
   padding: 1.6rem;

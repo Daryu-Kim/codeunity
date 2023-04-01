@@ -57,6 +57,7 @@ const MainHome = () => {
   );
 
   useEffect(() => {
+    console.log(allUID);
     if (allUID != undefined) {
       setPopularData(
         allUID.map((item, index) => {
@@ -256,11 +257,11 @@ const MainHome = () => {
             인기 프로필을 팔로우해보세요!
           </p>
           <Swiper
-            // slidesPerView={'auto'}
-            slidesPerView={1}
+            // slidesPerView={1}
             spaceBetween={8}
             freeMode={true}
             modules={[FreeMode]}
+            id={styles.popularSwiper}
           >
             {popularData}
           </Swiper>
