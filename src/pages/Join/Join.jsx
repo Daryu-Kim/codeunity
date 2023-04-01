@@ -97,7 +97,7 @@ const Join = () => {
     } else if (pwValue !== pwCValue) {
       toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     } else {
-      createUserWithEmailAndPassword(email, password);
+      createUserWithEmailAndPassword(emailValue, pwValue);
     }
   };
 

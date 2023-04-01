@@ -28,6 +28,7 @@ const MainHome = () => {
   console.log(document)
   const [userName, setUserName] = useState(null);
   const [htmlWidth, setHtmlWidth] = useState(0);
+  const [postData, setPostData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (document) {
@@ -42,14 +43,41 @@ const MainHome = () => {
     }
   }, []);
 
-  // const [allUID, allUIDLoad, allUIDError] = useCollectionData(
-  //   query(
-  //     collection(firestore, "Users"),
-  //     where("userID", "!=", uid.userID)
-  //   )
-  // )
+  const [allUID, allUIDLoad, allUIDError] = useCollectionData(
+    query(
+      collection(firestore, "Users"),
+      where("userID", "!=", uid)
+    )
+  );
 
-  // console.log(allUID)
+  useEffect(() => {
+    if (allUID != undefined) {
+      setPostData(
+        allUID.map((item, index) => {
+          return (
+            <div className={styles.postItem} key={index}>
+              <div className={styles.topBox}>
+                <div className={styles.topLeftBox}>
+                  <div
+                    className={styles.profileImg}
+                    style={
+                      item.userImg != null ?
+                      {backgroundImage: `url("https://picsum.photos/300")`} :
+                      {backgroundImage: `url("https://picsum.photos/400")`}
+                    }
+                  ></div>
+                </div>
+                <div className={styles.topRightBox}>
+                  df
+                </div>
+              </div>
+              <p>{item.userID}</p>
+            </div>
+          );
+        })
+      );
+    }
+  }, [allUID]);
 
   // const [
   //   post,
@@ -119,8 +147,8 @@ const MainHome = () => {
     return mapBlockData;
   };
 
-  const renderFollowData = () => {
-
+  const renderPostData = () => {
+    
   }
 
   return (
@@ -145,8 +173,8 @@ const MainHome = () => {
             {renderBlockData()}
           </div>
         </div>
-        <div className={styles.postBox} onClick={() => {signOut(auth)}}>
-          asdf
+        <div className={styles.postBox}>
+          {postData}
         </div>
       </div>
     </div>
