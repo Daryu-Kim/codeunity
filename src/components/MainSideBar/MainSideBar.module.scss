@@ -1,8 +1,14 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
 
+li {
+  list-style: none;
+}
+
 .mainSideBar {
-  width: fit-content;
+  // width: fit-content;
+  position: relative;
+  width: 25vw;
   display: flex;
   height: 100%;
   overflow: hidden;
@@ -11,6 +17,7 @@
 
 .sidebarIcon {
   cursor: pointer;
+  transition: color 100ms ease-in-out;
   &:hover {
     color: white;
   }
@@ -81,8 +88,18 @@
 }
 
 .contBox {
-  width: calc(30vw - 4rem);
+  position: absolute;
+  right: 0;
+  width: calc(100% - 4.8rem);
   background-color: var(--thd-bg);
+  height: 100vh;
+  padding: 1rem;
+  color: var(--primary);
+}
+
+.friendList {
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (min-width: 1280px) {
