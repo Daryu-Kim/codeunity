@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useNavigate } from "react";
 import styles from "./MainHeader.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,13 +13,14 @@ import "swiper/css/free-mode";
 import 'swiper/css';
 
 const menuArr = [
-  { id: 0, name: "HOME.jsx", content: faHouse },
-  { id: 1, name: "개발자 QnA.jsx", content: faCircleQuestion },
-  { id: 2, name: "문의하기.jsx", content: faEnvelope },
+  { id: 0, name: "HOME.jsx", content: faHouse, navigate: "/" },
+  { id: 1, name: "개발자 QnA.jsx", content: faCircleQuestion, navigate: "/qna" },
+  { id: 2, name: "문의하기.jsx", content: faEnvelope, navigate: "" },
 ];
 
 const MainHeader = () => {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   return (
     <div className={styles.wrapper}>
@@ -39,13 +40,16 @@ const MainHeader = () => {
               id={styles.tabMenu}
               onClick={() => {
                 setIndex(item.id);
+                navigate(item.navigate, {
+                  replace: true
+                });
               }}
             >
               <FontAwesomeIcon
-                className={`${font.fs_12} ${font.fc_accent}`}
+                className={`${font.fs_14} ${font.fc_accent}`}
                 icon={item.content}
               />
-              <p className={font.fs_12}>{item.name}</p>
+              <p className={font.fs_14}>{item.name}</p>
             </SwiperSlide>
           );
         })}

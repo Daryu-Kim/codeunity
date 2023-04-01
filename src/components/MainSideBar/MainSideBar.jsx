@@ -19,31 +19,31 @@ const MainSideBar = () => {
           <div className={`${styles.logo} ${styles.sidebarIcon}`}></div>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
             icon={faUserGroup}
-            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
             icon={faCodeBranch}
-            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
             icon={faGithub}
-            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
         </div>
         <div className={styles.underIconBox}>
           <FontAwesomeIcon
             icon={faDownload}
-            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
-          <FontAwesomeIcon icon={faUser} className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`} />
+          <FontAwesomeIcon icon={faUser} className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`} />
           {/* <div className={styles.myProfile}></div> */}
           <FontAwesomeIcon
             icon={faGear}
-            className={`${styles.sidebarIcon} ${font.fs_20} ${font.bg}`}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
         </div>
       </div>
