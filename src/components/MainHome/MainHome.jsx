@@ -52,6 +52,7 @@ const MainHome = () => {
 
   useEffect(() => {
     if (allUID != undefined) {
+      console.log(allUID)
       setPostData(
         allUID.map((item, index) => {
           return (

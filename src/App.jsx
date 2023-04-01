@@ -7,6 +7,9 @@ import "./styles/reset.scss";
 
 function App() {
   const uid = localStorage.getItem("uid");
+  const vh = window.innerHeight * 0.01;
+
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
 
   if (!uid) {
     localStorage.setItem("uid", "undefined");
