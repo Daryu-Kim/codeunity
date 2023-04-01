@@ -257,7 +257,7 @@ const MainHome = () => {
             인기 프로필을 팔로우해보세요!
           </p>
           <Swiper
-            // slidesPerView={1}
+            slidesPerView={'auto'}
             spaceBetween={8}
             freeMode={true}
             modules={[FreeMode]}

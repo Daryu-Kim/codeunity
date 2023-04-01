@@ -127,17 +127,12 @@
   grid-gap: 1.2rem;
 }
 
-.swiper-wrapper {
-  width: fit-content;
-}
-
 #popularSwiper {
   width: 100%;
 }
 
 #popularItem {
-  // width: 16rem;
-  max-width: 16rem;
+  width: 16rem;
   border-radius: 0.8rem;
   background-color: var(--bg);
   padding: 1.6rem;
@@ -159,7 +154,7 @@
     border: {
       radius: 50%;
       style: solid;
-      width: 0.2rem;
+      width: 0.25rem;
       color: var(--accent)
     };
 
@@ -205,14 +200,14 @@
       grid-gap: 0.8rem;
 
       >.profileImg {
-        width: 2.8rem;
-        height: 2.8rem;
+        width: 3.2rem;
+        height: 3.2rem;
         aspect-ratio: 1 / 1;
 
         border: {
           radius: 50%;
           style: solid;
-          width: 0.2rem;
+          width: 0.25rem;
           color: var(--accent)
         };
 
