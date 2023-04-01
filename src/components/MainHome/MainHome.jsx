@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react'
 import MainSideBar from "../../components/MainSideBar/MainSideBar";
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
+import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { getAuth, signOut } from '@firebase/auth';
 import { useCollection, useCollectionData, useDocument, useDocumentData } from "react-firebase-hooks/firestore"
 import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { FreeMode } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/free-mode";
+import 'swiper/css';
 
 const blockBoxData = [
   { icon: faFont, title: "텍스트" },
@@ -29,6 +34,7 @@ const MainHome = () => {
   const [userName, setUserName] = useState(null);
   const [htmlWidth, setHtmlWidth] = useState(0);
   const [postData, setPostData] = useState(null);
+  const [popularData, setPopularData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (document) {
@@ -46,13 +52,51 @@ const MainHome = () => {
   const [allUID, allUIDLoad, allUIDError] = useCollectionData(
     query(
       collection(firestore, "Users"),
-      where("userID", "!=", uid)
+      // where("userID", "!=", uid)
     )
   );
 
   useEffect(() => {
     if (allUID != undefined) {
-      console.log(allUID)
+      setPopularData(
+        allUID.map((item, index) => {
+          return (
+            <SwiperSlide id={styles.popularItem} key={index}>
+              <div
+                className={styles.profileImg}
+                style={
+                  item.userImg != "" ?
+                  {backgroundImage: `url(${item.userImg})`} :
+                  {backgroundImage: `url(${baseImg})`}
+                }
+              ></div>
+              <p
+                className={`
+                  ${styles.profileName}
+                  ${font.fs_16}
+                  ${font.fw_5}
+                `}
+              >
+                {item.userName}
+              </p>
+              <button
+                className={`
+                  ${styles.followBtn}
+                  ${font.fs_14}
+                  ${font.fw_7}
+                `}
+              >
+                팔로우
+              </button>
+            </SwiperSlide>
+          );
+        })
+      );
+    }
+  }, [allUID]);
+
+  useEffect(() => {
+    if (allUID != undefined) {
       setPostData(
         allUID.map((item, index) => {
           return (
@@ -62,17 +106,28 @@ const MainHome = () => {
                   <div
                     className={styles.profileImg}
                     style={
-                      item.userImg != null ?
-                      {backgroundImage: `url("https://picsum.photos/300")`} :
-                      {backgroundImage: `url("https://picsum.photos/400")`}
+                      item.userImg != "" ?
+                      {backgroundImage: `url(${item.userImg})`} :
+                      {backgroundImage: `url(${baseImg})`}
                     }
                   ></div>
+                  <p
+                    className={`
+                      ${styles.profileName}
+                      ${font.fs_16}
+                      ${font.fw_5}
+                    `}
+                  >
+                    {item.userName}
+                  </p>
                 </div>
                 <div className={styles.topRightBox}>
-                  df
+                  <button className={styles.followBtn}>
+                    팔로우
+                  </button>
                 </div>
               </div>
-              <p>{item.userID}</p>
+              <p className={`${font.f_code} ${font.fs_16} ${font.fw_7}`}>{item.userID}</p>
             </div>
           );
         })
@@ -174,6 +229,27 @@ const MainHome = () => {
             {renderBlockData()}
           </div>
         </div>
+
+        <div className={styles.popularBox}>
+          <p
+            className=
+            {`
+              ${font.fs_18}
+              ${font.fw_7}
+            `}
+          >
+            인기 프로필을 팔로우해보세요!
+          </p>
+          <Swiper
+            slidesPerView={'auto'}
+            spaceBetween={8}
+            freeMode={true}
+            modules={[FreeMode]}
+          >
+            {popularData}
+          </Swiper>
+        </div>
+        
         <div className={styles.postBox}>
           {postData}
         </div>

@@ -86,7 +86,8 @@
 .writePostBlockBox {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  > div {
+
+  >div {
     border-radius: 0.8rem;
     padding: 0.8rem 1.2rem;
     display: flex;
@@ -94,6 +95,7 @@
     justify-content: center;
     grid-gap: 0.8rem;
     cursor: pointer;
+
     &:hover {
       background-color: var(--thd-bg);
     }
@@ -114,42 +116,110 @@
   grid-gap: 1.6rem;
 }
 
+.popularBox {
+  width: 100%;
+  background-color: var(--sub-bg);
+  padding: 1.6rem;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1.2rem;
+}
+
+#popularItem {
+  width: 16rem !important;
+  border-radius: 0.8rem;
+  background-color: var(--bg);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-gap: 0.8rem;
+  cursor: pointer;
+
+  &:hover {
+    filter: opacity(75%);
+  }
+
+  > .profileImg {
+    width: 6.4rem;
+    height: 6.4rem;
+    aspect-ratio: 1 / 1;
+
+    border: {
+      radius: 50%;
+      style: solid;
+      width: 0.2rem;
+      color: var(--accent)
+    };
+
+    background: {
+      position: center;
+      size: cover;
+      repeat: no-repeat;
+    }
+  }
+
+  > .followBtn {
+    border-radius: 0.8rem;
+    background-color: var(--accent);
+    width: 100%;
+    padding: 0.6rem 1.6rem;
+    color: white;
+  }
+}
+
 .postItem {
   width: 100%;
   border-radius: 0.8rem;
   background-color: var(--sub-bg);
   padding: 1.6rem;
-  > .topBox {
+
+  >.topBox {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    > .topLeftBox {
-      > .profileImg {
-        width: 2.4rem;
-        height: 2.4rem;
+
+    >.topLeftBox {
+      display: flex;
+      align-items: center;
+      grid-gap: 0.8rem;
+
+      >.profileImg {
+        width: 2.8rem;
+        height: 2.8rem;
         aspect-ratio: 1 / 1;
+
+        border: {
+          radius: 50%;
+          style: solid;
+          width: 0.2rem;
+          color: var(--accent)
+        };
+
         background: {
           position: center;
           size: cover;
           repeat: no-repeat;
-        };
+        }
+
+        ;
       }
     }
-  }
-}
 
-.scrollUpBtn {
-  width: 3.6rem;
-  height: 3.6rem;
-  aspect-ratio: 1 / 1;
-  border-radius: 0.8rem;
+    >.topRightBox {
+      >.followBtn {
+        color: white;
+        background-color: var(--accent);
+        padding: 0.4rem 1.6rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
 
-  background: {
-    color: var(--sub);
-    image: url("/assets/images/임시로고.png");
-    position: center;
-    repeat: no-repeat;
-    size: cover;
+        &:hover {
+          background-color: var(--accent-light);
+        }
+      }
+    }
   }
 }
 
@@ -163,6 +233,7 @@
   .wrapper {
     height: calc(100vh - 4.8rem);
   }
+
   .box {
     width: 75%;
   }
