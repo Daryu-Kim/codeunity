@@ -17,6 +17,7 @@ li {
 
 .sidebarIcon {
   cursor: pointer;
+  transition: color 100ms ease-in-out;
   &:hover {
     color: white;
   }
