@@ -1,4 +1,4 @@
-import React, { useState, useNavigate } from "react";
+import React, { useState } from "react";
 import styles from "./MainHeader.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
 import "swiper/css/free-mode";
 import 'swiper/css';
+import { useNavigate } from "react-router-dom";
 
 const menuArr = [
   { id: 0, name: "HOME.jsx", content: faHouse, navigate: "/" },

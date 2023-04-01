@@ -8994,11 +8994,6 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-email-validator@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-email-validator/-/react-email-validator-1.0.2.tgz#d1b432516f71f19bd355946b4db6a1a898b488b5"
-  integrity sha512-ibFollRgI3LbyNyQTlig2JHiNz8Yrk+CT73MbhROdcGU8qvjXc3OXYsvkMOgqxtLEXPS/e8YWSFSS+xpUx0LCg==
-
 react-error-overlay@^6.0.11:
   version "6.0.11"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
@@ -9023,11 +9018,6 @@ react-is@^18.0.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
-
-react-login-github@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/react-login-github/-/react-login-github-1.0.8.tgz#2262024270e7ba001b998996781620c98a3fa2dd"
-  integrity sha512-Et30Hx8eV7vmqQpEma0DyYKak2RMGX7le0OC3R49vdeOfoJL4+RaTS4IeqDgWrAmyFWs9oWLamvvXbG67Mmr4A==
 
 react-refresh@^0.11.0:
   version "0.11.0"

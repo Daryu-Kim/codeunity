@@ -10,7 +10,6 @@ import { signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
-import LoginGithub from "react-login-github"
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);

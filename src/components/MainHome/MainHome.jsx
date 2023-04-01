@@ -5,7 +5,7 @@ import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { getAuth, signOut } from '@firebase/auth';
-import { useDocument, useDocumentData } from "react-firebase-hooks/firestore"
+import { useCollection, useCollectionData, useDocument, useDocumentData } from "react-firebase-hooks/firestore"
 import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,18 +41,32 @@ const MainHome = () => {
       window.removeEventListener("resize", handleResize);
     }
   }, []);
+
+  // const [allUID, allUIDLoad, allUIDError] = useCollectionData(
+  //   query(
+  //     collection(firestore, "Users"),
+  //     where("userID", "!=", uid.userID)
+  //   )
+  // )
+
+  // console.log(allUID)
+
+  // const [
+  //   post,
+  //   postLoad,
+  //   postError,
+  //   postSnapshot
+  // ] = useCollectionData(
+  //   query(
+  //     collection(firestore, `/Users/${allUID}`)
+  //   )
+  // );
   
   // const [value, load, err] = useDocument(
   //   doc(firestore, "Users", uid)
   // );
   // const [userName, setUserName] = useState("");
   
-  // const [allUID, allUIDLoad, allUIDError] = useCollection(
-  //   query(
-  //     collection(firestore, "Users"),
-  //     where("userID", "!=", user.uid)
-  //   )
-  // )
   // const [myDoc, myDocLoad, myDocError] = useDocument(
   //   doc(firestore, "Users", user.uid)
   // )
@@ -104,6 +118,10 @@ const MainHome = () => {
     );
     return mapBlockData;
   };
+
+  const renderFollowData = () => {
+
+  }
 
   return (
     <div className={styles.wrapper}>
