@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faFont, faImage, faLink, faVideo, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { getAuth, signOut } from '@firebase/auth';
 import { useCollection, useCollectionData, useDocument, useDocumentData } from "react-firebase-hooks/firestore"
-import { collection, doc, getFirestore, query, where } from 'firebase/firestore';
+import { collection, doc, getFirestore, limit, orderBy, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { FreeMode } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -49,6 +49,14 @@ const MainHome = () => {
     }
   }, []);
 
+  const [popularUser, popularUserLoad, popularUserError] = useCollectionData(
+    query(
+      collection(firestore, "Users"),
+      orderBy("followerCount", "desc"),
+      limit(10)
+    )
+  )
+
   const [allUID, allUIDLoad, allUIDError] = useCollectionData(
     query(
       collection(firestore, "Users"),
@@ -57,10 +65,10 @@ const MainHome = () => {
   );
 
   useEffect(() => {
-    console.log(allUID);
-    if (allUID != undefined) {
+    console.log(popularUser);
+    if (popularUser != undefined) {
       setPopularData(
-        allUID.map((item, index) => {
+        popularUser.map((item, index) => {
           console.log(index)
           return (
             <SwiperSlide id={styles.popularItem} key={index} onClick={() => profileClick(item.userID)}>
