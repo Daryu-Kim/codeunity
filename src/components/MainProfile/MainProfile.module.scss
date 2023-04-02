@@ -1,2 +1,38 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 3.6rem);
+  overflow-y: scroll;
+  padding: 1.6rem 2.4rem;
+  overflow-x: hidden;
+}
+
+.profileBox {
+  >.imgBox {
+    img {
+      width: 9.6rem;
+      height: 9.6rem;
+      aspect-ratio: 1 / 1;
+
+      background: {
+        position: center;
+        repeat: no-repeat;
+        size: cover;
+      }
+
+      border: {
+        radius: 50%;
+        width: 0.4rem;
+        color: var(--accent);
+        style: solid;
+      }
+    }
+    button {
+      background-color: #red;
+    }
+  }
+}
