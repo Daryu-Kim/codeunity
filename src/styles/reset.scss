@@ -33,6 +33,7 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
+  word-break: keep-all;
 }
 
 i {

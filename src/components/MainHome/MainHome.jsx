@@ -63,7 +63,7 @@ const MainHome = () => {
         allUID.map((item, index) => {
           console.log(index)
           return (
-            <SwiperSlide id={styles.popularItem} key={index}>
+            <SwiperSlide id={styles.popularItem} key={index} onClick={() => profileClick(item.userID)}>
               <div
                 className={styles.profileImg}
                 style={
@@ -193,7 +193,7 @@ const MainHome = () => {
   //   console.log(result);
   // });
 
-  const profileImgClick = (userID) => {
+  const profileClick = (userID) => {
     navigate("/profile", {
       state: userID,
       replace: true,
@@ -230,7 +230,7 @@ const MainHome = () => {
           <div className={styles.writePostTopBox}>
             <div
               className={styles.writePostTopImg}
-              onClick={() => profileImgClick(uid)}
+              onClick={() => profileClick(uid)}
             ></div>
             <div className={styles.writePostTopInputBox}>
               <p className={`${font.fs_14} ${font.fc_sub_light} ${styles.writePostTopName}`}>
