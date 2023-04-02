@@ -16,6 +16,8 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const MainSideBar = () => {
   const friends = [
@@ -31,6 +33,52 @@ const MainSideBar = () => {
   ];
   const [friendView, setFriendView] = useState(false);
   const [homeView, setHomeView] = useState(false);
+
+  function MemoBox() {
+    const [codeInputValue, setCodeInputValue] = useState("");
+
+    const handleCodeInputChange = (event) => {
+      setCodeInputValue(event.target.value);
+    };
+
+    const handleCopyClick = () => {
+      navigator.clipboard.writeText(codeInputValue); // 복사 기능
+    };
+
+    return (
+      <div className={styles.memoBox}>
+        <div>
+          <SyntaxHighlighter
+            className={`${styles.memoBoxShow} ${font.fs_10}`}
+            language="javascript"
+            style={coy}
+            showLineNumbers={true} // 옵션: 라인넘버 추가
+            wrapLines={true} // 옵션: 긴 코드 줄바꿈
+          >
+            {codeInputValue}
+          </SyntaxHighlighter>
+          <textarea
+            className={styles.memoBoxMemo}
+            value={codeInputValue}
+            onChange={handleCodeInputChange}
+            placeholder="코드를 입력해주세요"
+          />
+        </div>
+
+        <div className={styles.memoBoxBtns}>
+          <button
+            className={`${styles.memoBoxBtn} ${font.fw_7}`}
+            onClick={handleCopyClick}
+          >
+            복사
+          </button>
+          <button className={`${styles.memoBoxBtn} ${font.fw_7}`}>
+            글쓰기
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={styles.mainSideBar}>
       <div className={`${styles.contBox} ${font.fs_14}`}>
@@ -41,9 +89,15 @@ const MainSideBar = () => {
           }}
         >
           {homeView ? (
-            <FontAwesomeIcon icon={faChevronRight} />
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.contBoxIcon}
+            />
           ) : (
-            <FontAwesomeIcon icon={faChevronDown} />
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className={styles.contBoxIcon}
+            />
           )}
           &nbsp; Home
         </ul>
@@ -55,9 +109,15 @@ const MainSideBar = () => {
         >
           &nbsp; &nbsp;
           {friendView ? (
-            <FontAwesomeIcon icon={faChevronRight} />
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className={styles.contBoxIcon}
+            />
           ) : (
-            <FontAwesomeIcon icon={faChevronDown} />
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.contBoxIcon}
+            />
           )}
           &nbsp; 친구.List
           {friendView &&
@@ -69,6 +129,7 @@ const MainSideBar = () => {
               </li>
             ))}
         </ul>
+        <MemoBox />
       </div>
       <div className={styles.iconBox}>
         <div className={styles.onIconBox}>
