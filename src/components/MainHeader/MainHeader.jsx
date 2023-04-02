@@ -50,7 +50,7 @@ const MainHeader = () => {
                 className={`${font.fs_14} ${font.fc_accent}`}
                 icon={item.content}
               />
-              <p className={font.fs_14}>{item.name}</p>
+              <p className={`${font.fs_14} ${font.fw_7}`}>{item.name}</p>
             </SwiperSlide>
           );
         })}

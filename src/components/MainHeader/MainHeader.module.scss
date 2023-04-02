@@ -21,12 +21,15 @@
   align-items: center;
   justify-content: center;
   grid-gap: 0.6rem;
-  color: var(--sub-light);
   cursor: pointer;
+  > p {
+    color: var(--sub-light);
+  }
   &.active {
     background-color: var(--bg);
-    font-weight: 700;
-  color: var(--primary);
+    > p {
+      color: var(--primary);
+    }
   }
   &:hover {
     filter: opacity(75%);
