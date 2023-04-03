@@ -23,6 +23,8 @@ import {
   orderBy,
   query,
   getDoc,
+  Timestamp,
+  where,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { FreeMode } from "swiper";
@@ -31,14 +33,6 @@ import "swiper/css/free-mode";
 import "swiper/css";
 import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-
-const blockBoxData = [
-  { icon: faFont, title: "텍스트" },
-  { icon: faImage, title: "이미지" },
-  { icon: faVideo, title: "비디오" },
-  { icon: faLink, title: "링크" },
-  { icon: faCode, title: "코드" },
-];
 
 const MainHome = () => {
   const auth = getAuth();
@@ -50,7 +44,7 @@ const MainHome = () => {
   const handleResize = () => {
     setHtmlWidth(window.innerWidth);
   };
-  console.log(document);
+  // console.log(document);
   const [userName, setUserName] = useState(null);
   const [htmlWidth, setHtmlWidth] = useState(0);
   const [postData, setPostData] = useState(null);
@@ -78,13 +72,27 @@ const MainHome = () => {
     )
   );
 
+  if (popularUserLoad) console.log("Popular User Loading...");
+  if (popularUserError) console.log("Popular User Error: ", popularUserError);
+  if (popularUser) console.log("Popular User Get!: ", popularUser);
+
+
   const [allPost, allPostLoad, allPostError] = useCollectionData(
     query(
       collection(firestore, "Posts"),
       orderBy("createdAt", "desc")
-      // where("userID", "!=", uid)
     )
   );
+
+  if (allPostLoad) console.log("All Posts Loading...");
+  if (allPostError) console.log("All Posts Error: ", allPostError);
+  if (allPost) console.log("All Posts Get!: ", allPost);
+
+  const [postUserName, setPostUserName] = useState([]);
+  const [postUserImg, setPostUserImg] = useState([]);
+  const [postUserFollower, setPostUserFollower] = useState([]);
+  const [existsUserData, setExistsUserData] = useState(false);
+  const [existsUserFollowerData, setExistsUserFollowerData] = useState(false);
 
   useEffect(() => {
     console.log(popularUser);
@@ -142,55 +150,79 @@ const MainHome = () => {
   }, [popularUser]);
 
   useEffect(() => {
-    if (allPost != undefined) {
-      setPostData(
-        allPost.map((item, index) => {
-          const getData = async () => {
-            await getDoc(doc(collection(firestore, "Users"), item.userID))
-                .then((document) => {
-                  return document.data();
-                });
-          }
+    if (allPost) {
+      const arrPostUserName = [...postUserName];
+      const arrPostUserImg = [...postUserImg];
+      const arrPostUserFollower = [...postUserFollower];
+      function fetchData() {
+        allPost.map(async (item, index) => {
+          await getDoc(doc(firestore, "Users", item.userID))
+            .then((result) => {
+              arrPostUserName[index] = result.data().userName;
+              arrPostUserImg[index] = result.data().userImg;
+              setExistsUserData(true);
+            })
+            .catch(() => {
+              setExistsUserData(false);
+            });
 
-          console.log(getData())
-
-          if (postData) {
-            return (
-            <div className={styles.postItem} key={index}>
-              <div className={styles.topBox}>
-                <div className={styles.topLeftBox}>
-                  <div
-                    className={styles.profileImg}
-                    style={
-                      postData.userImg != ""
-                        ? { backgroundImage: `url(${postData.userImg})` }
-                        : { backgroundImage: `url(${baseImg})` }
-                    }
-                  ></div>
-                  <p
-                    className={`
-                      ${styles.profileName}
-                      ${font.fs_16}
-                      ${font.fw_5}
-                    `}
-                  >
-                    {postData.userName}
-                  </p>
-                </div>
-                <div className={styles.topRightBox}>
-                  <button className={styles.followBtn}>팔로우</button>
-                </div>
-              </div>
-              <p>{item.postTitle}</p>
-              <MarkdownPreview source={item.postContent} />
-            </div>
-          );
-          }
-          
+          await getDoc(doc(firestore, `Follows/${item.userID}/Followers`, uid))
+            .then(() => {
+              arrPostUserFollower[index] = true;
+              setExistsUserFollowerData(true)
+            })
+            .catch(() => {
+              arrPostUserFollower[index] = false;
+              setExistsUserFollowerData(false)
+            });
         })
-      );
+        setPostUserName(arrPostUserName);
+        setPostUserImg(arrPostUserImg);
+        setPostUserFollower(arrPostUserFollower);
+      }
+      fetchData();
     }
   }, [allPost]);
+
+  useEffect(() => {
+    if (allPost && existsUserData && existsUserFollowerData) {
+      setPostData(
+        allPost.map((item, index) => {
+        return (
+          <div className={styles.postItem} key={index}>
+            <div className={styles.topBox}>
+              <div className={styles.topLeftBox}>
+                <div
+                  className={styles.profileImg}
+                  style={
+                    postUserImg[index] != ""
+                      ? { backgroundImage: `url(${postUserImg[index]})` }
+                      : { backgroundImage: `url(${baseImg})` }
+                  }
+                ></div>
+                <p
+                  className={`
+                    ${styles.profileName}
+                    ${font.fs_16}
+                    ${font.fw_5}
+                  `}
+                >
+                  {postUserName[index] ? postUserName[index] : "undefined"}
+                </p>
+              </div>
+              <div className={styles.topRightBox}>
+                <button className={styles.followBtn}>팔로우</button>
+              </div>
+            </div>
+            <p>{item.postTitle}</p>
+            <MarkdownPreview source={item.postContent} />
+          </div>
+        );
+      })
+      )
+      
+    }
+  }, [allPost, existsUserData, existsUserFollowerData]);
 
   const profileClick = (userID) => {
     navigate("/profile", {
@@ -202,27 +234,6 @@ const MainHome = () => {
   const showModal = () => {
     setModalState(true);
   };
-
-  const renderBlockData = () => {
-    const mapBlockData = blockBoxData.map((item, index) => {
-      return (
-        <div className={styles.writePostBlockItem} key={index}>
-          <FontAwesomeIcon
-            className={`${font.fc_accent} ${font.fs_20}`}
-            icon={item.icon}
-          />
-          <p
-            className={`${font.fs_14} ${font.fw_5} ${font.fc_sub_semi_light} ${styles.postBlockTitle}`}
-          >
-            {item.title}
-          </p>
-        </div>
-      );
-    });
-    return mapBlockData;
-  };
-
-  const renderPostData = () => {};
 
   if (document) {
     return (
@@ -250,8 +261,6 @@ const MainHome = () => {
                 </p>
               </div>
             </div>
-            <hr className={styles.hr} />
-            <div className={styles.writePostBlockBox}>{renderBlockData()}</div>
           </div>
 
           <div className={styles.popularBox}>
