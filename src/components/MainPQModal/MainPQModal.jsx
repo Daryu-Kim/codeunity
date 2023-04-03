@@ -14,7 +14,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 
-const MainPQModal = ({ setModalState, isQnA }) => {
+const MainPQModal = ({ setModalState }) => {
   const firestore = getFirestore();
   const location = useLocation();
   const [title, setTitle] = useState("");
@@ -98,21 +98,22 @@ const MainPQModal = ({ setModalState, isQnA }) => {
     <div className={styles.modalWrapper}>
       <ToastContainer position="top-right" autoClose={2000} />
       <div ref={modalRef} className={styles.modal}>
-        <div className={styles.writeTitle}>
-          <label className={font.fs_16} htmlFor="title">
-            제목
-          </label>
-          <input
-            className={font.fs_12}
-            type="text"
-            id="title"
-            value={title}
-            placeholder="제목을 입력해주세요"
-            onChange={titleChange}
-          />
-        </div>
+        {location.pathname == "/qna" ? (
+          <div className={styles.writeTitle}>
+            <label className={font.fs_16} htmlFor="title">
+              제목
+            </label>
+            <input
+              className={font.fs_12}
+              type="text"
+              id="title"
+              value={title}
+              placeholder="제목을 입력해주세요"
+              onChange={titleChange}
+            />
+          </div>
+        ) : null}
         <div className={styles.writeContent}>
-          <label htmlFor="content">내용</label>
           <MarkdownEditor
             value={mdValue}
             onChange={(e) => mdValueChange(e)}
