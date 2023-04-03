@@ -5,12 +5,16 @@ import styles from "./WritePost.module.scss";
 const WritePost = ({ addPost, closeModal }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
   const modalRef = useRef(null);
 
   const titleChange = (e) => setTitle(e.target.value);
   const contentChange = (e) => setContent(e.target.value);
-  const tagsChange = (e) => setTags(e.target.value);
+
+  const tagsChange = (event) => {
+    const newTags = event.target.value.split(",");
+    setTags(newTags);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +23,12 @@ const WritePost = ({ addPost, closeModal }) => {
     setContent("");
     setTags("");
     closeModal();
+  };
+
+  const removeTag = (index) => {
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
   };
 
   const overlayClick = (e) => {
@@ -65,6 +75,13 @@ const WritePost = ({ addPost, closeModal }) => {
               placeholder="태그를 선택해주세요"
               onChange={tagsChange}
             />
+            <div>
+              {tags.map((tag, index) => (
+                <button key={index} onClick={() => removeTag(index)}>
+                  {tag} X
+                </button>
+              ))}
+            </div>
           </div>
           <div className={styles.buttonsWrapper}>
             <button className={styles.submitBtn} type="submit">

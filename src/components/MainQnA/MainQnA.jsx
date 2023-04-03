@@ -29,7 +29,7 @@ const MainQnA = () => {
             <ul>
               {posts.map((post, index) => (
                 <li className={styles.postItem} key={index}>
-                  <h3>{post.title}</h3>
+                  <h2>{post.title}</h2>
                   <p>{post.content}</p>
                   <p>태그: {post.tags}</p>
                 </li>

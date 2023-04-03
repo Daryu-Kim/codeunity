@@ -35,7 +35,10 @@
   border-radius: 0.8rem;
   background-color: var(--sub-bg);
   padding: 1.6rem;
-
+  margin-bottom: 1rem;
+  > p {
+    margin-top: 1rem;
+  }
   > .topBox {
     display: flex;
     justify-content: space-between;
