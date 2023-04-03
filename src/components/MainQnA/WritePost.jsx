@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import font from "../../styles/Font.module.scss";
+import styles from "./WritePost.module.scss";
 
-const WritePost = ({ addPost }) => {
+const WritePost = ({ addPost, closeModal }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleContentChange = (e) => setContent(e.target.value);
-  const handleTagsChange = (e) => setTags(e.target.value);
+  const titleChange = (e) => setTitle(e.target.value);
+  const contentChange = (e) => setContent(e.target.value);
+  const tagsChange = (e) => setTags(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,34 +17,63 @@ const WritePost = ({ addPost }) => {
     setTitle("");
     setContent("");
     setTags("");
+    closeModal();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title">제목</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={handleTitleChange}
-        />
+    <div className={styles.modalWrapper}>
+      <div className={styles.modal}>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.writeTitle}>
+            <label className={font.fs_16} htmlFor="title">
+              제목
+            </label>
+            <input
+              className={font.fs_12}
+              type="text"
+              id="title"
+              value={title}
+              placeholder="제목을 입력해주세요"
+              onChange={titleChange}
+            />
+          </div>
+          <div className={styles.writeContent}>
+            <label htmlFor="content">내용</label>
+            <textarea
+              className={font.fs_12}
+              id="content"
+              value={content}
+              placeholder="궁금하신 내용을 적어주세요.
+              내용이 구체적일수록 좋아요!"
+              onChange={contentChange}
+            ></textarea>
+          </div>
+          <div className={styles.writeTag}>
+            <label htmlFor="tags">태그</label>
+            <input
+              className={font.fs_12}
+              type="text"
+              id="tags"
+              value={tags}
+              placeholder="태그를 선택해주세요"
+              onChange={tagsChange}
+            />
+          </div>
+          <div className={styles.buttonsWrapper}>
+            <button className={styles.submitBtn} type="submit">
+              글쓰기
+            </button>
+          </div>
+          <button
+            className={styles.closeBtn}
+            type="button"
+            onClick={closeModal}
+          >
+            X
+          </button>
+        </form>
       </div>
-      <div>
-        <label htmlFor="content">내용</label>
-        <textarea
-          id="content"
-          value={content}
-          onChange={handleContentChange}
-        ></textarea>
-      </div>
-      <div>
-        <label htmlFor="tags">태그</label>
-        <input type="text" id="tags" value={tags} onChange={handleTagsChange} />
-      </div>
-      <button type="submit">글쓰기</button>
-    </form>
+    </div>
   );
 };
-
 export default WritePost;
