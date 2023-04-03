@@ -213,18 +213,18 @@ const MainHome = () => {
               }
             </div>
             <div className={styles.postBox}>
-
-            </div>
-            <MarkdownPreview
-              className={styles.postContent}
-              source={item.postContent}
-              style={
-                {
-                  padding: 12,
-                  aspectRatio: 4 / 3,
+              <MarkdownPreview
+                className={styles.postContent}
+                source={item.postContent}
+                style={
+                  {
+                    padding: 12,
+                    aspectRatio: 4 / 3,
+                  }
                 }
-              }
-            />
+              />
+              <div className={styles.postOverlay}></div>
+            </div>
           </div>
         );
       })

@@ -49,11 +49,11 @@ const MainPQModal = ({ setModalState }) => {
 
   const submitPQ = async () => {
     // if문으로 바꾸기.
-    if (title) {
-      if (mdValue) {
-        if (location.pathname == "/qna") {
+    if (mdValue) {
+      if (location.pathname == "/qna") {
+        if (title) {
           if (tags.length > 0) {
-            toastLoading("게시물을 업로드 중입니다!");
+            toastLoading("다른 개발자에게 질문하는중입니다!");
             await addDoc(collection(firestore, "Posts"), {
               userID: uid,
               createdAt: Timestamp.fromDate(new Date()),
@@ -71,26 +71,25 @@ const MainPQModal = ({ setModalState }) => {
             toastError("태그를 입력해주세요!");
           }
         } else {
-          toastLoading("다른 개발자에게 질문하는중입니다!");
-          await addDoc(collection(firestore, "Posts"), {
-            userID: uid,
-            createdAt: Timestamp.fromDate(new Date()),
-            postTitle: title,
-            postContent: mdValue,
-          }).then(async (result) => {
-            await updateDoc(doc(firestore, "Posts", result.id), {
-              postID: result.id,
-            }).then(() => {
-              toastClear();
-              closeModal();
-            });
-          });
+          toastError("제목을 입력해주세요!");
         }
       } else {
-        toastError("내용을 입력해주세요!");
+        toastLoading("게시물을 업로드 중입니다!");
+        await addDoc(collection(firestore, "Posts"), {
+          userID: uid,
+          createdAt: Timestamp.fromDate(new Date()),
+          postContent: mdValue,
+        }).then(async (result) => {
+          await updateDoc(doc(firestore, "Posts", result.id), {
+            postID: result.id,
+          }).then(() => {
+            toastClear();
+            closeModal();
+          });
+        });
       }
     } else {
-      toastError("제목을 입력해주세요!");
+      toastError("내용을 입력해주세요!");
     }
   };
 

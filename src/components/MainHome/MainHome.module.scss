@@ -205,10 +205,26 @@
       }
     }
   }
-  > .postContent {
-    border-radius: 0.8rem;
-    overflow: hidden;
+  > .postBox {
+    position: relative;
+
+    > .postContent {
+      width: 100%;
+      border-radius: 0.8rem;
+      overflow: hidden;
+    }
+
+    > .postOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 0.8rem;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, var(--overlay-gradient-bg) 87.5%);
+    }
   }
+  
 }
 
 @media screen and (min-width: 768px) {
