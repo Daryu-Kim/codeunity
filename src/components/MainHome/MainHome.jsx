@@ -213,14 +213,14 @@ const MainHome = () => {
               }
             </div>
             <div className={styles.postBox}>
-              
+
             </div>
             <MarkdownPreview
               className={styles.postContent}
               source={item.postContent}
               style={
                 {
-                  padding: 8,
+                  padding: 12,
                   aspectRatio: 4 / 3,
                 }
               }
