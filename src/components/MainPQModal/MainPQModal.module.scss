@@ -87,7 +87,7 @@
   background-color: transparent;
   text-align: center;
   line-height: 1.5rem;
-  color: var(--bg);
+  color: #fff;
   cursor: pointer;
   &:hover {
     opacity: 75%;
@@ -105,6 +105,6 @@
   cursor: pointer;
   &:hover {
     background-color: var(--accent-more-light);
-    color: var(--bg);
+    color: #fff;
   }
 }
