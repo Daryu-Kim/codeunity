@@ -37,7 +37,6 @@ const MainSideBar = () => {
   ];
   const [friendView, setFriendView] = useState(false);
   const [homeView, setHomeView] = useState(false);
-  const [codeFS, setCodeFS] = useState(14);
 
   function MemoBox() {
     const [codeValue, setCodeValue] = useState();
@@ -57,11 +56,6 @@ const MainSideBar = () => {
       codeTemp = value;
     };
 
-    const handleCodeSizeUp = async () => {
-      setCodeFS(24);
-      setCodeValue(codeTemp);
-    };
-
     const handleCopyClick = () => {
       navigator.clipboard.writeText(codeValue); // 복사 기능
     };
@@ -79,7 +73,6 @@ const MainSideBar = () => {
           </select>
           <CodeMirror
             className={styles.code}
-            // value={codeValue}
             onChange={handleCodeInputChange}
             extensions={[loadLanguage(codeLang)]}
             width={"20rem"}
@@ -97,9 +90,7 @@ const MainSideBar = () => {
           >
             복사
           </button>
-          <button className={`${styles.memoBoxBtn} ${font.fw_7}`}
-            onClick={handleCodeSizeUp}
-          >
+          <button className={`${styles.memoBoxBtn} ${font.fw_7}`}>
             글쓰기
           </button>
         </div>
