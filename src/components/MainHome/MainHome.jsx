@@ -141,17 +141,20 @@ const MainHome = () => {
     }
   }, [popularUser]);
 
-  const [postUser, setPostUser] = useState(null);
   useEffect(() => {
     if (allPost != undefined) {
       setPostData(
         allPost.map((item, index) => {
-          getDoc(doc(collection(firestore, "Users"), item.userID))
-          .then((document) => {
-            setPostUser(document.data());
-          });
-          
-          if (postUser && postData) {
+          const getData = async () => {
+            await getDoc(doc(collection(firestore, "Users"), item.userID))
+                .then((document) => {
+                  return document.data();
+                });
+          }
+
+          console.log(getData())
+
+          if (postData) {
             return (
             <div className={styles.postItem} key={index}>
               <div className={styles.topBox}>
@@ -159,8 +162,8 @@ const MainHome = () => {
                   <div
                     className={styles.profileImg}
                     style={
-                      postUser.userImg != ""
-                        ? { backgroundImage: `url(${postUser.userImg})` }
+                      postData.userImg != ""
+                        ? { backgroundImage: `url(${postData.userImg})` }
                         : { backgroundImage: `url(${baseImg})` }
                     }
                   ></div>
@@ -171,7 +174,7 @@ const MainHome = () => {
                       ${font.fw_5}
                     `}
                   >
-                    {postUser.userName}
+                    {postData.userName}
                   </p>
                 </div>
                 <div className={styles.topRightBox}>
