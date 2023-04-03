@@ -96,8 +96,24 @@ const MainPQModal = ({ setModalState }) => {
 
   return (
     <div className={styles.modalWrapper}>
+      <button
+        className={`${styles.closeBtn} ${font.fs_16} `}
+        type="button"
+        onClick={closeModal}
+      >
+        X
+      </button>
       <ToastContainer position="top-right" autoClose={2000} />
       <div ref={modalRef} className={styles.modal}>
+        <div className={styles.buttonsWrapper}>
+          새 게시물 만들기
+          <button
+            className={`${styles.submitBtn} ${font.fw_5}`}
+            onClick={submitPQ}
+          >
+            공유하기
+          </button>
+        </div>
         {location.pathname == "/qna" ? (
           <div className={styles.writeTitle}>
             <label className={font.fs_16} htmlFor="title">
@@ -137,15 +153,6 @@ const MainPQModal = ({ setModalState }) => {
             />
           </div>
         ) : null}
-
-        <div className={styles.buttonsWrapper}>
-          <button className={styles.submitBtn} onClick={submitPQ}>
-            글쓰기
-          </button>
-        </div>
-        <button className={styles.closeBtn} type="button" onClick={closeModal}>
-          X
-        </button>
       </div>
     </div>
   );
