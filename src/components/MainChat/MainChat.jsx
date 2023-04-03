@@ -19,22 +19,28 @@ const MainChat = () => {
   };
 
   return (
-    <div className="chat-container">
-      <div className="message-list">
+    <div className={styles.chatContainer}>
+      <div className={styles.messageList}>
         {messages.map((message, index) => (
-          <div className={`message ${message.sender}`} key={index}>
-            <span className="message-text">{message.text}</span>
+          <div className={`${styles.message} ${message.sender}`} key={index}>
+            <span className={styles.messageText}>{message.text}</span>
           </div>
         ))}
       </div>
-      <form className="chat-input" onSubmit={handleSendMessage}>
+      <form className={styles.chatInput} onSubmit={handleSendMessage}>
         <input
+          className={`${styles.chatInputIn} ${font.fs_14}`}
           type="text"
           placeholder="메시지를 입력하세요"
           value={inputValue}
           onChange={handleMessageChange}
         />
-        <button type="submit">전송</button>
+        <button
+          className={`${styles.chatInputBtn}  ${font.fs_14}`}
+          type="submit"
+        >
+          전송
+        </button>
       </form>
     </div>
   );

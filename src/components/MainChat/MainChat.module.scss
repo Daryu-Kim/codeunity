@@ -1,2 +1,68 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-left: 1px solid #dbdbdb;
+}
+
+.messageList {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 1rem;
+  .user {
+    justify-content: flex-end;
+  }
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.messageText {
+  display: inline-block;
+  padding: 0.8rem;
+  max-width: 70%;
+  border-radius: 1.5rem;
+  background-color: #e6e6e6;
+  color: #262626;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  white-space: pre-wrap;
+}
+
+.chatInput {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+
+  &In {
+    flex-grow: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 2rem;
+    background-color: #efefef;
+    color: #262626;
+    line-height: 1.8rem;
+    box-shadow: none;
+  }
+  &Btn {
+    margin-left: 1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: var(--accent);
+    color: var(--bg);
+    line-height: 1.8rem;
+    box-shadow: none;
+    cursor: pointer;
+  }
+}
