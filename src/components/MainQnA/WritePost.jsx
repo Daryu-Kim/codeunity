@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import font from "../../styles/Font.module.scss";
 import styles from "./WritePost.module.scss";
 
@@ -6,6 +6,7 @@ const WritePost = ({ addPost, closeModal }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
+  const modalRef = useRef(null);
 
   const titleChange = (e) => setTitle(e.target.value);
   const contentChange = (e) => setContent(e.target.value);
@@ -20,8 +21,14 @@ const WritePost = ({ addPost, closeModal }) => {
     closeModal();
   };
 
+  const overlayClick = (e) => {
+    if (e.target === modalRef.current) {
+      closeModal();
+    }
+  };
+
   return (
-    <div className={styles.modalWrapper}>
+    <div className={styles.modalWrapper} onClick={overlayClick} ref={modalRef}>
       <div className={styles.modal}>
         <form onSubmit={handleSubmit}>
           <div className={styles.writeTitle}>
