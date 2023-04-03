@@ -12,6 +12,7 @@ import { FreeMode } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/free-mode";
 import 'swiper/css';
+import MainPQModal from '../MainPQModal/MainPQModal';
 
 const blockBoxData = [
   { icon: faFont, title: "텍스트" },
@@ -196,10 +197,10 @@ const MainHome = () => {
   if (document) {
     return (
       <div className={styles.wrapper}>
-        {/* {
+        {
           modalState &&
-
-        } */}
+          <MainPQModal setModalState={setModalState} />
+        }
         <div className={styles.box}>
           <div className={`${styles.writePostBtn}`}>
             <div className={styles.writePostTopBox}>

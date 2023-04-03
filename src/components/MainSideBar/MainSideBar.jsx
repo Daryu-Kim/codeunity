@@ -18,7 +18,10 @@ import {
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-import { isDarkMode } from "../../modules/Functions";
+import CodeMirror from "@uiw/react-codemirror";
+import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
+import { useEffect } from "react";
+
 
 const MainSideBar = () => {
   const friends = [
@@ -38,6 +41,15 @@ const MainSideBar = () => {
 
   function MemoBox() {
     const [codeValue, setCodeValue] = useState();
+    const [codeLang, setCodeLang] = useState("html");
+    const [codeLangs, setCodeLangs] = useState([]);
+
+    useEffect(() => {
+      let tempLangs = [...langNames];
+      tempLangs = tempLangs.sort();
+      setCodeLangs(tempLangs)
+    }, [])
+
     let codeTemp = "";
 
     const handleCodeInputChange = (value) => {
@@ -54,38 +66,28 @@ const MainSideBar = () => {
       navigator.clipboard.writeText(codeValue); // 복사 기능
     };
 
+    const handleMemoLang = (e) => {
+      console.log(e.target.value)
+      setCodeLang(e.target.value);
+    };
+
     return (
       <div className={styles.memoBox}>
         <div>
-          <MarkdownEditor
-            value={codeValue}
-            onChange={(e) => handleCodeInputChange(e)}
-            className={styles.memoBoxMemo}
-            previewWidth={"100%"}
-            enableScroll={true}
-            style={{
-              maxWidth: "100%",
-              // fontSize: codeFS
-            }}
-          />
-
-          <MarkdownPreview
-            className={styles.memoBoxMemo}
-            source={codeValue}
-          />
-          {/* <CodeEditor
-            id={styles.code}
-            language="jsx"
-            value={codeValue}
+          <select name="" id="" onChange={(e) => handleMemoLang(e)}>
+            { codeLangs.map((item, index) => <option value={item} key={index}>{item}</option>) }
+          </select>
+          <CodeMirror
+            className={styles.code}
+            // value={codeValue}
             onChange={handleCodeInputChange}
-            data-color-mode={isDarkMode}
+            extensions={[loadLanguage(codeLang)]}
+            width={"20rem"}
+            height={"20rem"}
             style={
-              {
-                width: 100,
-                fontSize: codeFS,
-              }
+              {fontSize: 16}
             }
-          /> */}
+          />
         </div>
 
         <div className={styles.memoBoxBtns}>
