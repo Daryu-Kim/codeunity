@@ -73,38 +73,6 @@
   }
 }
 
-.hr {
-  width: 100%;
-  height: 0.15rem;
-  margin: 0.8rem 0;
-
-  border: none;
-  background-color: var(--thd-bg);
-}
-
-.writePostBlockBox {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-
-  >div {
-    border-radius: 0.8rem;
-    padding: 0.8rem 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-gap: 0.8rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--thd-bg);
-    }
-  }
-}
-
-.postBlockTitle {
-  display: none;
-}
-
 .postBox {
   width: 100%;
   max-width: 70rem;
@@ -187,6 +155,9 @@
   border-radius: 0.8rem;
   background-color: var(--sub-bg);
   padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1.2rem;
 
   >.topBox {
     display: flex;
@@ -233,6 +204,10 @@
         }
       }
     }
+  }
+  > .postContent {
+    border-radius: 0.8rem;
+    overflow: hidden;
   }
 }
 

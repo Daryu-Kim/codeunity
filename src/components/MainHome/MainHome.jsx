@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCode,
-  faFont,
-  faImage,
-  faLink,
-  faVideo,
-} from "@fortawesome/free-solid-svg-icons";
 import { getAuth } from "@firebase/auth";
-import {
-  useCollectionData,
-  useDocumentData,
-} from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import {
   collection,
   doc,
@@ -23,8 +12,6 @@ import {
   orderBy,
   query,
   getDoc,
-  Timestamp,
-  where,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { FreeMode } from "swiper";
@@ -35,7 +22,6 @@ import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 
 const MainHome = () => {
-  const auth = getAuth();
   const firestore = getFirestore();
   const uid = localStorage.getItem("uid");
   const [document, loading, error, snapshot] = useDocumentData(
@@ -167,12 +153,16 @@ const MainHome = () => {
             });
 
           await getDoc(doc(firestore, `Follows/${item.userID}/Followers`, uid))
-            .then(() => {
-              arrPostUserFollower[index] = true;
+            .then((result) => {
+              console.log(result.data())
+              if (result.data() != undefined) {
+                arrPostUserFollower[index] = true;
+              } else {
+                arrPostUserFollower[index] = false;
+              }
               setExistsUserFollowerData(true)
             })
             .catch(() => {
-              arrPostUserFollower[index] = false;
               setExistsUserFollowerData(false)
             });
         })
@@ -210,12 +200,31 @@ const MainHome = () => {
                   {postUserName[index] ? postUserName[index] : "undefined"}
                 </p>
               </div>
-              <div className={styles.topRightBox}>
-                <button className={styles.followBtn}>팔로우</button>
-              </div>
+              {
+                item.userID == uid
+                  ? postUserFollower[index]
+                    ? null
+                    : null
+                  : (
+                      <div className={styles.topRightBox}>
+                        <button className={styles.followBtn}>팔로우</button>
+                      </div>
+                    )
+              }
             </div>
-            <p>{item.postTitle}</p>
-            <MarkdownPreview source={item.postContent} />
+            <div className={styles.postBox}>
+              
+            </div>
+            <MarkdownPreview
+              className={styles.postContent}
+              source={item.postContent}
+              style={
+                {
+                  padding: 8,
+                  aspectRatio: 4 / 3,
+                }
+              }
+            />
           </div>
         );
       })
