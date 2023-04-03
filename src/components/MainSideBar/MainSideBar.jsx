@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./MainSideBar.module.scss";
 import font from "../../styles/Font.module.scss";
 import {
@@ -20,8 +20,7 @@ import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import CodeMirror from "@uiw/react-codemirror";
 import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
-import { useEffect } from "react";
-
+import { useNavigate } from "react-router";
 
 const MainSideBar = () => {
   const friends = [
@@ -39,6 +38,8 @@ const MainSideBar = () => {
   const [homeView, setHomeView] = useState(false);
   const [codeFS, setCodeFS] = useState(14);
 
+  const navigate = useNavigate();
+
   function MemoBox() {
     const [codeValue, setCodeValue] = useState();
     const [codeLang, setCodeLang] = useState("html");
@@ -47,8 +48,8 @@ const MainSideBar = () => {
     useEffect(() => {
       let tempLangs = [...langNames];
       tempLangs = tempLangs.sort();
-      setCodeLangs(tempLangs)
-    }, [])
+      setCodeLangs(tempLangs);
+    }, []);
 
     let codeTemp = "";
 
@@ -67,7 +68,7 @@ const MainSideBar = () => {
     };
 
     const handleMemoLang = (e) => {
-      console.log(e.target.value)
+      console.log(e.target.value);
       setCodeLang(e.target.value);
     };
 
@@ -75,7 +76,11 @@ const MainSideBar = () => {
       <div className={styles.memoBox}>
         <div>
           <select name="" id="" onChange={(e) => handleMemoLang(e)}>
-            { codeLangs.map((item, index) => <option value={item} key={index}>{item}</option>) }
+            {codeLangs.map((item, index) => (
+              <option value={item} key={index}>
+                {item}
+              </option>
+            ))}
           </select>
           <CodeMirror
             className={styles.code}
@@ -84,9 +89,7 @@ const MainSideBar = () => {
             extensions={[loadLanguage(codeLang)]}
             width={"20rem"}
             height={"20rem"}
-            style={
-              {fontSize: 16}
-            }
+            style={{ fontSize: 16 }}
           />
         </div>
 
@@ -97,7 +100,8 @@ const MainSideBar = () => {
           >
             복사
           </button>
-          <button className={`${styles.memoBoxBtn} ${font.fw_7}`}
+          <button
+            className={`${styles.memoBoxBtn} ${font.fw_7}`}
             onClick={handleCodeSizeUp}
           >
             글쓰기
@@ -166,6 +170,7 @@ const MainSideBar = () => {
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
+            onClick={() => navigate("/chat")}
             icon={faUserGroup}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
