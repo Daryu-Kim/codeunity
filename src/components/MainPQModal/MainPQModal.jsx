@@ -4,11 +4,18 @@ import styles from "./MainPQModal.module.scss";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import { toastError } from "../../modules/Functions";
-import { doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
-import { firestore } from "../../modules/Firebase";
+import { toastClear, toastError, toastLoading } from "../../modules/Functions";
+import {
+  collection,
+  doc,
+  addDoc,
+  Timestamp,
+  updateDoc,
+  getFirestore,
+} from "firebase/firestore";
 
 const MainPQModal = ({ setModalState, isQnA }) => {
+  const firestore = getFirestore();
   const location = useLocation();
   const [title, setTitle] = useState("");
   const [mdValue, setMDValue] = useState("");
@@ -42,37 +49,49 @@ const MainPQModal = ({ setModalState, isQnA }) => {
 
   const submitPQ = async () => {
     // if문으로 바꾸기.
-    // title
-    // ? mdValue
-    //   ? location.pathname == "/qna"
-    //     ? tags.length > 0 ?
-    //       ? await setDoc(doc(firestore, "Posts"), {
-    //           userID: uid,
-    //           createdAt: Timestamp.fromDate(new Date()),
-    //           postTitle: title,
-    //           postContent: mdValue,
-    //         }).then(async (result) => {
-    //           await updateDoc(doc(firestore, "Posts", result.id), {
-    //             postID: result.id,
-    //           }).then(() => {
-    //             toastClear();
-    //           })
-    //         })
-    //       : toastError("태그를 입력해주세요!");
-    //     : await setDoc(doc(firestore, "Posts"), {
-    //         userID: uid,
-    //         createdAt: Timestamp.fromDate(new Date()),
-    //         postTitle: title,
-    //         postContent: mdValue,
-    //       }).then(async (result) => {
-    //         await updateDoc(doc(firestore, "Posts", result.id), {
-    //           postID: result.id,
-    //         }).then(() => {
-    //           toastClear();
-    //         });
-    //       })
-    //   : toastError("내용을 입력해주세요!");
-    // : toastError("제목을 입력해주세요!");
+    if (title) {
+      if (mdValue) {
+        if (location.pathname == "/qna") {
+          if (tags.length > 0) {
+            toastLoading("게시물을 업로드 중입니다!");
+            await addDoc(collection(firestore, "Posts"), {
+              userID: uid,
+              createdAt: Timestamp.fromDate(new Date()),
+              postTitle: title,
+              postContent: mdValue,
+            }).then(async (result) => {
+              await updateDoc(doc(firestore, "QnAs", result.id), {
+                postID: result.id,
+              }).then(() => {
+                toastClear();
+                closeModal();
+              });
+            });
+          } else {
+            toastError("태그를 입력해주세요!");
+          }
+        } else {
+          toastLoading("다른 개발자에게 질문하는중입니다!");
+          await addDoc(collection(firestore, "Posts"), {
+            userID: uid,
+            createdAt: Timestamp.fromDate(new Date()),
+            postTitle: title,
+            postContent: mdValue,
+          }).then(async (result) => {
+            await updateDoc(doc(firestore, "Posts", result.id), {
+              postID: result.id,
+            }).then(() => {
+              toastClear();
+              closeModal();
+            });
+          });
+        }
+      } else {
+        toastError("내용을 입력해주세요!");
+      }
+    } else {
+      toastError("제목을 입력해주세요!");
+    }
   };
 
   return (
