@@ -29,54 +29,50 @@ const MainChat = () => {
   };
 
   return (
-    <div className={styles.chatContainer}>
-      {/* <div className={styles.messageList}>
-        {messages.map((message, index) => (
-          <div className={`${styles.message} ${styles.user}`} key={index}>
-            {message.time && (
-              <span className={styles.messageTime}>{message.time}</span>
-            )}
-            <span className={styles.messageText}>{message.text}</span>
-          </div>
-        ))}
-      </div> */}
-      <div className={styles.messageList}>
-        {messages.map((message, index) => (
-          <div
-            className={`${styles.message} ${
-              message.sender === "user" ? styles.user : null
-            }`}
-            key={index}
+    <div className={styles.wrapper}>
+      <div className={styles.chatContainer}>
+        <div className={styles.messageList}>
+          {messages.map((message, index) => (
+            <div
+              className={`${styles.message} ${
+                message.sender === "user" ? styles.user : null
+              }`}
+              key={index}
+            >
+              {message.sender === "user" ? (
+                <div className={styles.messageBox}>
+                  <span className={`${styles.messageTime} ${font.fs_10}`}>
+                    {message.time}
+                  </span>
+                  <span className={styles.messageText}>{message.text}</span>
+                </div>
+              ) : (
+                <div className={styles.messageBox}>
+                  <span className={styles.messageText}>{message.text}</span>
+                  <span className={`${styles.messageTime} ${font.fs_12}`}>
+                    {message.time}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <form className={styles.chatInput} onSubmit={SendMessage}>
+          <input
+            className={`${styles.chatInputIn} ${font.fs_14}`}
+            type="text"
+            placeholder="메시지를 입력하세요"
+            value={inputValue}
+            onChange={handleMessageChange}
+          />
+          <button
+            className={`${styles.chatInputBtn}  ${font.fs_14}`}
+            type="submit"
           >
-            {message.sender === "user" ? (
-              <div className={styles.messageBox}>
-                <span className={styles.messageTime}>{message.time}</span>
-                <span className={styles.messageText}>{message.text}</span>
-              </div>
-            ) : (
-              <div className={styles.messageBox}>
-                <span className={styles.messageText}>{message.text}</span>
-                <span className={styles.messageTime}>{message.time}</span>
-              </div>
-            )}
-          </div>
-        ))}
+            전송
+          </button>
+        </form>
       </div>
-      <form className={styles.chatInput} onSubmit={SendMessage}>
-        <input
-          className={`${styles.chatInputIn} ${font.fs_14}`}
-          type="text"
-          placeholder="메시지를 입력하세요"
-          value={inputValue}
-          onChange={handleMessageChange}
-        />
-        <button
-          className={`${styles.chatInputBtn}  ${font.fs_14}`}
-          type="submit"
-        >
-          전송
-        </button>
-      </form>
     </div>
   );
 };
