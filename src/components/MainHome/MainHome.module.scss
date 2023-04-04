@@ -22,7 +22,7 @@
 
 .writePostBtn {
   width: 100%;
-  max-width: 70rem;
+  max-width: 64rem;
   padding: 0.8rem 1.6rem;
   background-color: var(--sub-bg);
   border-radius: 0.8rem;
@@ -75,7 +75,7 @@
 
 .postBox {
   width: 100%;
-  max-width: 70rem;
+  max-width: 64rem;
   border-radius: 0.8rem;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@
 
 .popularBox {
   width: 100%;
-  max-width: 70rem;
+  max-width: 64rem;
   background-color: var(--sub-bg);
   padding: 1.6rem;
   border-radius: 0.8rem;
@@ -195,7 +195,7 @@
       >.followBtn {
         color: white;
         background-color: var(--accent);
-        padding: 0.4rem 1.6rem;
+        padding: 0.6rem 1.6rem;
         border-radius: 0.8rem;
         cursor: pointer;
 
@@ -211,17 +211,24 @@
     > .postContent {
       width: 100%;
       border-radius: 0.8rem;
-      overflow: hidden;
-    }
-
-    > .postOverlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      overflow: auto;
       aspect-ratio: 4 / 3;
-      border-radius: 0.8rem;
-      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, var(--overlay-gradient-bg) 87.5%);
+    }
+  }
+
+  > .postFuncBox {
+    display: flex;
+    align-items: center;
+    grid-gap: 1.2rem;
+    > svg {
+      width: 2.4rem;
+      height: 2.4rem;
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
     }
   }
   
