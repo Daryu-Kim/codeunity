@@ -107,7 +107,6 @@
   flex-direction: column;
   align-items: center;
   grid-gap: 0.8rem;
-  cursor: pointer;
 
   &:hover {
     filter: opacity(75%);
@@ -147,6 +146,7 @@
     width: 100%;
     padding: 0.6rem 1.6rem;
     color: white;
+    cursor: pointer;
   }
 }
 

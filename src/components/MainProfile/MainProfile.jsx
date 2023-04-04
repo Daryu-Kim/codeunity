@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./MainProfile.module.scss";
 import font from "../../styles/Font.module.scss";
 import { useLocation } from "react-router-dom";
-import { doc, getFirestore } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { doc, getFirestore, query, where, collection } from "firebase/firestore";
+import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 
 const MainProfile = () => {
@@ -14,6 +14,22 @@ const MainProfile = () => {
   );
   const uid = localStorage.getItem("uid");
   const [menuTab, setMenuTab] = useState(true);
+  const [userPost, userPostLoad, userPostError] = useCollectionData(
+    query(collection(firestore, "Posts"), where("userID", "==", state)) // 생성일 기준으로 내림차순 정렬
+  );
+  const [userPostData, setUserPostData] = useState(null);
+
+  useEffect(() => {
+    if (userPost != undefined) {
+      setUserPostData(
+        userPost.map((item, index) => {
+          return (
+            <p className={styles.postItem} key={index}>{index}</p>
+          );
+        })
+      )
+    }
+  }, [userPost])
 
   const changePostTab = (e) => {
     if (e.target.checked) {
@@ -27,7 +43,7 @@ const MainProfile = () => {
     }
   };
 
-  if (document) {
+  if (document && userPostData) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.profileBox}>
@@ -57,6 +73,7 @@ const MainProfile = () => {
           </div>
           <div className={styles.nameBox}>
             <p className={`${font.fs_24} ${font.fw_7}`}>{document.userName}</p>
+            <p className={`${font.fs_14} ${font.fw_7} ${font.fc_accent}`}>{document.userSearchID}</p>
             <p className={`${font.fs_16} ${font.fc_sub}`}>
               {document.userDesc ? document.userDesc : "자기소개가 없습니다!"}
             </p>
@@ -83,6 +100,9 @@ const MainProfile = () => {
               </p>
             </div>
           </div>
+          <div className={styles.userTagBox}>
+            {document.userTag}
+          </div>
         </div>
         <div className={styles.contBox}>
           <div className={styles.menuTab}>
@@ -92,7 +112,7 @@ const MainProfile = () => {
             <label htmlFor="qna" className={`${font.fs_16} ${font.fw_7} ${styles.menuTabQnA}`}>QnA</label>
           </div>
           {menuTab ? (
-            <div className={styles.postBox}>asdf</div>
+            <div className={styles.postBox}>{userPostData}</div>
           ) : (
             <div className={styles.postBox}>1234</div>
           )}

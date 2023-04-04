@@ -139,6 +139,8 @@ const Join = () => {
       userImg: "",
       userName: idValue,
       verifiedEmail: user.emailVerified,
+      userTag: [],
+      userSearchID: `@${user.uid}`
     })
     .then(() => {
       localStorage.setItem("uid", user.uid);
