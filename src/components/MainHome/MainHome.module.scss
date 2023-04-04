@@ -228,10 +228,10 @@
       height: 2.4rem;
       aspect-ratio: 1 / 1;
       cursor: pointer;
-      color: var(--primary);
+        color: var(--primary);
 
       &:hover {
-        color: var(--accent);
+      color: var(--accent);
       }
     }
   }

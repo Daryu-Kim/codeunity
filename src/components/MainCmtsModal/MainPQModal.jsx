@@ -79,7 +79,6 @@ const MainPQModal = ({ setModalState }) => {
           userID: uid,
           createdAt: Timestamp.fromDate(new Date()),
           postContent: mdValue,
-          likeCount: 0,
         }).then(async (result) => {
           await updateDoc(doc(firestore, "Posts", result.id), {
             postID: result.id,

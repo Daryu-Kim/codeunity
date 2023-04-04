@@ -3,7 +3,7 @@ import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import { getAuth } from "@firebase/auth";
-import { AiOutlineLike, AiOutlineComment, AiOutlineShareAlt } from "react-icons/ai"
+import { AiOutlineLike, AiOutlineComment, AiOutlineShareAlt, AiFillLike } from "react-icons/ai"
 import { RiRestartLine } from "react-icons/ri"
 import {
   useCollectionData,
@@ -20,6 +20,8 @@ import {
   addDoc,
   Timestamp,
   updateDoc,
+  setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { FreeMode } from "swiper";
@@ -28,7 +30,7 @@ import "swiper/css/free-mode";
 import "swiper/css";
 import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
 
 const MainHome = () => {
@@ -82,8 +84,12 @@ const MainHome = () => {
   const [postUserName, setPostUserName] = useState([]); // 포스트 작성자 이름 상태 변수
   const [postUserImg, setPostUserImg] = useState([]); // 포스트 작성자 이미지 상태 변수
   const [postUserFollower, setPostUserFollower] = useState([]); // 포스트 작성자 팔로워 상태 변수
+  const [postLike, setPostLike] = useState([]);
+  const [postLikeCount, setPostLikeCount] = useState([]);
   const [existsUserData, setExistsUserData] = useState(false); // 포스트 작성자 데이터 존재 여부 상태 변수
   const [existsUserFollowerData, setExistsUserFollowerData] = useState(false); // 포스트 작성자 팔로워 데이터 존재 여부 상태 변수
+  const [existsPostLikeData, setExistsPostLikeData] = useState(false); // 포스트 작성자 팔로워 데이터 존재 여부 상태 변수
+  const [existsPostLikeCountData, setExistsPostLikeCountData] = useState(false); // 포스트 작성자 팔로워 데이터 존재 여부 상태 변수
 
   // |이 코드는 popularUser 배열을 순회하며 SwiperSlide를 생성하는 useEffect 함수입니다.
   // |
@@ -156,6 +162,8 @@ const MainHome = () => {
       const arrPostUserName = [...postUserName]; // postUserName 배열 복사
       const arrPostUserImg = [...postUserImg]; // postUserImg 배열 복사
       const arrPostUserFollower = [...postUserFollower]; // postUserFollower 배열 복사
+      const arrPostLike = [...postLike];
+      const arrPostLikeCount = [...postLikeCount];
       async function fetchData() {
         // 비동기 함수 fetchData 선언
         await Promise.all(
@@ -171,6 +179,16 @@ const MainHome = () => {
             ); // 해당 유저의 팔로워 정보 가져오기
             arrPostUserFollower[index] = !!followerResult.data(); // 해당 유저를 팔로우하고 있는지 여부를 arrPostUserFollower 배열에 저장
             setExistsUserFollowerData(true); // existsUserFollowerData 상태를 true로 변경
+            const likeResult = await getDoc(
+              doc(firestore, `Posts/${item.postID}/Likes`, uid)
+            );
+            arrPostLike[index] = !!likeResult.data();
+            setExistsPostLikeData(true);
+            const likeCountResult = await getDoc(
+              doc(firestore, "Posts", item.postID)
+            );
+            arrPostLikeCount[index] = likeCountResult.data().likeCount;
+            setExistsPostLikeCountData(true);
           })
         );
       }
@@ -179,11 +197,13 @@ const MainHome = () => {
       setPostUserName(arrPostUserName); // postUserName 상태를 arrPostUserName으로 변경
       setPostUserImg(arrPostUserImg); // postUserImg 상태를 arrPostUserImg로 변경
       setPostUserFollower(arrPostUserFollower); // postUserFollower 상태를 arrPostUserFollower로 변경
+      setPostLike(arrPostLike); // postUserFollower 상태를 arrPostUserFollower로 변경
+      setPostLikeCount(arrPostLikeCount);
     }
   }, [allPost]); // allPost가 변경될 때마다 useEffect 실행
 
   useEffect(() => {
-    if (allPost && existsUserData && existsUserFollowerData) {
+    if (allPost && existsUserData && existsUserFollowerData && existsPostLikeData && existsPostLikeCountData) {
       setPostData(
         allPost.map((item, index) => {
           return (
@@ -229,8 +249,15 @@ const MainHome = () => {
                   }
                 />
               </div>
+              <p className={`${font.fs_12} ${font.fw_7} ${font.fc_accent}`}>
+                {postLikeCount[index]}명이 좋아합니다!
+              </p>
               <div className={styles.postFuncBox}>
-                <AiOutlineLike onClick={likeClick} />
+                {
+                  !postLike[index]
+                  ? <AiOutlineLike onClick={() => likeClick(item.postID, index, item.likeCount)} />
+                  : <AiFillLike onClick={() => dislikeClick(item.postID, index, item.likeCount)} />
+                }
                 <RiRestartLine onClick={() => rePostClick(item.postContent)} />
                 <AiOutlineComment onClick={commentClick} />
                 <AiOutlineShareAlt onClick={() => shareClick(item)} />
@@ -240,11 +267,61 @@ const MainHome = () => {
         })
       );
     }
-  }, [allPost, existsUserData, existsUserFollowerData]);
+  }, [allPost, existsUserData, existsUserFollowerData, existsPostLikeData, postLike, existsPostLikeCountData, postLikeCount]);
 
   
-  const likeClick = () => {
-    console.log("Like");
+  const likeClick = async (postID, index, count) => {
+    await setDoc(
+      doc(firestore, `Posts/${postID}/Likes`, uid),
+      {
+        userID: uid,
+      }
+    ).then(async (result) => {
+      await updateDoc(
+        doc(firestore, "Posts", postID),
+        {
+          likeCount: ++count,
+        }
+      ).then((result) => {
+        const tempLike = [...postLike];
+        const tempLikeCount = [...postLikeCount];
+        tempLike[index] = true;
+        tempLikeCount[index] = count;
+        setPostLike(tempLike);
+        setPostLikeCount(tempLikeCount);
+        toastSuccess("좋아요를 눌렀습니다!");
+      }).catch((err) => {
+        toastError("좋아요에 실패하였습니다!");
+      });
+    }).catch((err) => {
+      toastError("좋아요에 실패하였습니다!");
+    });
+  };
+
+  
+  const dislikeClick = async (postID, index, count) => {
+    await deleteDoc(
+      doc(firestore, `Posts/${postID}/Likes`, uid)
+    ).then(async (result) => {
+      await updateDoc(
+        doc(firestore, "Posts", postID),
+        {
+          likeCount: --count,
+        }
+      ).then((result) => {
+        const tempLike = [...postLike];
+        const tempLikeCount = [...postLikeCount];
+        tempLike[index] = false;
+        tempLikeCount[index] = count;
+        setPostLike(tempLike);
+        setPostLikeCount(tempLikeCount);
+        toastSuccess("좋아요를 취소했습니다!");
+      }).catch((err) => {
+        toastError("좋아요를 취소하지 못했습니다!");
+      });
+    }).catch((err) => {
+      toastError("좋아요를 취소하지 못했습니다!");
+    });
   };
 
   
