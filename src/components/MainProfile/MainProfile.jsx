@@ -43,7 +43,7 @@ const MainProfile = () => {
     }
   };
 
-  if (document && userPostData) {
+  if (document) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.profileBox}>
