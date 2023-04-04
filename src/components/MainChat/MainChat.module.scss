@@ -31,6 +31,20 @@
 
 .messageBox {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  .onMessageBox {
+    max-width: 18rem;
+    img {
+      width: 100%;
+      margin-bottom: 0.8rem;
+      object-fit: cover;
+    }
+  }
+  .underMessageBox {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .message {
@@ -88,5 +102,20 @@
     line-height: 1.8rem;
     box-shadow: none;
     cursor: pointer;
+  }
+  .imgInput {
+  }
+  > .postFunBox {
+    > svg {
+      width: 2.4rem;
+      height: 2.4rem;
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+      color: var(--primary);
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
   }
 }

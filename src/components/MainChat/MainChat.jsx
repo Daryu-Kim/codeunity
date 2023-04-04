@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./MainChat.module.scss";
 import font from "../../styles/Font.module.scss";
+import { RiImageAddLine } from "react-icons/ri";
 
 const MainChat = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const inputFileRef = useRef(null);
 
   const handleMessageChange = (event) => {
     setInputValue(event.target.value);
   };
 
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handlePostFunBoxClick = () => {
+    inputFileRef.current.click();
+  };
+
   const SendMessage = (event) => {
     event.preventDefault();
-    if (inputValue.trim() !== "") {
+    if (inputValue.trim() !== "" || selectedFile !== null) {
       const now = new Date();
       let hours = now.getHours();
       const minutes = now.getMinutes().toString().padStart(2, "0");
@@ -22,12 +33,17 @@ const MainChat = () => {
       const timestamp = `${hourDivision} ${hours}:${minutes}`;
       setMessages([
         ...messages,
-        { sender: "user", text: inputValue, time: timestamp },
+        {
+          sender: "user",
+          text: inputValue,
+          time: timestamp,
+          file: selectedFile,
+        },
       ]);
       setInputValue("");
+      setSelectedFile(null);
     }
   };
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.chatContainer}>
@@ -41,17 +57,47 @@ const MainChat = () => {
             >
               {message.sender === "user" ? (
                 <div className={styles.messageBox}>
-                  <span className={`${styles.messageTime} ${font.fs_10}`}>
-                    {message.time}
-                  </span>
-                  <span className={styles.messageText}>{message.text}</span>
+                  {message.file && (
+                    <div className={styles.onMessageBox}>
+                      <img
+                        src={URL.createObjectURL(message.file)}
+                        alt="attached file"
+                      />
+                    </div>
+                  )}
+                  {(message.text || message.file) && (
+                    <div className={styles.underMessageBox}>
+                      <span className={`${styles.messageTime} ${font.fs_10}`}>
+                        {message.time}
+                      </span>
+                      {message.text && (
+                        <span className={styles.messageText}>
+                          {message.text}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className={styles.messageBox}>
-                  <span className={styles.messageText}>{message.text}</span>
-                  <span className={`${styles.messageTime} ${font.fs_12}`}>
-                    {message.time}
-                  </span>
+                  {message.file && (
+                    <img
+                      src={URL.createObjectURL(message.file)}
+                      alt="attached file"
+                    />
+                  )}
+                  {(message.text || message.file) && (
+                    <div className={styles.underMessageBox}>
+                      {message.text && (
+                        <span className={styles.messageText}>
+                          {message.text}
+                        </span>
+                      )}
+                      <span className={`${styles.messageTime} ${font.fs_12}`}>
+                        {message.time}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -65,6 +111,16 @@ const MainChat = () => {
             value={inputValue}
             onChange={handleMessageChange}
           />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            ref={inputFileRef}
+            style={{ display: "none" }}
+          />
+          <div className={styles.postFunBox} onClick={handlePostFunBoxClick}>
+            <RiImageAddLine />
+          </div>
           <button
             className={`${styles.chatInputBtn}  ${font.fs_14}`}
             type="submit"
