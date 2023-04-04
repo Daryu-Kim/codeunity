@@ -17,6 +17,9 @@ import {
   orderBy,
   query,
   getDoc,
+  addDoc,
+  Timestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { FreeMode } from "swiper";
@@ -25,6 +28,8 @@ import "swiper/css/free-mode";
 import "swiper/css";
 import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
+import { ToastContainer } from "react-toastify";
+import { toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
 
 const MainHome = () => {
   const firestore = getFirestore(); // Firestore 인스턴스 생성
@@ -184,7 +189,7 @@ const MainHome = () => {
           return (
             <div className={styles.postItem} key={item.postID}>
               <div className={styles.topBox}>
-                <div className={styles.topLeftBox}>
+                <div className={styles.topLeftBox} onClick={() => profileClick(item.userID)}>
                   <div
                     className={styles.profileImg}
                     style={
@@ -224,14 +229,11 @@ const MainHome = () => {
                   }
                 />
               </div>
-              <p className={font.fs_24}>
-                00명이 이 게시물을 좋아합니다
-              </p>
               <div className={styles.postFuncBox}>
-                <AiOutlineLike />
-                <RiRestartLine />
-                <AiOutlineComment />
-                <AiOutlineShareAlt />
+                <AiOutlineLike onClick={likeClick} />
+                <RiRestartLine onClick={() => rePostClick(item.postContent)} />
+                <AiOutlineComment onClick={commentClick} />
+                <AiOutlineShareAlt onClick={() => shareClick(item)} />
               </div>
             </div>
           );
@@ -239,6 +241,50 @@ const MainHome = () => {
       );
     }
   }, [allPost, existsUserData, existsUserFollowerData]);
+
+  
+  const likeClick = () => {
+    console.log("Like");
+  };
+
+  
+  const rePostClick = async (content) => {
+    toastLoading("게시물을 리포스트 중입니다!");
+    await addDoc(collection(firestore, "Posts"), {
+      userID: uid,
+      createdAt: Timestamp.fromDate(new Date()),
+      postContent: content,
+    }).then(async (result) => {
+      await updateDoc(doc(firestore, "Posts", result.id), {
+        postID: result.id,
+      }).then(() => {
+        toastClear();
+        toastSuccess("성공적으로 리포스트 했습니다!");
+      }).catch(() => {
+        toastClear();
+        toastError("리포스트 하지 못했습니다!");
+      });
+    });
+  };
+
+  
+  const commentClick = () => {
+    console.log("Comment");
+  };
+
+  
+  const shareClick = (item) => {
+    navigator.share({
+      title: item.title,
+      text: item.postContent,
+      url: "",
+      files: [],
+    }).then((result) => {
+      toastSuccess("성공적으로 공유했습니다!")
+    }).catch((err) => {
+      toastError("공유하지 못했습니다!")
+    });
+  };
 
 
   // |이 코드는 profileClick 함수를 선언하고, 해당 함수가 실행될 때 "/profile" 경로로 이동하며, state에 userID를 전달하고, replace 옵션을 true로 설정하여 브라우저 히스토리를 변경하지 않는 기능을 수행합니다.
@@ -286,6 +332,7 @@ const MainHome = () => {
   if (document) {
     return (
       <div className={styles.wrapper}>
+        <ToastContainer position="top-right" autoClose={2000} />
         {modalState && <MainPQModal setModalState={setModalState} />}
         <div className={styles.box}>
           <div className={`${styles.writePostBtn}`}>
