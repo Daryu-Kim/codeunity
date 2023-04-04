@@ -168,6 +168,7 @@
       display: flex;
       align-items: center;
       grid-gap: 0.8rem;
+      cursor: pointer;
 
       >.profileImg {
         width: 3.2rem;
@@ -213,6 +214,8 @@
       border-radius: 0.8rem;
       overflow: auto;
       aspect-ratio: 4 / 3;
+      background-color: var(--bg);
+      color: var(--primary);
     }
   }
 
@@ -225,6 +228,7 @@
       height: 2.4rem;
       aspect-ratio: 1 / 1;
       cursor: pointer;
+      color: var(--primary);
 
       &:hover {
         color: var(--accent);
