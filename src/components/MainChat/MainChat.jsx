@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import styles from "./MainChat.module.scss";
 import font from "../../styles/Font.module.scss";
 import { RiImageAddLine } from "react-icons/ri";
+import imageCompression from "browser-image-compression";
 
 const MainChat = () => {
   const [messages, setMessages] = useState([]);
@@ -13,8 +14,24 @@ const MainChat = () => {
     setInputValue(event.target.value);
   };
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 1000000) {
+        try {
+          const options = {
+            maxSizeMB: 1,
+            useWebWorker: true,
+          };
+          const compressedFile = await imageCompression(file, options);
+          setSelectedFile(compressedFile);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setSelectedFile(file);
+      }
+    }
   };
 
   const handlePostFunBoxClick = () => {
@@ -44,6 +61,7 @@ const MainChat = () => {
       setSelectedFile(null);
     }
   };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.chatContainer}>
@@ -79,21 +97,23 @@ const MainChat = () => {
                   )}
                 </div>
               ) : (
-                <div className={styles.messageBox}>
+                <div className={styles.messageBoxN}>
                   {message.file && (
-                    <img
-                      src={URL.createObjectURL(message.file)}
-                      alt="attached file"
-                    />
+                    <div className={styles.onMessageBoxN}>
+                      <img
+                        src={URL.createObjectURL(message.file)}
+                        alt="attached file"
+                      />
+                    </div>
                   )}
                   {(message.text || message.file) && (
-                    <div className={styles.underMessageBox}>
+                    <div className={styles.underMessageBoxN}>
                       {message.text && (
                         <span className={styles.messageText}>
                           {message.text}
                         </span>
                       )}
-                      <span className={`${styles.messageTime} ${font.fs_12}`}>
+                      <span className={`${styles.messageTime} ${font.fs_10}`}>
                         {message.time}
                       </span>
                     </div>
@@ -104,23 +124,26 @@ const MainChat = () => {
           ))}
         </div>
         <form className={styles.chatInput} onSubmit={SendMessage}>
-          <input
-            className={`${styles.chatInputIn} ${font.fs_14}`}
-            type="text"
-            placeholder="메시지를 입력하세요"
-            value={inputValue}
-            onChange={handleMessageChange}
-          />
+          <div className={`${styles.chatInputBox} ${font.fs_14}`}>
+            <input
+              className={`${styles.chatInputIn} ${font.fs_14}`}
+              type="text"
+              placeholder="메시지를 입력하세요"
+              value={inputValue}
+              onChange={handleMessageChange}
+            />
+            <div className={styles.postFunBox} onClick={handlePostFunBoxClick}>
+              <RiImageAddLine />
+            </div>
+          </div>
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
             ref={inputFileRef}
-            style={{ display: "none" }}
+            className={styles.imgInput}
           />
-          <div className={styles.postFunBox} onClick={handlePostFunBoxClick}>
-            <RiImageAddLine />
-          </div>
+
           <button
             className={`${styles.chatInputBtn}  ${font.fs_14}`}
             type="submit"
