@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./MainSettings.module.scss";
 import font from "../../styles/Font.module.scss";
+import LogOut from "./LogOut";
+
 const MainSettings = () => {
   return (
     <div className={styles.wrapper}>
@@ -8,7 +10,7 @@ const MainSettings = () => {
         <h1>사용자</h1>
         <div className={styles.settingMenuOption}>
           <h3>로그아웃</h3>
-          <button>로그아웃</button>
+          <LogOut />
         </div>
         <div className={styles.settingMenuOption}>
           <h3>비밀번호 변경</h3>
