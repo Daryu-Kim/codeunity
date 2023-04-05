@@ -47,6 +47,24 @@
   }
 }
 
+.messageBoxN {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  .onMessageBoxN {
+    max-width: 18rem;
+    img {
+      width: 100%;
+      margin-bottom: 0.8rem;
+      object-fit: cover;
+    }
+  }
+  .underMessageBoxN {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
 .message {
   display: flex;
   justify-content: flex-start;
@@ -82,7 +100,8 @@
   align-items: center;
   margin-top: 1rem;
 
-  &In {
+  &Box {
+    display: flex;
     flex-grow: 1;
     padding: 1rem;
     border: none;
@@ -91,6 +110,24 @@
     color: #262626;
     line-height: 1.8rem;
     box-shadow: none;
+
+    > .postFunBox {
+      > svg {
+        width: 2rem;
+        height: 2rem;
+        aspect-ratio: 1 / 1;
+        cursor: pointer;
+        color: var(--primary);
+
+        &:hover {
+          color: var(--accent);
+        }
+      }
+    }
+  }
+
+  &In {
+    width: 100%;
   }
   &Btn {
     margin-left: 1rem;
@@ -105,18 +142,5 @@
   }
   .imgInput {
     display: none;
-  }
-  > .postFunBox {
-    > svg {
-      width: 2.4rem;
-      height: 2.4rem;
-      aspect-ratio: 1 / 1;
-      cursor: pointer;
-      color: var(--primary);
-
-      &:hover {
-        color: var(--accent);
-      }
-    }
   }
 }
