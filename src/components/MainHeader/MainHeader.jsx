@@ -21,36 +21,79 @@ const MainHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [tabList, setTabList] = useState([]);
-  const tempTabList = [];
+  const [tabListData, setTabListData] = useState(null);
 
   useEffect(() => {
     if (location.pathname !== "/") {
-      const pathName = location.pathname;
-      const docName = pathName.substring(1);
-      const fetchData = async () => {
-        const tempDoc = await getDoc(doc(firestore, "Settings", docName));
-        
-        tempTabList.push({
-          pathName: tempDoc.data().pathName,
-        });
+      if (path !== location.pathname && !tabList.includes(path)) {
+        const pathName = location.pathname;
+        const docName = pathName.substring(1);
+        const tempTabList = [...tabList];
+        const fetchData = async () => {
+          const tempDoc = await getDoc(doc(firestore, "Settings", docName));
+          
+          tempTabList.push({
+            pathName: tempDoc.data().pathName,
+            displayName: tempDoc.data().displayName,
+            icon: tempDoc.data().icon,
+          });
 
-        setPath(location.pathname);
-      };
-      fetchData();
+          setTabList(tempTabList);
+          setPath(location.pathname);
+        };
+        fetchData();
+      }
     } else {
       setPath(location.pathname);
     }
-    
-    // console.log(docName)
-    // if (tabItem === location.pathname) {
-    //   setPath()
-    // } else {
-      
-    // }
-    
-    // setPath(location.pathname);
-    
-  }, [location.pathname])
+    console.log(location)
+  }, [location]);
+
+
+  useEffect(() => {
+    if (tabList !== undefined) {
+      setTabListData(
+        tabList.map((item, index) => (
+          <SwiperSlide
+            key={index}
+            className={`
+              ${path === item.pathName ? styles.active : null}
+            `}
+            id={styles.tabMenu}
+            onClick={(event) => {
+              movePath(event, item.pathName);
+            }}
+          >
+            <FontAwesomeIcon
+              className={`${font.fs_14} ${font.fc_accent}`}
+              icon={item.icon}
+            />
+            <p className={`${font.fs_14} ${font.fw_7}`}>{item.displayName}</p>
+            <button onClick={(event) => removeTab(event, item.pathName, index)}>X</button>
+          </SwiperSlide>
+        ))
+      )
+    }
+  }, [tabList])
+
+  const removeTab = (event, pathName, index) => {
+    event.stopPropagation();
+    if (location.pathname == pathName) {
+      navigate("/", {replace: true});
+      console.log("boom")
+    }
+    console.log(location.pathname == pathName)
+    const tempTabList = [...tabList];
+    tempTabList.splice(index, 1);
+    setTabList(tempTabList);
+  };
+
+  const movePath = (event, pathName, param) => {
+    event.stopPropagation();
+    if (location.pathname != pathName) {
+      navigate(pathName, {replace: true, state: param});
+    }
+  }
   
 
   return (
@@ -78,29 +121,7 @@ const MainHeader = () => {
           />
           <p className={`${font.fs_14} ${font.fw_7}`}>HOME.jsx</p>
         </SwiperSlide>
-        {/* {menuArr.map((item) => {
-          return (
-            <SwiperSlide
-              key={item.id}
-              className={`
-                ${index === item.id ? styles.active : null}
-              `}
-              id={styles.tabMenu}
-              onClick={() => {
-                setIndex(item.id);
-                navigate(item.navigate, {
-                  replace: true
-                });
-              }}
-            >
-              <FontAwesomeIcon
-                className={`${font.fs_14} ${font.fc_accent}`}
-                icon={item.content}
-              />
-              <p className={`${font.fs_14} ${font.fw_7}`}>{item.name}</p>
-            </SwiperSlide>
-          );
-        })} */}
+        {tabListData}
       </Swiper>
     </div>
   );
