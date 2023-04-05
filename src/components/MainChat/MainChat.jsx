@@ -116,7 +116,7 @@ const MainChat = () => {
             accept="image/*"
             onChange={handleFileChange}
             ref={inputFileRef}
-            style={{ display: "none" }}
+            className={styles.imgInput}
           />
           <div className={styles.postFunBox} onClick={handlePostFunBoxClick}>
             <RiImageAddLine />
