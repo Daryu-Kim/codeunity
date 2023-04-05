@@ -1,17 +1,25 @@
 import React, { useState } from "react";
-import { getAuth, updatePassword } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 import styles from "./ChangePassword.module.scss";
 import { ToastContainer } from "react-toastify";
 import { toastError, toastSuccess } from "../../modules/Functions";
 
 const ChangePassword = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "newPassword") {
+    if (name === "currentPassword") {
+      setCurrentPassword(value);
+    } else if (name === "newPassword") {
       setNewPassword(value);
     } else if (name === "confirmPassword") {
       setConfirmPassword(value);
@@ -28,21 +36,34 @@ const ChangePassword = () => {
 
     const auth = getAuth();
     const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    );
 
-    updatePassword(user, newPassword)
+    reauthenticateWithCredential(user, credential)
       .then(() => {
-        toastSuccess("비밀번호가 업데이트되었습니다.");
-        setNewPassword("");
-        setConfirmPassword("");
-        setErrorMessage("");
+        updatePassword(user, newPassword)
+          .then(() => {
+            toastSuccess("비밀번호가 업데이트되었습니다.");
+            setCurrentPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+            setErrorMessage("");
+          })
+          .catch((error) => {
+            console.log(error.message);
+            setErrorMessage(error.message);
+          });
       })
       .catch((error) => {
         console.log(error.message);
-        setErrorMessage(error.message);
+        toastError("현재 비밀번호가 일치하지 않습니다.");
       });
   };
 
   const isSubmitDisabled =
+    currentPassword === "" ||
     newPassword === "" ||
     confirmPassword === "" ||
     newPassword !== confirmPassword;
@@ -51,6 +72,15 @@ const ChangePassword = () => {
     <form onSubmit={handleSubmit}>
       <ToastContainer position="top-right" autoClose={2000} />
 
+      <label className={styles.passwordBox}>
+        현재 비밀번호 :
+        <input
+          type="password"
+          name="currentPassword"
+          value={currentPassword}
+          onChange={handleChange}
+        />
+      </label>
       <label className={styles.passwordBox}>
         새로운 비밀번호 :
         <input
