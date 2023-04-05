@@ -13,7 +13,7 @@ const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, toastError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +30,7 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      toastError("새로운 비밀번호가 일치하지 않습니다.");
+      setErrorMessage("새로운 비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -49,11 +49,11 @@ const ChangePassword = () => {
             setCurrentPassword("");
             setNewPassword("");
             setConfirmPassword("");
-            toastError("");
+            setErrorMessage("");
           })
           .catch((error) => {
             console.log(error.message);
-            toastError(error.message);
+            setErrorMessage(error.message);
           });
       })
       .catch((error) => {
