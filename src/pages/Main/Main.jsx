@@ -8,18 +8,19 @@ import MainHome from "../../components/MainHome/MainHome";
 import MainProfile from "../../components/MainProfile/MainProfile";
 import MainChat from "../../components/MainChat/MainChat";
 import MainQnA from "../../components/MainQnA/MainQnA";
+import MainSettings from "../../components/MainSettings/MainSettings";
 
 const Main = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
-  console.log(user)
-  
+  console.log(user);
+
   if (!user) {
     navigate("/login", {
       replace: true,
     });
   }
-  
+
   return (
     <div className={styles.mainBox}>
       <MainSideBar />
@@ -30,6 +31,7 @@ const Main = () => {
           <Route path="chat" element={<MainChat />}></Route>
           <Route path="profile" element={<MainProfile />}></Route>
           <Route path="qna" element={<MainQnA />}></Route>
+          <Route path="settings" element={<MainSettings />}></Route>
         </Routes>
       </div>
     </div>

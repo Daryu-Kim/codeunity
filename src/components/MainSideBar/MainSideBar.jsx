@@ -185,6 +185,7 @@ const MainSideBar = () => {
           />
           {/* <div className={styles.myProfile}></div> */}
           <FontAwesomeIcon
+            onClick={() => navigate("/settings")}
             icon={faGear}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
