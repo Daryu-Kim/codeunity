@@ -4,6 +4,7 @@ import font from "../../styles/Font.module.scss";
 import { useLocation } from "react-router-dom";
 import { doc, getFirestore, query, where, collection } from "firebase/firestore";
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
+import MarkdownPreview from "@uiw/react-markdown-preview";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 
 const MainProfile = () => {
@@ -17,19 +18,53 @@ const MainProfile = () => {
   const [userPost, userPostLoad, userPostError] = useCollectionData(
     query(collection(firestore, "Posts"), where("userID", "==", state)) // 생성일 기준으로 내림차순 정렬
   );
+  const [userQnA, userQnALoad, userQnAError] = useCollectionData(
+    query(collection(firestore, "QnAs"), where("userID", "==", state)) // 생성일 기준으로 내림차순 정렬
+  );
   const [userPostData, setUserPostData] = useState(null);
+  const [userQnAData, setUserQnAData] = useState(null);
+  const [isList, setIsList] = useState(false);
 
   useEffect(() => {
     if (userPost != undefined) {
       setUserPostData(
-        userPost.map((item, index) => {
+        userPost.map((item) => {
           return (
-            <p className={styles.postItem} key={index}>{index}</p>
+            <MarkdownPreview
+              className={`
+                ${styles.postItem}
+                ${isList && styles.list}
+              `}
+              key={item.postID}
+              source={item.postContent}
+            />
           );
         })
       )
     }
   }, [userPost])
+
+  useEffect(() => {
+    if (userQnA != undefined) {
+      setUserQnAData(
+        userQnA.map((item) => {
+          return (
+            <div>
+              <MarkdownPreview
+                className={`
+                  ${styles.postItem}
+                  ${isList && styles.list}
+                `}
+                key={item.questID}
+                source={item.questContent}
+              />
+            </div>
+            
+          );
+        })
+      )
+    }
+  }, [userQnA])
 
   const changePostTab = (e) => {
     if (e.target.checked) {
@@ -114,7 +149,7 @@ const MainProfile = () => {
           {menuTab ? (
             <div className={styles.postBox}>{userPostData}</div>
           ) : (
-            <div className={styles.postBox}>1234</div>
+            <div className={styles.postBox}>{userQnAData}</div>
           )}
         </div>
       </div>

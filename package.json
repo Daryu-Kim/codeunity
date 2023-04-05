@@ -18,6 +18,7 @@
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "@uiw/codemirror-extensions-langs": "^4.19.11",
+    "@uiw/codemirror-themes-all": "^4.19.11",
     "@uiw/react-codemirror": "^4.19.11",
     "@uiw/react-markdown-editor": "^5.11.1",
     "@uiw/react-markdown-preview": "^4.1.10",

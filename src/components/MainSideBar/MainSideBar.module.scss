@@ -5,10 +5,15 @@ li {
   list-style: none;
 }
 
+#code {
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
 .mainSideBar {
-  // width: fit-content;
   position: relative;
-  width: 25vw;
   display: flex;
   height: 100%;
   overflow: hidden;
@@ -44,11 +49,11 @@ li {
 
 .logo {
   width: 2.8rem;
-  height: 2.8rem;
+  aspect-ratio: 107 / 69;
 
   background: {
     position: center;
-    image: url("/assets/svgs/8547076_unity_icon.svg");
+    image: url("/assets/images/logo.png");
     repeat: no-repeat;
     size: contain;
   }
@@ -88,13 +93,14 @@ li {
 }
 
 .contBox {
-  position: absolute;
-  right: 0;
-  width: calc(100% - 4.8rem);
+  width: calc(25vw - 4.8rem);
+  height: 100%;
   background-color: var(--thd-bg);
-  height: 100vh;
-  padding: 1rem;
+  padding: 0.8rem;
   color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .contBoxIcon {
@@ -107,15 +113,11 @@ li {
 }
 
 .memoBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
 
-  &Show {
-    width: 20rem;
-    height: 10rem;
-    font-size: 2.4rem;
+  select {
+    width: 100%;
+    font-weight: 700;
   }
 
   &Memo {
@@ -125,21 +127,15 @@ li {
     height: 20rem;
     font-size: 8;
     overflow-x: hidden;
-  }
-
-  &Btns {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 1rem;
+    background-color: var(--bg);
   }
 
   &Btn {
-    padding: 0.5rem 1rem;
+    width: 100%;
+    padding: 0.4rem 0.8rem;
     background-color: var(--accent);
     border: none;
     border-radius: 0.25rem;
-    font-size: 1rem;
     cursor: pointer;
     color: #fff;
 
@@ -154,8 +150,8 @@ li {
 }
 
 @media screen and (min-width: 1280px) {
-  .mainSideBar {
-    display: block;
+  .contBox {
+    display: flex;
   }
 }
 

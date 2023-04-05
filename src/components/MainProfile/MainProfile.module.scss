@@ -120,12 +120,40 @@
   > .postBox {
     padding: 0.8rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     grid-gap: 0.8rem;
 
     > .postItem {
+      width: 100%;
+      overflow: hidden;
       aspect-ratio: 1 / 1;
       border-radius: 0.8rem;
+      background-color: var(--bg);
+      color: var(--primary);
+      padding: 0.8rem;
+      cursor: pointer;
+      filter: blur(0.15rem) brightness(85%);
+
+      &:hover {
+        filter: none;
+      }
     }
+  }
+}
+
+@media screen and (min-width: 0px) {
+  .postBox {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .postBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .postBox {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

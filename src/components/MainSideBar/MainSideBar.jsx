@@ -21,6 +21,10 @@ import MarkdownPreview from "@uiw/react-markdown-preview";
 import CodeMirror from "@uiw/react-codemirror";
 import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
 import { useNavigate } from "react-router";
+import { BsMailbox2 } from "react-icons/bs";
+import { RiQuestionnaireFill } from "react-icons/ri"
+import { isDarkMode, toastSuccess } from "../../modules/Functions";
+import { githubDark, githubLight, vscodeDark, noctisLilac } from "@uiw/codemirror-themes-all";
 
 const MainSideBar = () => {
   const friends = [
@@ -36,22 +40,27 @@ const MainSideBar = () => {
   ];
   const [friendView, setFriendView] = useState(false);
   const [homeView, setHomeView] = useState(false);
-  const [codeFS, setCodeFS] = useState(14);
 
   const navigate = useNavigate();
+
+  const userID = localStorage.getItem("uid");
+
+  const movePath = (path, param) => {
+    navigate(path, {replace: true, state: param});
+  };
 
   function MemoBox() {
     const [codeValue, setCodeValue] = useState();
     const [codeLang, setCodeLang] = useState("html");
     const [codeLangs, setCodeLangs] = useState([]);
 
+    const codeTemp = "";
+
     useEffect(() => {
       let tempLangs = [...langNames];
       tempLangs = tempLangs.sort();
       setCodeLangs(tempLangs);
     }, []);
-
-    let codeTemp = "";
 
     const handleCodeInputChange = (value) => {
       setCodeValue(value);
@@ -60,6 +69,7 @@ const MainSideBar = () => {
 
     const handleCopyClick = () => {
       navigator.clipboard.writeText(codeValue); // 복사 기능
+      toastSuccess("코드를 복사하였습니다!");
     };
 
     const handleMemoLang = (e) => {
@@ -71,97 +81,52 @@ const MainSideBar = () => {
       <div className={styles.memoBox}>
         <div>
           <select name="" id="" onChange={(e) => handleMemoLang(e)}>
+            <option value="asciiArmor">언어를 선택하세요</option>
             {codeLangs.map((item, index) => (
               <option value={item} key={index}>
-                {item}
+                {
+                  item.replace(/^[a-z]/, char => char.toUpperCase())
+                }
               </option>
             ))}
           </select>
           <CodeMirror
-            className={styles.code}
+            id={styles.code}
             onChange={handleCodeInputChange}
             extensions={[loadLanguage(codeLang)]}
-            width={"20rem"}
+            width={"calc(25vw - 4.8rem - 1.6rem)"}
             height={"20rem"}
-            style={{ fontSize: 16 }}
+            theme={
+              noctisLilac
+            }
+            style={
+              { fontSize: 16 }
+            }
           />
         </div>
-
-        <div className={styles.memoBoxBtns}>
-          <button
-            className={`${styles.memoBoxBtn} ${font.fw_7}`}
-            onClick={handleCopyClick}
-          >
-            복사
-          </button>
-          <button className={`${styles.memoBoxBtn} ${font.fw_7}`}>
-            글쓰기
-          </button>
-        </div>
+        <button
+          className={`${styles.memoBoxBtn} ${font.fw_7} ${font.fs_10}`}
+          onClick={handleCopyClick}
+        >
+          복사
+        </button>
       </div>
     );
   }
   return (
     <div className={styles.mainSideBar}>
-      <div className={`${styles.contBox} ${font.fs_14}`}>
-        <ul
-          className={font.fw_7}
-          onClick={() => {
-            setHomeView(!homeView);
-          }}
-        >
-          {homeView ? (
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              className={styles.contBoxIcon}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              className={styles.contBoxIcon}
-            />
-          )}
-          &nbsp; Home
-        </ul>
-        <ul
-          className={font.fw_5}
-          onClick={() => {
-            setFriendView(!friendView);
-          }}
-        >
-          &nbsp; &nbsp;
-          {friendView ? (
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              className={styles.contBoxIcon}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              className={styles.contBoxIcon}
-            />
-          )}
-          &nbsp; 친구.List
-          {friendView &&
-            friends.map((friend, index) => (
-              <li className={font.fw_4} key={index}>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <FontAwesomeIcon icon={faHashtag} /> &nbsp;
-                {friend}
-              </li>
-            ))}
-        </ul>
-        <MemoBox />
-      </div>
       <div className={styles.iconBox}>
         <div className={styles.onIconBox}>
-          <div className={`${styles.logo} ${styles.sidebarIcon}`}></div>
+          <div
+            className={`${styles.logo} ${styles.sidebarIcon}`}
+            onClick={() => movePath("/")}
+          ></div>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
-            onClick={() => navigate("/chat")}
+            onClick={() => movePath("/chat")}
             icon={faUserGroup}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
@@ -173,23 +138,83 @@ const MainSideBar = () => {
             icon={faGithub}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
+          <RiQuestionnaireFill
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
+            onClick={() => movePath("/qna")}
+          />
         </div>
         <div className={styles.underIconBox}>
           <FontAwesomeIcon
             icon={faDownload}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
+          <BsMailbox2
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
+          />
           <FontAwesomeIcon
             icon={faUser}
+            onClick={() => movePath("/profile", userID)}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           {/* <div className={styles.myProfile}></div> */}
           <FontAwesomeIcon
-            onClick={() => navigate("/settings")}
+            onClick={() => movePath("/settings")}
             icon={faGear}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
         </div>
+      </div>
+      <div className={`${styles.contBox} ${font.fs_14}`}>
+        <div>
+          <ul
+            className={font.fw_7}
+            onClick={() => {
+              setHomeView(!homeView);
+            }}
+          >
+            {homeView ? (
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                className={styles.contBoxIcon}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                className={styles.contBoxIcon}
+              />
+            )}
+            &nbsp; Home
+          </ul>
+          <ul
+            className={font.fw_5}
+            onClick={() => {
+              setFriendView(!friendView);
+            }}
+          >
+            &nbsp; &nbsp;
+            {friendView ? (
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                className={styles.contBoxIcon}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                className={styles.contBoxIcon}
+              />
+            )}
+            &nbsp; 친구.List
+            {friendView &&
+              friends.map((friend, index) => (
+                <li className={font.fw_4} key={index}>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
+                  <FontAwesomeIcon icon={faHashtag} /> &nbsp;
+                  {friend}
+                </li>
+              ))}
+          </ul>
+        </div>
+        <MemoBox />
       </div>
     </div>
   );
