@@ -79,10 +79,10 @@
 .messageText {
   display: inline-block;
   padding: 0.8rem;
-  max-width: 70%;
+  max-width: 25rem;
   border-radius: 0.8rem;
-  background-color: #e6e6e6;
-  color: #262626;
+  background-color: var(--thd-bg);
+  color: var(--primary);
   font-size: 1.4rem;
   line-height: 1.8rem;
   white-space: pre-wrap;
@@ -106,8 +106,8 @@
     padding: 1rem;
     border: none;
     border-radius: 0.8rem;
-    background-color: #efefef;
-    color: #262626;
+    background-color: var(--thd-bg);
+    // color: #262626;
     line-height: 1.8rem;
     box-shadow: none;
 
