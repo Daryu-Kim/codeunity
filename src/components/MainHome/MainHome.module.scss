@@ -96,6 +96,7 @@
 
 #popularSwiper {
   width: 100%;
+  z-index: 0;
 }
 
 #popularItem {
@@ -204,6 +205,18 @@
           background-color: var(--accent-light);
         }
       }
+
+      >.unfollowBtn {
+        color: var(--accent);
+        background-color: var(--bg);
+        padding: 0.6rem 1.6rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--thd-bg);
+        }
+      }
     }
   }
   > .postBox {
@@ -228,7 +241,7 @@
       height: 2.4rem;
       aspect-ratio: 1 / 1;
       cursor: pointer;
-        color: var(--primary);
+      color: var(--primary);
 
       &:hover {
       color: var(--accent);

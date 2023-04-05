@@ -31,6 +31,7 @@ import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
 import { toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
+import { followUser, unfollowUser } from "../../modules/Firebase";
 
 const MainHome = () => {
   const firestore = getFirestore(); // Firestore 인스턴스 생성
@@ -75,6 +76,10 @@ const MainHome = () => {
     )
   );
 
+  const [myFollowing, myFollowingLoad, myFollowingError] = useCollectionData(
+    collection(firestore, `Follows/${uid}/Following`)
+  );
+
   const [allPost, allPostLoad, allPostError] = useCollectionData(
     // 모든 포스트 데이터 가져오기
     query(collection(firestore, "Posts"), orderBy("createdAt", "desc")) // 생성일 기준으로 내림차순 정렬
@@ -88,7 +93,6 @@ const MainHome = () => {
   const [existsUserData, setExistsUserData] = useState(false); // 포스트 작성자 데이터 존재 여부 상태 변수
   const [existsUserFollowerData, setExistsUserFollowerData] = useState(false); // 포스트 작성자 팔로워 데이터 존재 여부 상태 변수
   const [existsPostLikeData, setExistsPostLikeData] = useState(false); // 포스트 작성자 팔로워 데이터 존재 여부 상태 변수
-
 
   // |이 코드는 popularUser 배열을 순회하며 SwiperSlide를 생성하는 useEffect 함수입니다.
   // |
@@ -110,10 +114,7 @@ const MainHome = () => {
           (
             item // popularUser를 순회하며 SwiperSlide를 생성
           ) => (
-            <SwiperSlide
-              id={styles.popularItem}
-              key={item.userID}
-            >
+            <SwiperSlide id={styles.popularItem} key={item.userID}>
               <div
                 className={styles.profileImg}
                 style={{
@@ -145,7 +146,6 @@ const MainHome = () => {
       );
     }
   }, [popularUser]); // popularUser가 변경될 때마다 실행
-
 
   // |이 코드는 React의 useEffect hook을 사용하여, allPost 배열의 각 요소에 대한 정보를 가져와 state를 업데이트하는 기능을 구현한 것입니다.
   // |
@@ -183,24 +183,29 @@ const MainHome = () => {
         // 모든 promises가 resolve될 때까지 대기
         const results = await Promise.all(promises);
         // 결과값을 배열로 변환
-        const { postUserName, postUserImg, postUserFollower, postLike } =
-          results.reduce(
-            (acc, curr, index) => {
-              // 배열에 결과값 할당
-              acc.postUserName[index] = curr.userName;
-              acc.postUserImg[index] = curr.userImg;
-              acc.postUserFollower[index] = curr.userFollower;
-              acc.postLike[index] = curr.postLike;
-              return acc;
-            },
-            {
-              // 배열 초기화
-              postUserName: [...Array(allPost.length)],
-              postUserImg: [...Array(allPost.length)],
-              postUserFollower: [...Array(allPost.length)],
-              postLike: [...Array(allPost.length)],
-            }
-          );
+        const {
+          postUserName,
+          postUserImg,
+          postUserFollower,
+          postUserID,
+          postLike,
+        } = results.reduce(
+          (acc, curr, index) => {
+            // 배열에 결과값 할당
+            acc.postUserName[index] = curr.userName;
+            acc.postUserImg[index] = curr.userImg;
+            acc.postUserFollower[index] = curr.userFollower;
+            acc.postLike[index] = curr.postLike;
+            return acc;
+          },
+          {
+            // 배열 초기화
+            postUserName: [...Array(allPost.length)],
+            postUserImg: [...Array(allPost.length)],
+            postUserFollower: [...Array(allPost.length)],
+            postLike: [...Array(allPost.length)],
+          }
+        );
         // state 업데이트
         setPostUserName(postUserName);
         setPostUserImg(postUserImg);
@@ -213,7 +218,6 @@ const MainHome = () => {
       fetchData();
     }
   }, [allPost]);
-
 
   useEffect(() => {
     if (
@@ -255,11 +259,23 @@ const MainHome = () => {
                 </div>
                 {item.userID === uid ? null : ( // 게시물 작성자가 현재 사용자인 경우 팔로우 버튼을 표시하지 않음
                   <div className={styles.topRightBox}>
-                    <button
-                      className={`${styles.followBtn} ${font.fs_12} ${font.fw_5}`}
-                    >
-                      팔로우
-                    </button>
+                    {console.log(myFollowing, item.userID)}
+                    {myFollowing.find((temp) => temp.userID == item.userID) ==
+                    undefined ? (
+                      <button
+                        className={`${styles.followBtn} ${font.fs_12} ${font.fw_5}`}
+                        onClick={() => followClick(item.userID, index)}
+                      >
+                        팔로우
+                      </button>
+                    ) : (
+                      <button
+                        className={`${styles.unfollowBtn} ${font.fs_12} ${font.fw_5}`}
+                        onClick={() => unfollowClick(item.userID, index)}
+                      >
+                        언팔로우
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -310,6 +326,7 @@ const MainHome = () => {
     existsUserFollowerData, // 현재 사용자의 팔로워 데이터
     existsPostLikeData, // 게시물 좋아요 데이터
     postLike, // 게시물 좋아요 여부 데이터
+    postUserFollower,
   ]);
 
 
@@ -349,6 +366,48 @@ const MainHome = () => {
   };
 
 
+  // |이 코드는 targetID를 팔로우하는 함수를 호출하고, postUserFollower 배열의 index번째 요소를 true로 변경하는 함수입니다.
+  // |
+  // |좋은 점:
+  // |- 비동기 함수인 followClick 함수가 try-catch 구문으로 에러 처리를 하고 있어 안정적입니다.
+  // |- 배열을 복사하여 변경하는 것으로 인해, React의 불변성 원칙을 지키고 있습니다.
+  // |- 팔로우 완료 메시지를 출력하여 사용자에게 적절한 피드백을 제공합니다.
+  // |
+  // |나쁜 점:
+  // |- catch 구문에서 에러를 무시하고 있어, 어떤 에러가 발생했는지 파악하기 어렵습니다. 적절한 에러 처리를 추가하는 것이 좋습니다.
+
+  const followClick = async (targetID, index) => {
+    try {
+      await followUser(targetID); // targetID를 팔로우하는 함수 호출
+      const tempArr = [...postUserFollower]; // postUserFollower 배열을 복사하여 tempArr에 할당
+      tempArr[index] = true; // tempArr의 index번째 요소를 true로 변경
+      setPostUserFollower(tempArr); // 변경된 tempArr를 postUserFollower에 할당
+      toastSuccess("팔로우를 완료하였습니다!"); // 팔로우 완료 메시지 출력
+    } catch (err) {} // 에러 발생 시 무시
+  };
+
+
+  // |이 코드는 targetID를 언팔로우하는 함수를 호출하고, postUserFollower 배열에서 해당 targetID의 값을 false로 변경한 후, 변경된 배열로 업데이트하는 함수입니다. 또한, 언팔로우 완료 메시지를 출력합니다.
+  // |
+  // |좋은 점:
+  // |- 비동기 함수인 unfollowClick 함수가 async/await를 사용하여 비동기 처리를 하고 있습니다.
+  // |- 에러 처리를 try-catch문으로 감싸 에러 발생 시 무시하고 넘어가도록 구현하였습니다.
+  // |- 변경된 postUserFollower 배열을 업데이트할 때, 기존 배열을 직접 수정하지 않고, 배열을 복사하여 수정한 후, setState 함수를 사용하여 업데이트하였습니다.
+  // |
+  // |나쁜 점:
+  // |- 에러 발생 시 아무런 처리를 하지 않고 무시하고 있습니다. 에러 처리를 더욱 세밀하게 구현하여 예외 상황에 대처할 수 있도록 개선할 필요가 있습니다.
+
+  const unfollowClick = async (targetID, index) => {
+    try {
+      await unfollowUser(targetID); // targetID를 언팔로우하는 함수 호출
+      const tempArr = [...postUserFollower]; // postUserFollower 배열을 복사하여 tempArr에 할당
+      tempArr[index] = false; // tempArr의 index번째 요소를 false로 변경
+      setPostUserFollower(tempArr); // 변경된 tempArr로 postUserFollower 배열을 업데이트
+      toastSuccess("언팔로우를 완료하였습니다!"); // 언팔로우 완료 메시지 출력
+    } catch (err) {} // 에러 발생 시 무시
+  };
+
+  
   // |이 코드는 게시물에서 좋아요를 취소하는 함수입니다.
   // |
   // |좋은 점:
@@ -481,7 +540,7 @@ const MainHome = () => {
   // showModal 함수 정의
   const showModal = () => setModalState(true); // modalState를 true로 변경하여 모달을 보여줌
 
-
+  
   // |이 코드는 React 컴포넌트를 반환하는 함수입니다.
   // |
   // |좋은 점:

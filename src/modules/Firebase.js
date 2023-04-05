@@ -4,27 +4,18 @@ import { getAnalytics } from "firebase/analytics";
 import {
   browserLocalPersistence,
   getAuth,
-  GithubAuthProvider,
   onAuthStateChanged,
   setPersistence,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  createUserWithEmailAndPassword,
-  updateProfile,
 } from "firebase/auth";
 import "react-toastify/dist/ReactToastify.css";
 import { toastError } from "./Functions";
 import {
-  collection,
+  deleteDoc,
   doc,
   getDoc,
-  getDocs,
   getFirestore,
-  query,
   setDoc,
   updateDoc,
-  where,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -53,29 +44,85 @@ onAuthStateChanged(auth, () => {
   const user = auth.currentUser;
 });
 
-export const getUserData = async (uid) => {
-  const docSnap = await getDoc(doc(firestore, "Users", uid));
-  if (docSnap.exists()) {
-    return docSnap.data();
+export const followUser = async (targetID) => {
+  const myUID = localStorage.getItem("uid");
+  const myDoc = await getDoc(doc(firestore, "Users", myUID));
+  const targetDoc = await getDoc(doc(firestore, "Users", targetID));
+  try {
+    if (myDoc.exists()) {
+      if (targetDoc.exists()) {
+        await setDoc(
+          doc(
+            firestore,
+            `Follows/${myUID}/Following`,
+            targetDoc.data().userID
+          ),
+          {
+            userID: targetDoc.data().userID,
+          }
+        );
+
+        await setDoc(
+          doc(
+            firestore,
+            `Follows/${targetDoc.data().userID}/Follower`,
+            myUID
+          ),
+          {
+            userID: myUID
+          }
+        );
+
+        await updateDoc(doc(firestore, "Users", myUID), {
+          followingCount: myDoc.data().followingCount + 1,
+        });
+
+        await updateDoc(doc(firestore, "Users", targetID), {
+          followerCount: targetDoc.data().followerCount + 1,
+        });
+
+        return true;
+      }
+    }
+  } catch (error) {
+    toastError(error);
+    return false;
   }
 };
 
-export const getMyData = async () => {
-  const myUID = sessionStorage.getItem("uid");
+export const unfollowUser = async (targetID) => {
+  const myUID = localStorage.getItem("uid");
   const myDoc = await getDoc(doc(firestore, "Users", myUID));
-  if (myDoc.exists()) {
-    const myData = myDoc.data()
-    return myData;
-  }
-}
+  const targetDoc = await getDoc(doc(firestore, "Users", targetID));
+  try {
+    if (myDoc.exists()) {
+      if (targetDoc.exists()) {
+        await deleteDoc(
+          doc(
+            firestore,
+            `Follows/${myUID}/Following`,
+            targetDoc.data().userID
+          )
+        );
 
-export const getAllUserUID = async () => {
-  const myUID = sessionStorage.getItem("uid");
-  console.log(myUID)
-  const allSnapshot = await getDocs(query(collection(firestore, "Users"), where("userID", "!=", myUID)));
-  const allUserUID = [];
-  allSnapshot.forEach((snapshot) => {
-    allUserUID.push(snapshot.data().userID);
-  });
-  return allUserUID;
+        await deleteDoc(
+          doc(
+            firestore,
+            `Follows/${targetDoc.data().userID}/Follower`,
+            myUID
+          )
+        );
+
+        await updateDoc(doc(firestore, "Users", myUID), {
+          followingCount: myDoc.data().followingCount - 1,
+        });
+
+        await updateDoc(doc(firestore, "Users", targetID), {
+          followerCount: targetDoc.data().followerCount - 1,
+        });
+      }
+    }
+  } catch (error) {
+    toastError(error);
+  }
 };
