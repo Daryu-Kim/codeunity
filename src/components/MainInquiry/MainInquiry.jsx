@@ -13,6 +13,7 @@ const MainInquiry = () => {
       언제든 따끔한 지적은 환영입니다!`,
       phone: "",
       email: "",
+      github: "",
     },
     {
       name: "백승호",
@@ -21,6 +22,7 @@ const MainInquiry = () => {
       comment: "你好，我是白承昊。我毕业于北京理工大学，是前台开发人员.",
       phone: "010-2045-7967",
       email: "vudrkd1580@naver.com",
+      github: "https://github.com/baekseungho",
     },
   ];
 
@@ -40,6 +42,7 @@ const MainInquiry = () => {
                   <p>{member.comment}</p>
                   <p>Tel : {member.phone}</p>
                   <p>Email : {member.email}</p>
+                  <a href={member.github}>GitHub 바로가기</a>
                 </div>
               </div>
             );
