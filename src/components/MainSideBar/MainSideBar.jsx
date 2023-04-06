@@ -25,6 +25,7 @@ import { RiQuestionnaireFill } from "react-icons/ri";
 import { toastError, toastSuccess } from "../../modules/Functions";
 import { vscodeDark, noctisLilac } from "@uiw/codemirror-themes-all";
 import { useReactPWAInstall } from "react-pwa-install";
+import { ToastContainer } from "react-toastify";
 
 const MainSideBar = () => {
   const friends = [
@@ -134,6 +135,7 @@ const MainSideBar = () => {
   }
   return (
     <div className={styles.mainSideBar}>
+      <ToastContainer position="top-right" autoClose={2000} />
       <div className={styles.iconBox}>
         <div className={styles.onIconBox}>
           <div
