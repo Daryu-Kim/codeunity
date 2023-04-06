@@ -1,9 +1,10 @@
 // import React, { useRef } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./pages/Main/Main";
 import Login from "./pages/Login/Login";
 import Join from "./pages/Join/Join";
 import "./styles/reset.scss";
+import ReactPWAInstallProvider from "react-pwa-install";
 
 function App() {
   const uid = localStorage.getItem("uid");
@@ -21,13 +22,15 @@ function App() {
   });
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/*' element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/join" element={<Join />} />
-      </Routes>
-    </BrowserRouter>
+    <ReactPWAInstallProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/*' element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
+        </Routes>
+      </BrowserRouter>
+    </ReactPWAInstallProvider>
   );
 }
 

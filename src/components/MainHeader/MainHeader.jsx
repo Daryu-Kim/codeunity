@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./MainHeader.module.scss";
 import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleQuestion,
-  faEnvelope,
-} from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
@@ -16,48 +12,71 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { firestore } from "../../modules/Firebase";
 
 const MainHeader = () => {
-  const [index, setIndex] = useState(0);
   const [path, setPath] = useState(null);
+  const [tabIndexList, setTabIndexList] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [tabList, setTabList] = useState([]);
   const [tabListData, setTabListData] = useState(null);
 
   useEffect(() => {
-    if (location.pathname !== "/") {
-      if (path !== location.pathname && !tabList.includes(path)) {
-        const pathName = location.pathname;
-        const docName = pathName.substring(1);
-        const tempTabList = [...tabList];
-        const fetchData = async () => {
+    const checkExistsTab = () => {
+      let count = 0;
+      tabList.forEach((element) => {
+        console.log(element.pathName);
+        if (element.pathName == location.pathname) {
+          count++;
+        }
+      });
+      if (count > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    const fetchData = async () => {
+      if (location.pathname !== "/") {
+        if (!checkExistsTab()) {
+          const pathName = location.pathname;
+          const docName = pathName.substring(1);
+          const tempTabList = [...tabList];
           const tempDoc = await getDoc(doc(firestore, "Settings", docName));
-          
-          tempTabList.push({
+
+          await tempTabList.push({
             pathName: tempDoc.data().pathName,
             displayName: tempDoc.data().displayName,
             icon: tempDoc.data().icon,
           });
 
-          setTabList(tempTabList);
-          setPath(location.pathname);
-        };
-        fetchData();
+          await setTabList(tempTabList);
+        }
       }
-    } else {
-      setPath(location.pathname);
-    }
-    console.log(location)
-  }, [location]);
+      // }
+    };
+
+    const tempTabList = [];
+
+    setPath(location.pathname);
+    fetchData();
+    setTabIndexList(() => {
+      tabList.forEach((element, index) => {
+        tempTabList[index] = element.pathName == path;
+      });
+      return tempTabList;
+    });
+    console.log(tabIndexList)
+  }, [location.pathname]);
 
 
   useEffect(() => {
-    if (tabList !== undefined) {
+    if (tabList !== undefined && path !== undefined) {
       setTabListData(
         tabList.map((item, index) => (
           <SwiperSlide
             key={index}
             className={`
-              ${path === item.pathName ? styles.active : null}
+              ${tabList[index].pathName == path ? styles.active : null}
             `}
             id={styles.tabMenu}
             onClick={(event) => {
@@ -68,13 +87,13 @@ const MainHeader = () => {
               className={`${font.fs_14} ${font.fc_accent}`}
               icon={item.icon}
             />
-            <p className={`${font.fs_14} ${font.fw_7}`}>{item.displayName}</p>
+            <p className={`${font.fs_14} ${font.fw_7} ${font.f_code}`}>{item.displayName}</p>
             <button onClick={(event) => removeTab(event, item.pathName, index)}>X</button>
           </SwiperSlide>
         ))
       )
     }
-  }, [tabList])
+  }, [tabList, tabIndexList])
 
   const removeTab = (event, pathName, index) => {
     event.stopPropagation();
@@ -82,7 +101,6 @@ const MainHeader = () => {
       navigate("/", {replace: true});
       console.log("boom")
     }
-    console.log(location.pathname == pathName)
     const tempTabList = [...tabList];
     tempTabList.splice(index, 1);
     setTabList(tempTabList);
@@ -90,9 +108,7 @@ const MainHeader = () => {
 
   const movePath = (event, pathName, param) => {
     event.stopPropagation();
-    if (location.pathname != pathName) {
-      navigate(pathName, {replace: true, state: param});
-    }
+    navigate(pathName, {replace: true, state: param});
   }
   
 
@@ -109,10 +125,8 @@ const MainHeader = () => {
             ${path === "/" ? styles.active : null}
           `}
           id={styles.tabMenu}
-          onClick={() => {
-            navigate("/", {
-              replace: true
-            });
+          onClick={(event) => {
+            movePath(event, "/");
           }}
         >
           <FontAwesomeIcon

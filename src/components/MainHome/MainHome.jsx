@@ -187,7 +187,6 @@ const MainHome = () => {
           postUserName,
           postUserImg,
           postUserFollower,
-          postUserID,
           postLike,
         } = results.reduce(
           (acc, curr, index) => {
@@ -259,7 +258,6 @@ const MainHome = () => {
                 </div>
                 {item.userID === uid ? null : ( // 게시물 작성자가 현재 사용자인 경우 팔로우 버튼을 표시하지 않음
                   <div className={styles.topRightBox}>
-                    {console.log(myFollowing, item.userID)}
                     {myFollowing.find((temp) => temp.userID == item.userID) ==
                     undefined ? (
                       <button

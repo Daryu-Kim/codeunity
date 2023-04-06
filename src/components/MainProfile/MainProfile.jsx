@@ -92,11 +92,6 @@ const MainProfile = () => {
               }
             ></div>
             <div className={styles.btnBox}>
-              <button
-                className={`${styles.shareBtn} ${font.fs_14} ${font.fw_7}`}
-              >
-                공유
-              </button>
               {document.userID == uid ? (
                 <button
                   className={`${styles.modifyBtn} ${font.fs_14} ${font.fw_7}`}

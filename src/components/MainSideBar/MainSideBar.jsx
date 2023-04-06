@@ -15,21 +15,16 @@ import {
   faMagnifyingGlass,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
+import logo from "../../assets/images/logo.png";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import MarkdownEditor from "@uiw/react-markdown-editor";
-import MarkdownPreview from "@uiw/react-markdown-preview";
 import CodeMirror from "@uiw/react-codemirror";
 import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
 import { useNavigate } from "react-router";
 import { BsMailbox2 } from "react-icons/bs";
 import { RiQuestionnaireFill } from "react-icons/ri";
-import { isDarkMode, toastSuccess } from "../../modules/Functions";
-import {
-  githubDark,
-  githubLight,
-  vscodeDark,
-  noctisLilac,
-} from "@uiw/codemirror-themes-all";
+import { toastError, toastSuccess } from "../../modules/Functions";
+import { vscodeDark, noctisLilac } from "@uiw/codemirror-themes-all";
+import { useReactPWAInstall } from "react-pwa-install";
 
 const MainSideBar = () => {
   const friends = [
@@ -45,6 +40,7 @@ const MainSideBar = () => {
   ];
   const [friendView, setFriendView] = useState(false);
   const [homeView, setHomeView] = useState(false);
+  const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
 
   const navigate = useNavigate();
 
@@ -54,12 +50,36 @@ const MainSideBar = () => {
     navigate(path, { replace: true, state: param });
   };
 
+  const handleInstallClick = () => {
+    pwaInstall({
+      title: "CodeUnity",
+      logo: logo,
+      features: (
+        <ul>
+          <li>Cool feature 1</li>
+          <li>Cool feature 2</li>
+          <li>Even cooler feature</li>
+          <li>Works offline</li>
+        </ul>
+      ),
+      description: "CodeUnity PWA 설치 테스트입니다.",
+    })
+      .then(() => {
+        toastSuccess(
+          "앱이 성공적으로 설치되었거나 설치 지침이 표시되었습니다!"
+        );
+      })
+      .catch(() => {
+        toastError("사용자가 설치를 취소하였습니다!");
+      });
+  };
+
   function MemoBox() {
     const [codeValue, setCodeValue] = useState();
     const [codeLang, setCodeLang] = useState("html");
     const [codeLangs, setCodeLangs] = useState([]);
 
-    const codeTemp = "";
+    let codeTemp = "";
 
     useEffect(() => {
       let tempLangs = [...langNames];
@@ -143,10 +163,14 @@ const MainSideBar = () => {
           />
         </div>
         <div className={styles.underIconBox}>
-          <FontAwesomeIcon
-            icon={faDownload}
-            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
-          />
+          {supported() && !isInstalled() && (
+            <FontAwesomeIcon
+              icon={faDownload}
+              className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
+              onClick={handleInstallClick}
+            />
+          )}
+
           <BsMailbox2
             onClick={() => movePath("/inquiry")}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
