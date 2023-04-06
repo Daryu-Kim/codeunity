@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./MainProfile.module.scss";
 import font from "../../styles/Font.module.scss";
 import { useLocation } from "react-router-dom";
@@ -6,6 +6,7 @@ import { doc, getFirestore, query, where, collection } from "firebase/firestore"
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
+import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
 
 const MainProfile = () => {
   const firestore = getFirestore();
@@ -13,6 +14,7 @@ const MainProfile = () => {
   const [document, loading, error, snapshot] = useDocumentData(
     doc(firestore, "Users", state)
   );
+  const [modalState, setModalState] = useState(false);
   const uid = localStorage.getItem("uid");
   const [menuTab, setMenuTab] = useState(true);
   const [userPost, userPostLoad, userPostError] = useCollectionData(
@@ -37,6 +39,7 @@ const MainProfile = () => {
               `}
               key={item.postID}
               source={item.postContent}
+              onClick={showModal}
             />
           );
         })
@@ -77,10 +80,13 @@ const MainProfile = () => {
       setMenuTab(false);
     }
   };
+  
+  const showModal = () => setModalState(true);
 
   if (document) {
     return (
       <div className={styles.wrapper}>
+        {modalState && <MainCmtsModal setModalState={setModalState} />}
         <div className={styles.profileBox}>
           <div className={styles.imgBox}>
             <div

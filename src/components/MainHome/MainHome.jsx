@@ -537,6 +537,7 @@ const MainHome = () => {
   // showModal 함수 정의
   const showModal = () => setModalState(true); // modalState를 true로 변경하여 모달을 보여줌
 
+  
   // |이 코드는 React 컴포넌트를 반환하는 함수입니다.
   // |
   // |좋은 점:

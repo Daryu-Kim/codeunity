@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import font from "../../styles/Font.module.scss";
-import styles from "./MainPQModal.module.scss";
+import styles from "./MainCmtsModal.module.scss";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
@@ -14,7 +14,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 
-const MainPQModal = ({ setModalState }) => {
+const MainCmtsModal = ({ setModalState }) => {
   const firestore = getFirestore();
   const location = useLocation();
   const [title, setTitle] = useState("");
@@ -156,4 +156,4 @@ const MainPQModal = ({ setModalState }) => {
     </div>
   );
 };
-export default MainPQModal;
+export default MainCmtsModal;
