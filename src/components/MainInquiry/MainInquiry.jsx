@@ -8,15 +8,21 @@ const MainInquiry = () => {
       name: "김원재",
       img: "https://avatars.githubusercontent.com/u/86081049?v=4",
       position: "Fullstack Engineer",
-      conment: `현재 5년차 미드레벨을 달리고 있는 풀스택 & 어플리케이션 개발자입니다!
+      comment: `현재 5년차 미드레벨을 달리고 있는 풀스택 & 어플리케이션 개발자입니다!
       항상 문제 해결과 협업을 위한 공부 및 경험을 끊임없이 하고 있으며, 하루하루 새로운 지식을 찾아 배워나가는 것을 좋아합니다:)
       언제든 따끔한 지적은 환영입니다!`,
+      phone: "",
+      email: "",
+      github: "",
     },
     {
       name: "백승호",
       img: "https://avatars.githubusercontent.com/u/18731998?v=4",
       position: "Front-End Developer",
-      conment: "hao",
+      comment: "你好，我是白承昊。我毕业于北京理工大学，是前台开发人员.",
+      phone: "010-2045-7967",
+      email: "vudrkd1580@naver.com",
+      github: "https://github.com/baekseungho",
     },
   ];
 
@@ -33,7 +39,10 @@ const MainInquiry = () => {
                 <div className={styles.infoBox}>
                   <h1>{member.name}</h1>
                   <h3>{member.position}</h3>
-                  <p>{member.conment}</p>
+                  <p>{member.comment}</p>
+                  <p>Tel : {member.phone}</p>
+                  <p>Email : {member.email}</p>
+                  <a href={member.github}>GitHub 바로가기</a>
                 </div>
               </div>
             );
