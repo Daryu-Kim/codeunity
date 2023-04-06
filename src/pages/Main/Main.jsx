@@ -9,6 +9,7 @@ import MainProfile from "../../components/MainProfile/MainProfile";
 import MainChat from "../../components/MainChat/MainChat";
 import MainQnA from "../../components/MainQnA/MainQnA";
 import MainSettings from "../../components/MainSettings/MainSettings";
+import MainInquiry from "../../components/MainInquiry/MainInquiry";
 
 const Main = () => {
   const [user] = useAuthState(auth);
@@ -32,6 +33,7 @@ const Main = () => {
           <Route path="profile" element={<MainProfile />}></Route>
           <Route path="qna" element={<MainQnA />}></Route>
           <Route path="settings" element={<MainSettings />}></Route>
+          <Route path="inquiry" element={<MainInquiry />}></Route>
         </Routes>
       </div>
     </div>

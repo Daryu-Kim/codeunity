@@ -1,0 +1,11 @@
+@import "../../styles/reset.scss";
+@import "../../styles/_variabled";
+
+.memberBox {
+  padding: 5rem;
+  width: 90%;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

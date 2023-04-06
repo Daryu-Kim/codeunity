@@ -22,9 +22,14 @@ import CodeMirror from "@uiw/react-codemirror";
 import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
 import { useNavigate } from "react-router";
 import { BsMailbox2 } from "react-icons/bs";
-import { RiQuestionnaireFill } from "react-icons/ri"
+import { RiQuestionnaireFill } from "react-icons/ri";
 import { isDarkMode, toastSuccess } from "../../modules/Functions";
-import { githubDark, githubLight, vscodeDark, noctisLilac } from "@uiw/codemirror-themes-all";
+import {
+  githubDark,
+  githubLight,
+  vscodeDark,
+  noctisLilac,
+} from "@uiw/codemirror-themes-all";
 
 const MainSideBar = () => {
   const friends = [
@@ -46,7 +51,7 @@ const MainSideBar = () => {
   const userID = localStorage.getItem("uid");
 
   const movePath = (path, param) => {
-    navigate(path, {replace: true, state: param});
+    navigate(path, { replace: true, state: param });
   };
 
   function MemoBox() {
@@ -84,9 +89,7 @@ const MainSideBar = () => {
             <option value="asciiArmor">언어를 선택하세요</option>
             {codeLangs.map((item, index) => (
               <option value={item} key={index}>
-                {
-                  item.replace(/^[a-z]/, char => char.toUpperCase())
-                }
+                {item.replace(/^[a-z]/, (char) => char.toUpperCase())}
               </option>
             ))}
           </select>
@@ -96,12 +99,8 @@ const MainSideBar = () => {
             extensions={[loadLanguage(codeLang)]}
             width={"calc(25vw - 4.8rem - 1.6rem)"}
             height={"20rem"}
-            theme={
-              noctisLilac
-            }
-            style={
-              { fontSize: 16 }
-            }
+            theme={noctisLilac}
+            style={{ fontSize: 16 }}
           />
         </div>
         <button
@@ -149,6 +148,7 @@ const MainSideBar = () => {
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <BsMailbox2
+            onClick={() => movePath("/inquiry")}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
