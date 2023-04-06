@@ -123,7 +123,7 @@
       style: solid;
       width: 0.25rem;
       color: var(--accent);
-    };
+    }
 
     background: {
       position: center;
@@ -160,18 +160,18 @@
   flex-direction: column;
   grid-gap: 1.2rem;
 
-  >.topBox {
+  > .topBox {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    >.topLeftBox {
+    > .topLeftBox {
       display: flex;
       align-items: center;
       grid-gap: 0.8rem;
       cursor: pointer;
 
-      >.profileImg {
+      > .profileImg {
         width: 3.2rem;
         height: 3.2rem;
         aspect-ratio: 1 / 1;
@@ -180,21 +180,19 @@
           radius: 50%;
           style: solid;
           width: 0.25rem;
-          color: var(--accent)
-        };
+          color: var(--accent);
+        }
 
         background: {
           position: center;
           size: cover;
           repeat: no-repeat;
         }
-
-        ;
       }
     }
 
-    >.topRightBox {
-      >.followBtn {
+    > .topRightBox {
+      > .followBtn {
         color: white;
         background-color: var(--accent);
         padding: 0.6rem 1.6rem;
@@ -206,7 +204,7 @@
         }
       }
 
-      >.unfollowBtn {
+      > .unfollowBtn {
         color: var(--accent);
         background-color: var(--bg);
         padding: 0.6rem 1.6rem;
@@ -244,11 +242,28 @@
       color: var(--primary);
 
       &:hover {
-      color: var(--accent);
+        color: var(--accent);
       }
     }
   }
-  
+}
+.toTopBtn {
+  position: fixed;
+  bottom: 1.6rem;
+  right: 1.6rem;
+  width: 2.4rem;
+  height: 2.4em;
+  padding: 0.4rem;
+  text-align: center;
+  line-height: 1.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--accent-light);
+  color: #fff;
+
+  :hover {
+    opacity: 75%;
+  }
 }
 
 @media screen and (min-width: 768px) {
