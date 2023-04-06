@@ -50,6 +50,12 @@ $breakpoints: (
   }
 }
 
+@for $i from 1 through 6 {
+  h#{$i} {
+    color: var(--primary);
+  }
+}
+
 @each $breakpoint, $font-size in $breakpoints {
   @media (min-width: $breakpoint) {
     html {
