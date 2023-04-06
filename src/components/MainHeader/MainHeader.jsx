@@ -64,6 +64,7 @@ const MainHeader = () => {
       if (location.pathname !== "/") {
         // 탭이 존재하지 않으면
         if (!checkExistsTab()) {
+          const tempState = sessionStorage.getItem("tempState");
           const pathName = location.pathname;
           const docName = pathName.substring(1);
           const tempTabList = [...tabList];
@@ -74,6 +75,7 @@ const MainHeader = () => {
             pathName: tempDoc.data().pathName,
             displayName: tempDoc.data().displayName,
             icon: tempDoc.data().icon,
+            state: tempState,
           });
           setTabList(tempTabList);
         }
@@ -110,7 +112,7 @@ const MainHeader = () => {
             }`}
             id={styles.tabMenu}
             // 클릭 시 movePath 함수 실행
-            onClick={(event) => movePath(event, item.pathName)}
+            onClick={(event) => movePath(event, item.pathName, item.state)}
           >
             <FontAwesomeIcon
               // 아이콘 스타일 설정
