@@ -3,6 +3,7 @@ import styles from "./MainSettings.module.scss";
 import font from "../../styles/Font.module.scss";
 import LogOut from "./LogOut";
 import ChangePassword from "./ChangePassword";
+import DeleteAccount from "./DeleteAccount";
 
 const MainSettings = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -23,7 +24,7 @@ const MainSettings = () => {
         </div>
         <div className={styles.settingMenuOption}>
           <h3>회원 탈퇴</h3>
-          <button>회원 탈퇴</button>
+          <DeleteAccount />
         </div>
       </div>
     </div>
