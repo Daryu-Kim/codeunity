@@ -28,6 +28,8 @@ import { useReactPWAInstall } from "react-pwa-install";
 import { ToastContainer } from "react-toastify";
 
 const MainSideBar = () => {
+
+
   const friends = [
     "친구1.scss",
     "친구2.scss",
@@ -179,7 +181,10 @@ const MainSideBar = () => {
           />
           <FontAwesomeIcon
             icon={faUser}
-            onClick={() => movePath("/profile", userID)}
+            onClick={() => {
+              movePath("/profile", userID)
+              sessionStorage.setItem("tempState", userID)
+            }}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           {/* <div className={styles.myProfile}></div> */}
