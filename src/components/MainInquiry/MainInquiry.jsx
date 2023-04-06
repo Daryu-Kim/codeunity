@@ -11,9 +11,9 @@ const MainInquiry = () => {
       comment: `현재 5년차 미드레벨을 달리고 있는 풀스택 & 어플리케이션 개발자입니다!
       항상 문제 해결과 협업을 위한 공부 및 경험을 끊임없이 하고 있으며, 하루하루 새로운 지식을 찾아 배워나가는 것을 좋아합니다:)
       언제든 따끔한 지적은 환영입니다!`,
-      phone: "",
-      email: "",
-      github: "",
+      phone: "010-6894-1916",
+      email: "dev_daryu@kakao.com",
+      github: "https://github.com/Daryu-Kim",
     },
     {
       name: "백승호",
