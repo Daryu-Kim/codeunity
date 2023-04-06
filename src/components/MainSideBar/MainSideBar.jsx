@@ -19,7 +19,7 @@ import logo from "../../assets/images/logo.png";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import CodeMirror from "@uiw/react-codemirror";
 import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { BsMailbox2 } from "react-icons/bs";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import { toastError, toastSuccess } from "../../modules/Functions";
@@ -28,7 +28,7 @@ import { useReactPWAInstall } from "react-pwa-install";
 import { ToastContainer } from "react-toastify";
 
 const MainSideBar = () => {
-
+  const location = useLocation();
 
   const friends = [
     "친구1.scss",
@@ -76,6 +76,30 @@ const MainSideBar = () => {
         toastError("사용자가 설치를 취소하였습니다!");
       });
   };
+
+  function HomeSideBar() {
+    const [openFriendsMenu, setOpenFriendsMenu] = useState(false);
+    
+    const toggleFriendsMenu = () => {
+      setOpenFriendsMenu(!openFriendsMenu);
+    };
+
+    return (
+      <div className={styles.homeSide}>
+        <button onClick={toggleFriendsMenu}>
+          <p>친구.List</p>
+        </button>
+        {
+          openFriendsMenu ?
+          (
+            <div>hello</div>
+          ) :
+          null
+        }
+        <MemoBox />
+      </div>
+    );
+  }
 
   function MemoBox() {
     const [codeValue, setCodeValue] = useState();
@@ -135,6 +159,7 @@ const MainSideBar = () => {
       </div>
     );
   }
+
   return (
     <div className={styles.mainSideBar}>
       <ToastContainer position="top-right" autoClose={2000} />
@@ -196,7 +221,7 @@ const MainSideBar = () => {
         </div>
       </div>
       <div className={`${styles.contBox} ${font.fs_14}`}>
-        <div>
+        {/* <div>
           <ul
             className={font.fw_7}
             onClick={() => {
@@ -245,7 +270,10 @@ const MainSideBar = () => {
               ))}
           </ul>
         </div>
-        <MemoBox />
+        <MemoBox /> */}
+        {
+          location.pathname == "/" && <HomeSideBar />
+        }
       </div>
     </div>
   );

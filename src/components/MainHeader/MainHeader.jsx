@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
 import "swiper/css/free-mode";
 import 'swiper/css';
+import { AiOutlineCloseSquare } from "react-icons/ai";
 import { getDoc, doc } from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { firestore } from "../../modules/Firebase";
@@ -122,8 +123,11 @@ const MainHeader = () => {
             <p className={`${font.fs_14} ${font.fw_7}`}>
               {item.displayName}
             </p>
-            <button onClick={(event) => removeTab(event, item.pathName, index)}>
-              X
+            <button
+              className={styles.xBtn}
+              onClick={(event) => removeTab(event, item.pathName, index)}
+            >
+              <AiOutlineCloseSquare />
             </button>
           </SwiperSlide>
         ))
