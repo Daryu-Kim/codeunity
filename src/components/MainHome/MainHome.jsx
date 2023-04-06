@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
-import { AiOutlineLike, AiOutlineComment, AiOutlineShareAlt, AiFillLike } from "react-icons/ai"
-import { RiRestartLine } from "react-icons/ri"
+import {
+  AiOutlineLike,
+  AiOutlineComment,
+  AiOutlineShareAlt,
+  AiFillLike,
+} from "react-icons/ai";
+import { RiRestartLine } from "react-icons/ri";
 import {
   useCollectionData,
   useDocumentData,
@@ -30,8 +35,15 @@ import "swiper/css";
 import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
-import { toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
+import {
+  toastClear,
+  toastError,
+  toastLoading,
+  toastSuccess,
+} from "../../modules/Functions";
 import { followUser, unfollowUser } from "../../modules/Firebase";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MainHome = () => {
   const firestore = getFirestore(); // Firestore 인스턴스 생성
@@ -183,28 +195,24 @@ const MainHome = () => {
         // 모든 promises가 resolve될 때까지 대기
         const results = await Promise.all(promises);
         // 결과값을 배열로 변환
-        const {
-          postUserName,
-          postUserImg,
-          postUserFollower,
-          postLike,
-        } = results.reduce(
-          (acc, curr, index) => {
-            // 배열에 결과값 할당
-            acc.postUserName[index] = curr.userName;
-            acc.postUserImg[index] = curr.userImg;
-            acc.postUserFollower[index] = curr.userFollower;
-            acc.postLike[index] = curr.postLike;
-            return acc;
-          },
-          {
-            // 배열 초기화
-            postUserName: [...Array(allPost.length)],
-            postUserImg: [...Array(allPost.length)],
-            postUserFollower: [...Array(allPost.length)],
-            postLike: [...Array(allPost.length)],
-          }
-        );
+        const { postUserName, postUserImg, postUserFollower, postLike } =
+          results.reduce(
+            (acc, curr, index) => {
+              // 배열에 결과값 할당
+              acc.postUserName[index] = curr.userName;
+              acc.postUserImg[index] = curr.userImg;
+              acc.postUserFollower[index] = curr.userFollower;
+              acc.postLike[index] = curr.postLike;
+              return acc;
+            },
+            {
+              // 배열 초기화
+              postUserName: [...Array(allPost.length)],
+              postUserImg: [...Array(allPost.length)],
+              postUserFollower: [...Array(allPost.length)],
+              postLike: [...Array(allPost.length)],
+            }
+          );
         // state 업데이트
         setPostUserName(postUserName);
         setPostUserImg(postUserImg);
@@ -327,7 +335,6 @@ const MainHome = () => {
     postUserFollower,
   ]);
 
-
   // |이 코드는 게시물에 좋아요를 누르는 기능을 구현한 함수입니다.
   // |
   // |좋은 점:
@@ -363,7 +370,6 @@ const MainHome = () => {
     }
   };
 
-
   // |이 코드는 targetID를 팔로우하는 함수를 호출하고, postUserFollower 배열의 index번째 요소를 true로 변경하는 함수입니다.
   // |
   // |좋은 점:
@@ -383,7 +389,6 @@ const MainHome = () => {
       toastSuccess("팔로우를 완료하였습니다!"); // 팔로우 완료 메시지 출력
     } catch (err) {} // 에러 발생 시 무시
   };
-
 
   // |이 코드는 targetID를 언팔로우하는 함수를 호출하고, postUserFollower 배열에서 해당 targetID의 값을 false로 변경한 후, 변경된 배열로 업데이트하는 함수입니다. 또한, 언팔로우 완료 메시지를 출력합니다.
   // |
@@ -405,7 +410,6 @@ const MainHome = () => {
     } catch (err) {} // 에러 발생 시 무시
   };
 
-  
   // |이 코드는 게시물에서 좋아요를 취소하는 함수입니다.
   // |
   // |좋은 점:
@@ -439,7 +443,6 @@ const MainHome = () => {
       toastError("좋아요를 취소하지 못했습니다!");
     }
   };
-
 
   // |이 코드는 게시물을 리포스트하는 함수입니다.
   // |
@@ -475,11 +478,9 @@ const MainHome = () => {
     }
   };
 
-
   const commentClick = () => {
     console.log("Comment");
   };
-
 
   // |이 코드는 `navigator.share()`를 사용하여 제목, 내용, URL 및 파일을 설정하여 공유 API를 호출하는 함수입니다.
   // |
@@ -509,7 +510,6 @@ const MainHome = () => {
     }
   };
 
-
   // |이 코드는 profileClick 함수를 선언하고, 해당 함수가 실행될 때 "/profile" 경로로 이동하며, state에 userID를 전달하고, replace 옵션을 true로 설정하여 브라우저 히스토리를 변경하지 않는 기능을 수행합니다.
   // |
   // |좋은 점:
@@ -525,7 +525,6 @@ const MainHome = () => {
     userID // profileClick 함수 선언, 매개변수로 userID 전달
   ) => navigate("/profile", { state: userID, replace: true }); // "/profile" 경로로 이동하며, state에 userID를 전달하고, replace 옵션을 true로 설정하여 브라우저 히스토리를 변경하지 않음
 
-
   // |이 코드는 showModal 함수를 정의하는 코드입니다.
   // |
   // |좋은 점:
@@ -538,7 +537,6 @@ const MainHome = () => {
   // showModal 함수 정의
   const showModal = () => setModalState(true); // modalState를 true로 변경하여 모달을 보여줌
 
-  
   // |이 코드는 React 컴포넌트를 반환하는 함수입니다.
   // |
   // |좋은 점:
@@ -597,6 +595,9 @@ const MainHome = () => {
           </div>
           <div className={styles.postBox}>{postData}</div>
           {/* 게시글 데이터 출력 */}
+        </div>
+        <div className={styles.toTopBtn}>
+          <FontAwesomeIcon icon={faArrowUp} />
         </div>
       </div>
     );
