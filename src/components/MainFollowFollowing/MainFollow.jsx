@@ -1,25 +1,157 @@
 import React, { useState } from "react";
 import styles from "./MainFollow.module.scss";
+import font from "../../styles/Font.module.scss";
 
-const MainFollow = ({ followers, following, onClose }) => {
+const MainFollow = ({ follower, following1, onClose }) => {
   const [activeTab, setActiveTab] = useState("followers");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const followers = [
+    {
+      id: 1,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser1",
+      name: "User One",
+    },
+    {
+      id: 2,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser2",
+      name: "User Two",
+    },
+    {
+      id: 3,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser3",
+      name: "User Three",
+    },
+    {
+      id: 4,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser4",
+      name: "User Four",
+    },
+    {
+      id: 5,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser5",
+      name: "User Five",
+    },
+    {
+      id: 6,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser6",
+      name: "User Six",
+    },
+    {
+      id: 7,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser7",
+      name: "User Seven",
+    },
+    {
+      id: 8,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser8",
+      name: "User Eight",
+    },
+    {
+      id: 9,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser9",
+      name: "User Nine",
+    },
+    {
+      id: 10,
+      avatar: "https://via.placeholder.com/50",
+      username: "followeruser10",
+      name: "User Ten",
+    },
+  ];
+
+  const following = [
+    {
+      id: 1,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser1",
+      name: "User One",
+    },
+    {
+      id: 2,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser2",
+      name: "User Two",
+    },
+    {
+      id: 3,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser3",
+      name: "User Three",
+    },
+    {
+      id: 4,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser4",
+      name: "User Four",
+    },
+    {
+      id: 5,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser5",
+      name: "User Five",
+    },
+    {
+      id: 6,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser6",
+      name: "User Six",
+    },
+    {
+      id: 7,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser7",
+      name: "User Seven",
+    },
+    {
+      id: 8,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser8",
+      name: "User Eight",
+    },
+    {
+      id: 9,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser9",
+      name: "User Nine",
+    },
+    {
+      id: 10,
+      avatar: "https://via.placeholder.com/50",
+      username: "followinguser10",
+      name: "User Ten",
+    },
+  ];
+
   return (
     <div className="modal">
-      <div className="modal__content">
-        <div className="modal__header">
-          <h2 className="modal__title">Followers and Following</h2>
-          <button className="modal__close" onClick={onClose}>
+      <div className={styles.modalContent}>
+        <div className={styles.modalHeader}>
+          <h2 className={`${font.fs_16} ${font.fw_7} ${styles.modalTitle}`}>
+            Followers and Following
+          </h2>
+          <button
+            className={`${font.fs_18} ${font.fw_6} ${styles.modalClose}`}
+            onClick={onClose}
+          >
             &times;
           </button>
         </div>
-        <div className="modal__tabs">
+        <div className={styles.modalTabs}>
           <button
-            className={`modal__tab ${
+            className={`${styles.modalTab} ${
               activeTab === "followers" ? "modal__tab--active" : ""
             }`}
             onClick={() => handleTabClick("followers")}
@@ -27,7 +159,7 @@ const MainFollow = ({ followers, following, onClose }) => {
             Followers
           </button>
           <button
-            className={`modal__tab ${
+            className={`${styles.modalTab} ${
               activeTab === "following" ? "modal__tab--active" : ""
             }`}
             onClick={() => handleTabClick("following")}
@@ -35,38 +167,42 @@ const MainFollow = ({ followers, following, onClose }) => {
             Following
           </button>
         </div>
-        <div className="modal__body">
+        <div className={styles.modalBody}>
           {activeTab === "followers" ? (
-            <ul className="modal__list">
+            <ul className={styles.modalList}>
               {followers.map((follower) => (
-                <li key={follower.id} className="modal__item">
+                <li key={follower.id} className={styles.modalItem}>
                   <img
                     src={follower.avatar}
-                    alt={`${follower.username} profile`}
-                    className="modal__avatar"
+                    alt={`${follower.username} ${font.fs_12} ${font.fw_6} profile`}
+                    className={styles.modalAvatar}
                   />
-                  <div className="modal__user">
-                    <p className="modal__username">{follower.username}</p>
-                    <p className="modal__name">{follower.name}</p>
+                  <div className={styles.modalUser}>
+                    <p className={`${font.fs_12} ${font.fw_6}`}>
+                      {follower.username}
+                    </p>
+                    <p className={`${styles.modalName} ${font.fs_10}`}>
+                      {follower.name}
+                    </p>
                   </div>
-                  <button className="modal__follow">Follow</button>
+                  <button className={styles.modalUnfollow}>Follow</button>
                 </li>
               ))}
             </ul>
           ) : (
-            <ul className="modal__list">
+            <ul className={styles.modalList}>
               {following.map((follow) => (
-                <li key={follow.id} className="modal__item">
+                <li key={follow.id} className={styles.modalItem}>
                   <img
                     src={follow.avatar}
                     alt={`${follow.username} profile`}
-                    className="modal__avatar"
+                    className={styles.modalAvatar}
                   />
-                  <div className="modal__user">
-                    <p className="modal__username">{follow.username}</p>
-                    <p className="modal__name">{follow.name}</p>
+                  <div className={styles.modalUser}>
+                    <p className={styles.modalUserName}>{follow.username}</p>
+                    <p className={styles.modalName}>{follow.name}</p>
                   </div>
-                  <button className="modal__unfollow">Unfollow</button>
+                  <button className={styles.modalUnfollow}>Unfollow</button>
                 </li>
               ))}
             </ul>

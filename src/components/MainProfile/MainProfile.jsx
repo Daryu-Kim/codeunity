@@ -16,6 +16,7 @@ import {
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
+import MainFollow from "../MainFollowFollowing/MainFollow";
 
 const MainProfile = () => {
   const firestore = getFirestore();
@@ -36,6 +37,10 @@ const MainProfile = () => {
   const [userPostData, setUserPostData] = useState(null);
   const [userQnAData, setUserQnAData] = useState(null);
   const [isList, setIsList] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
 
   useEffect(() => {
     if (userPost != undefined) {
@@ -136,7 +141,7 @@ const MainProfile = () => {
               {document.userDesc ? document.userDesc : "자기소개가 없습니다!"}
             </p>
           </div>
-          <div className={styles.followBox}>
+          <div className={styles.followBox} onClick={handleModalOpen}>
             <div className={styles.followerBox}>
               <p className={`${styles.followTitle} ${font.fs_14} ${font.fw_7}`}>
                 팔로우
@@ -197,6 +202,9 @@ const MainProfile = () => {
             <div className={styles.postBox}>{userQnAData}</div>
           )}
         </div>
+        {isModalOpen && (
+          <MainFollow followers={1} following={1} onClose={handleModalClose} />
+        )}
       </div>
     );
   }
