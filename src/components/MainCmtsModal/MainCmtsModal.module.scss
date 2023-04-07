@@ -12,55 +12,27 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 48rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 96rem;
   background-color: var(--sub-bg);
-  padding: 0 2rem 2rem 2rem;
+  padding: 2rem;
+  height: 90%;
+  aspect-ratio: 2/ 1;
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3);
 }
 
-.buttonsWrapper {
-  width: 100%;
-  height: 3rem;
-  line-height: 3rem;
-  text-align: center;
-  color: var(--accent);
-}
-
-.writeTitle,
-.writeContent,
-.writeTag {
-  margin-bottom: 0.1rem;
-}
-
-.writeTitle,
-.writeContent {
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-
-  input,
-  .memoBoxMemo {
-    width: 100%;
-    border: 0.1rem solid #ddd;
-    border-radius: 0.33rem;
-    padding: 1rem;
-    line-height: 1.5rem;
-    resize: none;
-  }
-
-  > .memoBoxMemo {
-    height: 24rem;
+.postBox {
+  > .postContent {
+    overflow: scroll;
+    height: 20vh;
   }
 }
 
@@ -91,20 +63,5 @@
   cursor: pointer;
   &:hover {
     opacity: 75%;
-  }
-}
-
-.submitBtn {
-  position: absolute;
-  top: 0.5rem;
-  right: 2rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.3rem;
-  background-color: transparent;
-  color: var(--accent);
-  cursor: pointer;
-  &:hover {
-    background-color: var(--accent-more-light);
-    color: #fff;
   }
 }

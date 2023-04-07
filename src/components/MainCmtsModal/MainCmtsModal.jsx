@@ -12,22 +12,24 @@ import {
   Timestamp,
   updateDoc,
   getFirestore,
+  getDoc,
 } from "firebase/firestore";
+import { useDocumentData, useDocumentDataOnce } from "react-firebase-hooks/firestore";
 
-const MainCmtsModal = ({ setModalState, modalPostID }) => {
+const MainCmtsModal = ({ setModalState, modalPostID, modalType }) => {
   const firestore = getFirestore();
   const location = useLocation();
   const [title, setTitle] = useState("");
-  const [mdValue, setMDValue] = useState("");
+  const [mdValue, setMDValue] = useState({});
   const [tags, setTags] = useState([]);
   const modalRef = useRef(null);
+  const [modalData, modalDataLoad, modalDataError] = useDocumentData(
+    doc(
+      firestore, "Posts", modalPostID
+    )
+  );
 
   const uid = localStorage.getItem("uid");
-
-  const titleChange = (e) => setTitle(e.target.value);
-  const mdValueChange = (e) => setMDValue(e);
-  // const mdValueChange = (e) => console.log(e);
-  const tagsChange = (e) => tags.push(e.target.value);
 
   const closeModal = () => {
     setModalState(false);
@@ -47,54 +49,16 @@ const MainCmtsModal = ({ setModalState, modalPostID }) => {
     };
   });
 
-  const submitPQ = async () => {
-    // if문으로 바꾸기.
-    if (mdValue) {
-      if (location.pathname == "/qna") {
-        if (title) {
-          if (tags.length > 0) {
-            toastLoading("다른 개발자에게 질문하는중입니다!");
-            await addDoc(collection(firestore, "Posts"), {
-              userID: uid,
-              createdAt: Timestamp.fromDate(new Date()),
-              postTitle: title,
-              postContent: mdValue,
-            }).then(async (result) => {
-              await updateDoc(doc(firestore, "QnAs", result.id), {
-                postID: result.id,
-              }).then(() => {
-                toastClear();
-                closeModal();
-              });
-            });
-          } else {
-            toastError("태그를 입력해주세요!");
-          }
-        } else {
-          toastError("제목을 입력해주세요!");
-        }
-      } else {
-        toastLoading("게시물을 업로드 중입니다!");
-        await addDoc(collection(firestore, "Posts"), {
-          userID: uid,
-          createdAt: Timestamp.fromDate(new Date()),
-          postContent: mdValue,
-        }).then(async (result) => {
-          await updateDoc(doc(firestore, "Posts", result.id), {
-            postID: result.id,
-          }).then(() => {
-            toastClear();
-            closeModal();
-          });
-        });
-      }
-    } else {
-      toastError("내용을 입력해주세요!");
+  useEffect(() => {
+    if (modalPostID) {
+      setMDValue(modalData)
     }
-  };
+  }, [modalData])
 
   return (
-    <div className={styles.modalWrapper}>
+    mdValue &&
+    (
+      <div className={styles.modalWrapper}>
       <button
         className={`${styles.closeBtn} ${font.fs_16} `}
         type="button"
@@ -104,51 +68,27 @@ const MainCmtsModal = ({ setModalState, modalPostID }) => {
       </button>
       <ToastContainer position="top-right" autoClose={2000} />
       <div ref={modalRef} className={styles.modal}>
-        <div className={styles.buttonsWrapper}>
-          새 게시물 만들기
-          <button
-            className={`${styles.submitBtn} ${font.fw_5}`}
-            onClick={submitPQ}
-          >
-            공유하기
-          </button>
-        </div>
-        {location.pathname == "/qna" ? (
-          <div className={styles.writeTitle}>
-            <label className={font.fs_16} htmlFor="title">
+        <div className={styles.postBox}>
+          {/* {location.pathname == "/qna" ? ( */}
+            <p className={`${font.fs_24} ${font.fw_7}`}>
               제목
-            </label>
-            <input
-              className={font.fs_12}
-              type="text"
-              id="title"
-              value={title}
-              placeholder="제목을 입력해주세요"
-              onChange={titleChange}
-            />
-          </div>
-        ) : null}
-        <div className={styles.writeContent}>
+            </p>
+          {/* ) : null} */}
           <MarkdownPreview
-            className={styles.memoBoxMemo}
-            source={modalPostID}
+            className={styles.postContent}
+            source={mdValue.postContent}
           />
-        </div>
-        {location.pathname == "/qna" ? (
-          <div className={styles.writeTag}>
+          {location.pathname == "/qna" ? (
             <label htmlFor="tags">태그</label>
-            <input
-              className={font.fs_12}
-              type="text"
-              id="tags"
-              value={tags}
-              placeholder="태그를 선택해주세요"
-              onChange={tagsChange}
-            />
-          </div>
-        ) : null}
+          ) : null}
+        </div>
+        <div className={styles.cmtsBox}>
+          Comments
+        </div>
       </div>
     </div>
+    )
+    
   );
 };
 export default MainCmtsModal;
