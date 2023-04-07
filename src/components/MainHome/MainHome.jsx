@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./MainHome.module.scss";
 import font from "../../styles/Font.module.scss";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
@@ -45,7 +45,8 @@ import { followUser, unfollowUser } from "../../modules/Firebase";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const MainHome = () => {
+// const MainHome = () => {
+function MainHome() {
   const firestore = getFirestore(); // Firestore 인스턴스 생성
   const uid = localStorage.getItem("uid"); // 로컬 스토리지에서 uid 가져오기
   const [document, loading, error, snapshot] = useDocumentData(
@@ -537,7 +538,6 @@ const MainHome = () => {
   // showModal 함수 정의
   const showModal = () => setModalState(true); // modalState를 true로 변경하여 모달을 보여줌
 
-  
   // |이 코드는 React 컴포넌트를 반환하는 함수입니다.
   // |
   // |좋은 점:
@@ -551,9 +551,36 @@ const MainHome = () => {
   // |- `onClick` 핸들러 함수가 중복되어 사용되는 부분이 있습니다. 이를 하나의 함수로 만들어서 중복을 제거할 수 있습니다.
   // |- `styles` 객체를 사용하여 CSS 스타일을 정의하고 있지만, 이를 모듈화하지 않았기 때문에 다른 컴포넌트에서도 사용할 수 있습니다. 이를 방지하기 위해서는 CSS 모듈을 사용하거나, 스타일드 컴포넌트를 사용하는 것이 좋습니다.
 
+  //스클롤 이벤트
+  const [scrollTop, setScrollTop] = useState(0);
+  const scrollContainerRef = useRef(null);
+
+  const handleScroll = () => {
+    const newScrollTop = scrollContainerRef.current.scrollTop;
+    setScrollTop(newScrollTop);
+  };
+
+  const handleButtonClick = () => {
+    const scrollToTop = () => {
+      const currentPosition = scrollContainerRef.current.scrollTop;
+      if (currentPosition > 0) {
+        requestAnimationFrame(() => {
+          scrollContainerRef.current.scrollTop = currentPosition - 120;
+          scrollToTop();
+        });
+      }
+    };
+    scrollToTop();
+    setScrollTop(0);
+  };
+
   if (document) {
     return (
-      <div className={styles.wrapper}>
+      <div
+        className={styles.wrapper}
+        onScroll={handleScroll}
+        ref={scrollContainerRef}
+      >
         <ToastContainer position="top-right" autoClose={2000} />
         {modalState && <MainPQModal setModalState={setModalState} />}
         <div className={styles.box}>
@@ -597,12 +624,14 @@ const MainHome = () => {
           <div className={styles.postBox}>{postData}</div>
           {/* 게시글 데이터 출력 */}
         </div>
-        <div className={styles.toTopBtn}>
-          <FontAwesomeIcon icon={faArrowUp} />
-        </div>
+        {scrollTop > 300 && (
+          <div className={styles.toTopBtn} onClick={handleButtonClick}>
+            <FontAwesomeIcon icon={faArrowUp} />
+          </div>
+        )}
       </div>
     );
   }
-};
+}
 
 export default MainHome;
