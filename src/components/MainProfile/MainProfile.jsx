@@ -48,7 +48,7 @@ const MainProfile = () => {
             >
               <MarkdownPreview
                 className={`
-                  ${styles.postItem}
+                  ${styles.postItemMd}
                   ${isList && styles.list}
                 `}
                 key={item.postID}

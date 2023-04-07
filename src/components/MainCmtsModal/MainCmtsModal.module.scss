@@ -17,6 +17,12 @@
   align-items: center;
 }
 
+// |이 코드는 모달 요소의 스타일을 정의하는 SCSS 코드입니다. // |
+// |좋은 점:
+// |- 그리드 레이아웃을 사용하여 요소를 배치하므로, 반응형 디자인에 적합합니다.
+// |- 변수를 사용하여 배경색을 지정하므로, 유지보수가 용이합니다.
+// |- 내부 여백, 높이, 가로 세로 비율, 모서리, 그림자 등 다양한 스타일 속성을 설정하여 모달 요소를 깔끔하고 세련된 디자인으로 만들었습니다.
+
 .modal {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -24,28 +30,74 @@
   background-color: var(--sub-bg);
   padding: 2rem;
   height: 90%;
-  aspect-ratio: 2/ 1;
-  border-radius: 0.5rem;
+  aspect-ratio: 2/1;
+  border-radius: 0.8rem;
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3);
+  overflow: scroll;
 }
 
 .postBox {
-  > .postContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 10vh - 4rem);
+  gap: 1.6rem;
+  > .postContBox {
+    flex: 1;
     overflow: scroll;
-    height: 20vh;
+    background-color: var(--bg);
+    border-radius: 0.8rem;
+    padding: 1.6rem;
+    > .postContent {
+      background-color: var(--bg);
+      overflow: hidden;
+      > * {
+        color: var(--primary);
+        border-color: var(--sub-light);
+      }
+    }
+  }
+  > .postTagBox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+
+    > .postTagItem {
+      background-color: var(--thd-bg);
+      padding: 0.4rem 1.6rem;
+      border-radius: 0.8rem;
+    }
   }
 }
 
-.writeTag {
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
+.cmtsBox {
+  display: flex;
+  flex-direction: column;
 
-  input {
-    width: 100%;
-    border: 1px solid #ddd;
+  > .cmtsProfileBox {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.6rem;
+    gap: 0.8rem;
+
+    > div {
+      width: 3.6rem;
+      height: 3.6rem;
+      aspect-ratio: 1/1;
+
+      background: {
+        radius: 50%;
+        size: cover;
+        position: center;
+      }
+
+      border: {
+        radius: 50%;
+        width: 0.2rem;
+        color: var(--accent);
+        style: solid;
+      }
+    }
   }
 }
 

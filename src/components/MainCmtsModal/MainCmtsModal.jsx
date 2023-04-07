@@ -71,19 +71,40 @@ const MainCmtsModal = ({ setModalState, modalPostID, modalType }) => {
         <div className={styles.postBox}>
           {/* {location.pathname == "/qna" ? ( */}
             <p className={`${font.fs_24} ${font.fw_7}`}>
-              제목
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae, corporis.
             </p>
           {/* ) : null} */}
-          <MarkdownPreview
-            className={styles.postContent}
-            source={mdValue.postContent}
-          />
-          {location.pathname == "/qna" ? (
-            <label htmlFor="tags">태그</label>
-          ) : null}
+          <div className={styles.postContBox}>
+            <MarkdownPreview
+              className={styles.postContent}
+              source={mdValue.postContent}
+            />
+          </div>
+          {/* {location.pathname == "/qna" ? ( */}
+            <div className={styles.postTagBox}>
+              <p className={`${styles.postTagItem} ${font.fs_14}`}>
+                lorem
+              </p>
+              <p className={`${styles.postTagItem} ${font.fs_14}`}>
+                lorem
+              </p>
+              <p className={`${styles.postTagItem} ${font.fs_14}`}>
+                lorem
+              </p>
+              <p className={`${styles.postTagItem} ${font.fs_14}`}>
+                lorem
+              </p>
+              <p className={`${styles.postTagItem} ${font.fs_14}`}>
+                lorem
+              </p>
+            </div>
+          {/* ) : null} */}
         </div>
         <div className={styles.cmtsBox}>
-          Comments
+          <div className={styles.cmtsProfileBox}>
+            <div className={styles.cmtsImg}></div>
+            <p></p>
+          </div>
         </div>
       </div>
     </div>

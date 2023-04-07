@@ -136,6 +136,13 @@
       &:hover {
         filter: none;
       }
+      > .postItemMd {
+        background-color: var(--bg);
+        > * {
+          color: var(--primary);
+          border-color: var(--sub-light);
+        }
+      }
     }
   }
 }
