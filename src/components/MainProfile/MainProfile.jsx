@@ -94,7 +94,7 @@ const MainProfile = () => {
         {
           modalState &&
           <div className={styles.mainCmtsModal}>
-            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID}/>
+            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID} modalType="post"/>
           </div>
         }
         <div className={styles.profileBox}>
