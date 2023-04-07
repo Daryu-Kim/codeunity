@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import font from "../../styles/Font.module.scss";
 import styles from "./MainCmtsModal.module.scss";
-import MarkdownEditor from "@uiw/react-markdown-editor";
+import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { toastClear, toastError, toastLoading } from "../../modules/Functions";
@@ -14,7 +14,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 
-const MainCmtsModal = ({ setModalState }) => {
+const MainCmtsModal = ({ setModalState, modalPostID }) => {
   const firestore = getFirestore();
   const location = useLocation();
   const [title, setTitle] = useState("");
@@ -129,14 +129,9 @@ const MainCmtsModal = ({ setModalState }) => {
           </div>
         ) : null}
         <div className={styles.writeContent}>
-          <MarkdownEditor
-            value={mdValue}
-            onChange={(e) => mdValueChange(e)}
+          <MarkdownPreview
             className={styles.memoBoxMemo}
-            previewWidth={"100%"}
-            style={{
-              fontSize: 16,
-            }}
+            source={modalPostID}
           />
         </div>
         {location.pathname == "/qna" ? (

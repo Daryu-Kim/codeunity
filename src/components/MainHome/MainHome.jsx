@@ -524,7 +524,10 @@ function MainHome() {
 
   const profileClick = (
     userID // profileClick 함수 선언, 매개변수로 userID 전달
-  ) => navigate("/profile", { state: userID, replace: true }); // "/profile" 경로로 이동하며, state에 userID를 전달하고, replace 옵션을 true로 설정하여 브라우저 히스토리를 변경하지 않음
+  ) => {
+    sessionStorage.setItem("tempState", userID)
+    navigate("/profile", { state: userID, replace: true });
+   } // "/profile" 경로로 이동하며, state에 userID를 전달하고, replace 옵션을 true로 설정하여 브라우저 히스토리를 변경하지 않음
 
   // |이 코드는 showModal 함수를 정의하는 코드입니다.
   // |
