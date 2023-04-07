@@ -91,7 +91,12 @@ const MainProfile = () => {
   if (document) {
     return (
       <div className={styles.wrapper}>
-        {modalState && <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID}/>}
+        {
+          modalState &&
+          <div className={styles.mainCmtsModal}>
+            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID}/>
+          </div>
+        }
         <div className={styles.profileBox}>
           <div className={styles.imgBox}>
             <div
