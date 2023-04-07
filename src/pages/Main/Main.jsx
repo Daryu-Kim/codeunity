@@ -10,6 +10,7 @@ import MainChat from "../../components/MainChat/MainChat";
 import MainQnA from "../../components/MainQnA/MainQnA";
 import MainSettings from "../../components/MainSettings/MainSettings";
 import MainInquiry from "../../components/MainInquiry/MainInquiry";
+import MainSearch from "../../components/MainSearch/MainSearch";
 
 const Main = () => {
   const [user] = useAuthState(auth);
@@ -34,6 +35,7 @@ const Main = () => {
           <Route path="qna" element={<MainQnA />}></Route>
           <Route path="settings" element={<MainSettings />}></Route>
           <Route path="inquiry" element={<MainInquiry />}></Route>
+          <Route path="search" element={<MainSearch />}></Route>
         </Routes>
       </div>
     </div>
