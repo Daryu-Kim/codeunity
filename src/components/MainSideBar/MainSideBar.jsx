@@ -79,7 +79,7 @@ const MainSideBar = () => {
 
   function HomeSideBar() {
     const [openFriendsMenu, setOpenFriendsMenu] = useState(false);
-    
+
     const toggleFriendsMenu = () => {
       setOpenFriendsMenu(!openFriendsMenu);
     };
@@ -89,13 +89,7 @@ const MainSideBar = () => {
         <button onClick={toggleFriendsMenu}>
           <p>친구.List</p>
         </button>
-        {
-          openFriendsMenu ?
-          (
-            <div>hello</div>
-          ) :
-          null
-        }
+        {openFriendsMenu ? <div>hello</div> : null}
         <MemoBox />
       </div>
     );
@@ -170,6 +164,7 @@ const MainSideBar = () => {
             onClick={() => movePath("/")}
           ></div>
           <FontAwesomeIcon
+            onClick={() => movePath("/search")}
             icon={faMagnifyingGlass}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
@@ -207,8 +202,8 @@ const MainSideBar = () => {
           <FontAwesomeIcon
             icon={faUser}
             onClick={() => {
-              movePath("/profile", userID)
-              sessionStorage.setItem("tempState", userID)
+              movePath("/profile", userID);
+              sessionStorage.setItem("tempState", userID);
             }}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
@@ -271,9 +266,7 @@ const MainSideBar = () => {
           </ul>
         </div>
         <MemoBox /> */}
-        {
-          location.pathname == "/" && <HomeSideBar />
-        }
+        {location.pathname == "/" && <HomeSideBar />}
       </div>
     </div>
   );
