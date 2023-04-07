@@ -2,8 +2,17 @@ import { useEffect, useState } from "react";
 import styles from "./MainProfile.module.scss";
 import font from "../../styles/Font.module.scss";
 import { useLocation } from "react-router-dom";
-import { doc, getFirestore, query, where, collection } from "firebase/firestore";
-import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
+import {
+  doc,
+  getFirestore,
+  query,
+  where,
+  collection,
+} from "firebase/firestore";
+import {
+  useDocumentData,
+  useCollectionData,
+} from "react-firebase-hooks/firestore";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
@@ -33,7 +42,10 @@ const MainProfile = () => {
       setUserPostData(
         userPost.map((item) => {
           return (
-            <div className={styles.postItem} onClick={() => showModal(item.postID)}>
+            <div
+              className={styles.postItem}
+              onClick={() => showModal(item.postID)}
+            >
               <MarkdownPreview
                 className={`
                   ${styles.postItem}
@@ -45,9 +57,9 @@ const MainProfile = () => {
             </div>
           );
         })
-      )
+      );
     }
-  }, [userPost])
+  }, [userPost]);
 
   useEffect(() => {
     if (userQnA != undefined) {
@@ -64,12 +76,11 @@ const MainProfile = () => {
                 source={item.questContent}
               />
             </div>
-            
           );
         })
-      )
+      );
     }
-  }, [userQnA])
+  }, [userQnA]);
 
   const changePostTab = (e) => {
     if (e.target.checked) {
@@ -82,21 +93,23 @@ const MainProfile = () => {
       setMenuTab(false);
     }
   };
-  
+
   const showModal = (postID) => {
     setModalPostID(postID);
-    setModalState(true)
+    setModalState(true);
   };
 
   if (document) {
     return (
       <div className={styles.wrapper}>
-        {
-          modalState &&
+        {modalState && (
           <div className={styles.mainCmtsModal}>
-            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID}/>
+            <MainCmtsModal
+              setModalState={setModalState}
+              modalPostID={modalPostID}
+            />
           </div>
-        }
+        )}
         <div className={styles.profileBox}>
           <div className={styles.imgBox}>
             <div
@@ -119,7 +132,9 @@ const MainProfile = () => {
           </div>
           <div className={styles.nameBox}>
             <p className={`${font.fs_24} ${font.fw_7}`}>{document.userName}</p>
-            <p className={`${font.fs_14} ${font.fw_7} ${font.fc_accent}`}>{document.userSearchID}</p>
+            <p className={`${font.fs_14} ${font.fw_7} ${font.fc_accent}`}>
+              {document.userSearchID}
+            </p>
             <p className={`${font.fs_16} ${font.fc_sub}`}>
               {document.userDesc ? document.userDesc : "자기소개가 없습니다!"}
             </p>
@@ -146,16 +161,38 @@ const MainProfile = () => {
               </p>
             </div>
           </div>
-          <div className={styles.userTagBox}>
-            {document.userTag}
-          </div>
+          <div className={styles.userTagBox}>{document.userTag}</div>
         </div>
         <div className={styles.contBox}>
           <div className={styles.menuTab}>
-            <input type="radio" name="tab" checked={menuTab == true} id="post" onChange={(e) => changePostTab(e)} className={styles.none} />
-            <label htmlFor="post" className={`${font.fs_16} ${font.fw_7} ${styles.menuTabPost}`}>게시물</label>
-            <input type="radio" name="tab" checked={menuTab == false} id="qna" onChange={(e) => changeQnaTab(e)} className={styles.none} />
-            <label htmlFor="qna" className={`${font.fs_16} ${font.fw_7} ${styles.menuTabQnA}`}>QnA</label>
+            <input
+              type="radio"
+              name="tab"
+              checked={menuTab == true}
+              id="post"
+              onChange={(e) => changePostTab(e)}
+              className={styles.none}
+            />
+            <label
+              htmlFor="post"
+              className={`${font.fs_16} ${font.fw_7} ${styles.menuTabPost}`}
+            >
+              게시물
+            </label>
+            <input
+              type="radio"
+              name="tab"
+              checked={menuTab == false}
+              id="qna"
+              onChange={(e) => changeQnaTab(e)}
+              className={styles.none}
+            />
+            <label
+              htmlFor="qna"
+              className={`${font.fs_16} ${font.fw_7} ${styles.menuTabQnA}`}
+            >
+              QnA
+            </label>
           </div>
           {menuTab ? (
             <div className={styles.postBox}>{userPostData}</div>
