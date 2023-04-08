@@ -26,9 +26,10 @@
 .modal {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  width: 90%;
   max-width: 96rem;
+  max-height: 64rem;
   background-color: var(--sub-bg);
-  padding: 2rem;
   height: 90%;
   aspect-ratio: 2/1;
   border-radius: 0.8rem;
@@ -37,32 +38,38 @@
 }
 
 .postBox {
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 10vh - 4rem);
+  height: calc(100vh - 10vh);
+  max-height: 64rem;
   gap: 1.6rem;
-  > .postContBox {
+
+  >.postContBox {
     flex: 1;
     overflow: scroll;
     background-color: var(--bg);
     border-radius: 0.8rem;
     padding: 1.6rem;
-    > .postContent {
+
+    >.postContent {
       background-color: var(--bg);
       overflow: hidden;
-      > * {
+
+      >* {
         color: var(--primary);
         border-color: var(--sub-light);
       }
     }
   }
-  > .postTagBox {
+
+  >.postTagBox {
     display: flex;
     flex-wrap: wrap;
     gap: 0.8rem;
 
-    > .postTagItem {
+    >.postTagItem {
       background-color: var(--thd-bg);
       padding: 0.4rem 1.6rem;
       border-radius: 0.8rem;
@@ -73,14 +80,16 @@
 .cmtsBox {
   display: flex;
   flex-direction: column;
+  background-color: var(--thd-bg);
 
-  > .cmtsProfileBox {
+  >.cmtsProfileBox {
     display: flex;
     align-items: center;
-    padding: 0.8rem 1.6rem;
+    padding: 1.2rem 1.6rem;
     gap: 0.8rem;
+    border-bottom: 0.1rem solid var(--sub);
 
-    > div {
+    >div {
       width: 3.6rem;
       height: 3.6rem;
       aspect-ratio: 1/1;
@@ -99,6 +108,96 @@
       }
     }
   }
+
+  >.cmtsCommentBox {
+    flex: 1;
+    padding: 1.6rem;
+  }
+
+  >.cmtsFunctionBox {
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    border-top: 0.1rem solid var(--sub);
+
+    >.cmtsFunctionBtnBox {
+      display: flex;
+      align-items: center;
+      grid-gap: 1.2rem;
+      >.followBtn {
+        color: white;
+        background-color: var(--accent);
+        padding: 0.6rem 1.6rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--accent-light);
+        }
+      }
+
+      >.unfollowBtn {
+        color: var(--accent);
+        background-color: var(--bg);
+        padding: 0.6rem 1.6rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--thd-bg);
+        }
+      }
+
+      >svg {
+        width: 2.4rem;
+        height: 2.4rem;
+        aspect-ratio: 1 / 1;
+        cursor: pointer;
+        color: var(--primary);
+
+        &:hover {
+          color: var(--accent);
+        }
+      }
+    }
+
+    > .cmtsFunctionWriteBox {
+      > button, input {
+        width: 100%;
+        background-color: var(--sub-bg);
+        text-align: start;
+        padding: 0.8rem 2rem;
+        border-radius: 0.8rem;
+      }
+
+      > button {
+        cursor: pointer;
+        color: var(--sub);
+      }
+
+      > input {
+        color: var(--primary);
+      }
+
+      > .postCmtBox {
+        display: flex;
+        gap: 0.8rem;
+
+        > button {
+          background-color: var(--accent);
+          color: white;
+          padding: 0 1.6rem;
+          border-radius: 0.8rem;
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--accent-light);
+          }
+        }
+      }
+    }
+  }
 }
 
 .closeBtn {
@@ -113,7 +212,43 @@
   line-height: 1.5rem;
   color: #fff;
   cursor: pointer;
+
   &:hover {
     opacity: 75%;
+  }
+}
+
+.modalProfileMobile {
+  display: none;
+    align-items: center;
+    gap: 0.8rem;
+
+    >div {
+      width: 3.6rem;
+      height: 3.6rem;
+      aspect-ratio: 1/1;
+
+      background: {
+        radius: 50%;
+        size: cover;
+        position: center;
+      }
+
+      border: {
+        radius: 50%;
+        width: 0.2rem;
+        color: var(--accent);
+        style: solid;
+      }
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  .modal {
+    grid-template-columns: 1fr 0.75fr;
+  }
+
+  .modalProfileMobile {
+    display: flex;
   }
 }

@@ -27,6 +27,7 @@ const MainProfile = () => {
   );
   const [modalState, setModalState] = useState(false);
   const [modalPostID, setModalPostID] = useState("");
+  const [modalType, setModalType] = useState("");
   const [menuTab, setMenuTab] = useState(true);
   const [userPost, userPostLoad, userPostError] = useCollectionData(
     query(collection(firestore, "Posts"), where("userID", "==", uid)) // 생성일 기준으로 내림차순 정렬
@@ -45,11 +46,12 @@ const MainProfile = () => {
   useEffect(() => {
     if (userPost != undefined) {
       setUserPostData(
-        userPost.map((item) => {
+        userPost.map((item, index) => {
           return (
             <div
+              key={index}
               className={styles.postItem}
-              onClick={() => showModal(item.postID)}
+              onClick={() => showModal(item.postID, "post")}
             >
               <MarkdownPreview
                 className={`
@@ -69,9 +71,13 @@ const MainProfile = () => {
   useEffect(() => {
     if (userQnA != undefined) {
       setUserQnAData(
-        userQnA.map((item) => {
+        userQnA.map((item, index) => {
           return (
-            <div>
+            <div
+              key={index}
+              className={styles.postItem}
+              onClick={() => showModal(item.postID, "qna")}
+            >
               <MarkdownPreview
                 className={`
                   ${styles.postItem}
@@ -99,8 +105,9 @@ const MainProfile = () => {
     }
   };
 
-  const showModal = (postID) => {
+  const showModal = (postID, type) => {
     setModalPostID(postID);
+    setModalType(type);
     setModalState(true);
   };
 
@@ -109,7 +116,7 @@ const MainProfile = () => {
       <div className={styles.wrapper}>
         {modalState && (
           <div className={styles.mainCmtsModal}>
-            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID} modalType="post"/>
+            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID} modalUserID={uid} modalType={modalType}/>
           </div>
         )}
         <div className={styles.profileBox}>
