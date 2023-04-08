@@ -152,7 +152,7 @@ const MainFollow = ({ follower, following1, onClose }) => {
         <div className={styles.modalTabs}>
           <button
             className={`${styles.modalTab} ${
-              activeTab === "followers" ? "modal__tab--active" : ""
+              activeTab === "followers" ? styles.modalTabActive : ""
             }`}
             onClick={() => handleTabClick("followers")}
           >
@@ -160,7 +160,7 @@ const MainFollow = ({ follower, following1, onClose }) => {
           </button>
           <button
             className={`${styles.modalTab} ${
-              activeTab === "following" ? "modal__tab--active" : ""
+              activeTab === "following" ? styles.modalTabActive : ""
             }`}
             onClick={() => handleTabClick("following")}
           >
@@ -178,14 +178,13 @@ const MainFollow = ({ follower, following1, onClose }) => {
                     className={styles.modalAvatar}
                   />
                   <div className={styles.modalUser}>
-                    <p className={`${font.fs_12} ${font.fw_6}`}>
+                    <p className={`${font.fs_12} ${font.fw_5}`}>
                       {follower.username}
                     </p>
                     <p className={`${styles.modalName} ${font.fs_10}`}>
                       {follower.name}
                     </p>
                   </div>
-                  <button className={styles.modalUnfollow}>Follow</button>
                 </li>
               ))}
             </ul>
@@ -199,10 +198,11 @@ const MainFollow = ({ follower, following1, onClose }) => {
                     className={styles.modalAvatar}
                   />
                   <div className={styles.modalUser}>
-                    <p className={styles.modalUserName}>{follow.username}</p>
+                    <p className={`${font.fs_12} ${font.fw_5}`}>
+                      {follow.username}
+                    </p>
                     <p className={styles.modalName}>{follow.name}</p>
                   </div>
-                  <button className={styles.modalUnfollow}>Unfollow</button>
                 </li>
               ))}
             </ul>

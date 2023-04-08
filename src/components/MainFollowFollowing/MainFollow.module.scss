@@ -3,10 +3,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 42rem;
+  width: 36rem;
   max-height: 80vh;
   overflow-y: auto;
-  background-color: #fff;
+  background-color: var(--bg);
   border-radius: 0.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   padding: 2rem;
@@ -31,7 +31,11 @@
 
 .modalTabs {
   display: flex;
+  justify-content: center;
   margin-bottom: 1rem;
+  > button {
+    margin: 0 3rem;
+  }
 }
 
 .modalTab {
@@ -46,13 +50,13 @@
   transition: all 0.2s;
 
   &:hover {
-    color: #000;
+    color: var(--primary);
   }
 }
 
-.modal__tab--active {
-  color: #000;
-  border-bottom: 2px solid #000;
+.modalTabActive {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
 }
 
 .modalBody {
@@ -89,32 +93,4 @@
 .modalName {
   color: #777;
   margin-top: 0.5rem;
-}
-
-.modalFollow {
-  border: none;
-  background-color: #3897f0;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.modalUnfollow {
-  border: none;
-  background-color: transparent;
-  color: var(--accent);
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: var(--accent);
-    color: #fff;
-  }
 }
