@@ -116,7 +116,12 @@ const MainProfile = () => {
       <div className={styles.wrapper}>
         {modalState && (
           <div className={styles.mainCmtsModal}>
-            <MainCmtsModal setModalState={setModalState} modalPostID={modalPostID} modalUserID={uid} modalType={modalType}/>
+            <MainCmtsModal
+              setModalState={setModalState}
+              modalPostID={modalPostID}
+              modalUserID={uid}
+              modalType={modalType}
+            />
           </div>
         )}
         <div className={styles.profileBox}>
@@ -210,7 +215,11 @@ const MainProfile = () => {
           )}
         </div>
         {isModalOpen && (
-          <MainFollow followers={1} following={1} onClose={handleModalClose} />
+          <MainFollow
+            followers={1}
+            following={1}
+            closeModal={handleModalClose}
+          />
         )}
       </div>
     );

@@ -1,3 +1,8 @@
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
 .modalContent {
   position: absolute;
   top: 50%;
@@ -19,13 +24,10 @@
   margin-bottom: 1rem;
 }
 
-.modalTitle {
-}
-
 .modalClose {
   border: none;
   background-color: transparent;
-  color: #777;
+  color: var(--sub-semi-light);
   cursor: pointer;
 }
 
@@ -41,7 +43,7 @@
 .modalTab {
   border: none;
   background-color: transparent;
-  color: #777;
+  color: var(--sub-semi-light);
   font-size: 1rem;
   font-weight: 600;
   margin-right: 1rem;
@@ -91,6 +93,6 @@
 }
 
 .modalName {
-  color: #777;
+  color: var(--sub-semi-light);
   margin-top: 0.5rem;
 }

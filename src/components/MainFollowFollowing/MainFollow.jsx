@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./MainFollow.module.scss";
 import font from "../../styles/Font.module.scss";
 
-const MainFollow = ({ follower, following1, onClose }) => {
+const MainFollow = ({ follower, following1, closeModal }) => {
   const [activeTab, setActiveTab] = useState("followers");
-
+  const modalRef = useRef(null);
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+  };
+
+  const overlayClick = (e) => {
+    console.log("hi");
+    if (e.target === modalRef.current) {
+      closeModal();
+    }
   };
 
   const followers = [
@@ -136,7 +143,7 @@ const MainFollow = ({ follower, following1, onClose }) => {
   ];
 
   return (
-    <div className="modal">
+    <div className={styles.modal} onClick={overlayClick} ref={modalRef}>
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
           <h2 className={`${font.fs_16} ${font.fw_7} ${styles.modalTitle}`}>
@@ -144,7 +151,7 @@ const MainFollow = ({ follower, following1, onClose }) => {
           </h2>
           <button
             className={`${font.fs_18} ${font.fw_6} ${styles.modalClose}`}
-            onClick={onClose}
+            onClick={closeModal}
           >
             &times;
           </button>
