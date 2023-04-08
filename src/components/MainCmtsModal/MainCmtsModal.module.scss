@@ -112,6 +112,22 @@
   >.cmtsCommentBox {
     flex: 1;
     padding: 1.6rem;
+
+    > .noExistsBox {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        text-align: center;
+      }
+    }
   }
 
   >.cmtsFunctionBox {
@@ -167,7 +183,7 @@
         width: 100%;
         background-color: var(--sub-bg);
         text-align: start;
-        padding: 0.8rem 2rem;
+        padding: 0.8rem 1.6rem;
         border-radius: 0.8rem;
       }
 

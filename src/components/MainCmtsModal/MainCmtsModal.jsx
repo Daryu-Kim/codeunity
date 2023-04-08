@@ -16,8 +16,10 @@ import {
   getDoc,
   deleteDoc,
   setDoc,
+  query,
+  orderBy,
 } from "firebase/firestore";
-import { useDocumentData, useDocumentDataOnce } from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData, useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import { AiFillLike, AiOutlineComment, AiOutlineLike, AiOutlineShareAlt } from "react-icons/ai";
 import { RiRestartLine } from "react-icons/ri";
 
@@ -32,15 +34,22 @@ const MainCmtsModal = ({
   const [title, setTitle] = useState("");
   const [mdValue, setMDValue] = useState({});
   const [user, setUser] = useState({});
+  const [cmts, setCmts] = useState([]);
   const [tags, setTags] = useState([]);
   const [postLike, setPostLike] = useState(false);
   const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
   const [modalData, modalDataLoad, modalDataError] = useDocumentData(
-    doc(firestore, "Posts", modalPostID)
+    doc(firestore, modalType, modalPostID)
   );
   const [userData, userDataLoad, userDataError] = useDocumentData(
     doc(firestore, "Users", modalUserID)
+  );
+  const [cmtData, cmtDataLoad, cmtDataError] = useCollectionData(
+    query(
+      collection(firestore, `${modalType}/${modalPostID}/Cmts`),
+      orderBy("createdAt", "desc")
+    )
   );
 
   const uid = localStorage.getItem("uid");
@@ -75,14 +84,25 @@ const MainCmtsModal = ({
     }
   }, [modalData]);
 
+  useEffect(() => {
+    if (cmtData) {
+      let tempArr = [...cmts]
+      cmtData.map((item, index) => {
+        tempArr[index] = item;
+      });
+      setCmts(tempArr);
+      console.log("object!");
+    }
+  }, [cmtData]);
+
   const likeClick = async (postID, count) => {
     try {
       // 좋아요를 누른 사용자의 정보를 Posts/{postID}/Likes/{uid} 경로에 저장
-      await setDoc(doc(firestore, `Posts/${postID}/Likes`, uid), {
+      await setDoc(doc(firestore, `${modalType}/${postID}/Likes`, uid), {
         userID: uid,
       });
       // Posts/{postID} 경로의 likeCount 필드를 1 증가시킴
-      await updateDoc(doc(firestore, "Posts", postID), { likeCount: ++count });
+      await updateDoc(doc(firestore, modalType, postID), { likeCount: ++count });
       // postLike와 postLikeCount 배열을 복사하여 해당 index의 값을 변경하고 state를 업데이트함
       setPostLike(true);
       setPostLikeCount(count);
@@ -97,9 +117,9 @@ const MainCmtsModal = ({
   const dislikeClick = async (postID, count) => {
     try {
       // 좋아요 삭제
-      await deleteDoc(doc(firestore, `Posts/${postID}/Likes`, uid));
+      await deleteDoc(doc(firestore, `${modalType}/${postID}/Likes`, uid));
       // 좋아요 수 업데이트
-      await updateDoc(doc(firestore, "Posts", postID), {
+      await updateDoc(doc(firestore, modalType, postID), {
         likeCount: --count,
       });
       // 좋아요 상태 업데이트
@@ -117,14 +137,14 @@ const MainCmtsModal = ({
   const rePostClick = async (content) => {
     toastLoading("게시물을 리포스트 중입니다!"); // 게시물 리포스트 중임을 알리는 로딩 토스트 메시지 출력
     try {
-      const result = await addDoc(collection(firestore, "Posts"), {
+      const result = await addDoc(collection(firestore, modalType), {
         // firestore의 Posts collection에 새로운 document 추가
         userID: uid, // 현재 사용자의 uid를 userID 필드에 저장
         createdAt: Timestamp.fromDate(new Date()), // 현재 시간을 createdAt 필드에 저장
         postContent: content, // content를 postContent 필드에 저장
         likeCount: 0, // likeCount 필드를 0으로 초기화
       });
-      await updateDoc(doc(firestore, "Posts", result.id), {
+      await updateDoc(doc(firestore, modalType, result.id), {
         // 방금 추가한 document의 postID 필드를 해당 document의 id로 업데이트
         postID: result.id,
       });
@@ -156,7 +176,7 @@ const MainCmtsModal = ({
   };
 
   return (
-    mdValue && user && (
+    mdValue && user && cmts && (
       <div className={styles.modalWrapper}>
         <button
           className={`${styles.closeBtn} ${font.fs_16} `}
@@ -168,7 +188,7 @@ const MainCmtsModal = ({
         <ToastContainer position="top-right" autoClose={2000} />
         <div ref={modalRef} className={styles.modal}>
           <div className={styles.postBox}>
-            {modalType == "qna" ? (
+            {modalType == "QnAs" ? (
               <p className={`${font.fs_24} ${font.fw_7}`}>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               </p>
@@ -179,7 +199,7 @@ const MainCmtsModal = ({
                 source={mdValue.postContent}
               />
             </div>
-            {modalType == "qna" ? (
+            {modalType == "QnAs" ? (
               <div className={styles.postTagBox}>
                 <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
                 <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
@@ -205,7 +225,42 @@ const MainCmtsModal = ({
                 {user.userName}
               </p>
             </div>
-            <div className={styles.cmtsCommentBox}>zxcv</div>
+            <div className={styles.cmtsCommentBox}>
+              {
+                cmts.length == 0 ?
+                (
+                  <div className={styles.noExistsBox}>
+                    {
+                      modalType == "Posts" &&
+                      <div>
+                        <p className={`${font.fs_24} ${font.fw_7}`}>
+                          댓글이 없습니다
+                        </p>
+                        <p className={`
+                          ${font.fs_16} ${font.fw_5} ${font.fc_sub_light}
+                        `}>
+                          이 게시물의 첫 댓글을 달아주세요!
+                        </p>
+                      </div>
+                    }
+                    {
+                      modalType == "QnAs" &&
+                      <div>
+                        <p className={`${font.fs_24} ${font.fw_7}`}>
+                          답변이 없습니다
+                        </p>
+                        <p className={`
+                          ${font.fs_16} ${font.fw_5} ${font.fc_sub_light}
+                        `}>
+                          이 질문의 첫 답변을 달아주세요!
+                        </p>
+                      </div>
+                    }
+                  </div>
+                ) :
+                <p>Yes!</p>
+              }
+            </div>
             <div className={styles.cmtsFunctionBox}>
               <div className={styles.cmtsFunctionBtnBox}>
                 {!postLike ? ( // 게시물 좋아요를 누르지 않은 경우
@@ -229,17 +284,17 @@ const MainCmtsModal = ({
               </div>
               <div className={styles.cmtsFunctionWriteBox}>
                 {
-                  modalType == "post" &&
+                  modalType == "Posts" &&
                   <div className={styles.postCmtBox}>
-                    <input type="text" className={`${font.fs_16}`} placeholder="댓글 작성하기..." />
-                    <button className={`${font.fs_16} ${font.fw_7}`}>
+                    <input type="text" className={`${font.fs_14}`} placeholder="댓글 작성하기..." />
+                    <button className={`${font.fs_14} ${font.fw_7}`}>
                       게시
                     </button>
                   </div>
                 }
                 {
-                  modalType == "qna" &&
-                  <button className={`${font.fs_16} ${font.fw_7}`}>
+                  modalType == "QnAs" &&
+                  <button className={`${font.fs_14} ${font.fw_7}`}>
                     답변 작성하기...
                   </button>
                 }

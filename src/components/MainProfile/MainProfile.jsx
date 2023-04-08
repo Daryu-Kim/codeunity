@@ -51,7 +51,7 @@ const MainProfile = () => {
             <div
               key={index}
               className={styles.postItem}
-              onClick={() => showModal(item.postID, "post")}
+              onClick={() => showModal(item.postID, "Posts")}
             >
               <MarkdownPreview
                 className={`
@@ -76,7 +76,7 @@ const MainProfile = () => {
             <div
               key={index}
               className={styles.postItem}
-              onClick={() => showModal(item.postID, "qna")}
+              onClick={() => showModal(item.postID, "QnAs")}
             >
               <MarkdownPreview
                 className={`
