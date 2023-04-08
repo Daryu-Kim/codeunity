@@ -10,7 +10,6 @@ const MainFollow = ({ follower, following1, closeModal }) => {
   };
 
   const overlayClick = (e) => {
-    console.log("hi");
     if (e.target === modalRef.current) {
       closeModal();
     }

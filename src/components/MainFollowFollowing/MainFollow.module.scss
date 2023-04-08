@@ -96,3 +96,12 @@
   color: var(--sub-semi-light);
   margin-top: 0.5rem;
 }
+
+@media screen and (max-width: 768px) {
+  .modalContent {
+    width: 30rem;
+    height: 50rem;
+    max-height: 80vh;
+    padding: 1rem, 5rem;
+  }
+}
