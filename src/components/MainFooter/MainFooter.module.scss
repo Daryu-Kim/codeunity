@@ -1,0 +1,22 @@
+@import "../../styles/reset.scss";
+@import "../../styles/_variabled";
+
+
+.mainFooter {
+    position: fixed;
+    bottom: 0;
+    background-color: var(--accent);
+    height: 2.8rem;
+}
+
+.mainFooterList {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat();
+}
+
+@media screen and (min-width: 1280px) {
+    .mainFooter {
+        display: none;
+    }
+}
