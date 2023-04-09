@@ -20,6 +20,59 @@
   grid-gap: 2.4rem;
 }
 
+.writePostBtn {
+  width: 100%;
+  max-width: 64rem;
+  padding: 0.8rem 1.6rem;
+  background-color: var(--sub-bg);
+  border-radius: 0.8rem;
+
+  >.writePostTopBox {
+    display: flex;
+    align-items: center;
+    grid-gap: 0.8rem;
+
+    > .writePostTopImg {
+      width: 3.6rem;
+      height: 3.6rem;
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+    
+      background: {
+        position: center;
+        repeat: no-repeat;
+        size: cover;
+      }
+    
+      border: {
+        radius: 50%;
+        width: 0.2rem;
+        color: var(--accent);
+        style: solid;
+      }
+    
+      &:hover {
+        filter: opacity(75%);
+      }
+    }
+
+    >.writePostTopInputBox {
+      border-radius: 100rem;
+      width: 100%;
+      height: 3.6rem;
+      padding: 0.8rem 1.6rem;
+      background-color: var(--thd-bg);
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    
+      &:hover {
+        filter: opacity(75%);
+      }
+    }
+  }
+}
+
 .postBox {
   width: 100%;
   max-width: 64rem;

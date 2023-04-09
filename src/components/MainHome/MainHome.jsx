@@ -36,6 +36,7 @@ import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
 import {
+  convertTimestamp,
   toastClear,
   toastError,
   toastLoading,
@@ -45,6 +46,7 @@ import { followUser, unfollowUser } from "../../modules/Firebase";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
+import { BsFillTrashFill } from "react-icons/bs";
 
 // const MainHome = () => {
 function MainHome() {
@@ -67,6 +69,8 @@ function MainHome() {
   const [cmtModalState, setCmtModalState] = useState(false);
   const [cmtModalPostID, setCmtModalPostID] = useState("");
   const [cmtModalUserID, setCmtModalUserID] = useState("");
+
+  const currentTime = Timestamp.fromDate(new Date());
 
   useEffect(() => {
     // 문서 데이터가 업데이트될 때마다 유저 이름 상태 업데이트
@@ -263,14 +267,26 @@ function MainHome() {
                           : `url(${baseImg})`, // 기본 이미지로 설정
                     }}
                   ></div>
-                  <p
-                    className={`${styles.profileName} ${font.fs_16} ${font.fw_5}`}
-                  >
-                    {postUserName[index] && postUserName[index]}
-                    {/* 게시물 작성자 이름 */}
-                  </p>
+                  <div className={styles.nameBox}>
+                    <p
+                      className={`${styles.profileName} ${font.fs_16} ${font.fw_5}`}
+                    >
+                      {postUserName[index] && postUserName[index]}
+                      {/* 게시물 작성자 이름 */}
+                    </p>
+                    <p className={`${font.fs_10} ${font.fw_5} ${font.fc_sub_light}`}>
+                      {convertTimestamp(currentTime.seconds, item.createdAt.seconds)}
+                    </p>
+                  </div>
+                  
                 </div>
-                {item.userID === uid ? null : ( // 게시물 작성자가 현재 사용자인 경우 팔로우 버튼을 표시하지 않음
+                {item.userID === uid
+                ? (
+                  <BsFillTrashFill
+                    className={styles.removeBtn}
+                  />
+                  )
+                : ( // 게시물 작성자가 현재 사용자인 경우 팔로우 버튼을 표시하지 않음
                   <div className={styles.topRightBox}>
                     {myFollowing.find((temp) => temp.userID == item.userID) ==
                     undefined ? (

@@ -8,6 +8,7 @@ import {
   query,
   where,
   collection,
+  orderBy,
 } from "firebase/firestore";
 import {
   useDocumentData,
@@ -30,10 +31,19 @@ const MainProfile = () => {
   const [modalType, setModalType] = useState("");
   const [menuTab, setMenuTab] = useState(true);
   const [userPost, userPostLoad, userPostError] = useCollectionData(
-    query(collection(firestore, "Posts"), where("userID", "==", uid)) // 생성일 기준으로 내림차순 정렬
+    query(
+      collection(firestore, "Posts"),
+      where("userID", "==", uid),
+      orderBy("createdAt", "desc")
+    ) // 생성일 기준으로 내림차순 정렬
   );
+  console.log(userPost)
   const [userQnA, userQnALoad, userQnAError] = useCollectionData(
-    query(collection(firestore, "QnAs"), where("userID", "==", uid)) // 생성일 기준으로 내림차순 정렬
+    query(
+      collection(firestore, "QnAs"),
+      where("userID", "==", uid),
+      orderBy("createdAt", "desc")
+    ) // 생성일 기준으로 내림차순 정렬
   );
   const [userPostData, setUserPostData] = useState(null);
   const [userQnAData, setUserQnAData] = useState(null);

@@ -70,9 +70,21 @@
     gap: 0.8rem;
 
     >.postTagItem {
-      background-color: var(--thd-bg);
       padding: 0.4rem 1.6rem;
-      border-radius: 0.8rem;
+      cursor: pointer;
+
+      border: {
+        style: solid;
+        width: 0.2rem;
+        color: var(--sub);
+        radius: 0.8rem;
+      }
+
+      &:hover {
+        border-color: transparent;
+        background-color: var(--accent);
+        color: white;
+      }
     }
   }
 }
@@ -85,43 +97,67 @@
   >.cmtsProfileBox {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 1.2rem 1.6rem;
-    gap: 0.8rem;
     border-bottom: 0.1rem solid var(--sub);
 
-    >div {
-      width: 3.6rem;
-      height: 3.6rem;
-      aspect-ratio: 1/1;
+    >.userBox {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      >.cmtsImg {
+        width: 3.6rem;
+        height: 3.6rem;
+        aspect-ratio: 1/1;
 
-      background: {
-        radius: 50%;
-        size: cover;
-        position: center;
+        background: {
+          radius: 50%;
+          size: cover;
+          position: center;
+        }
+
+        border: {
+          radius: 50%;
+          width: 0.2rem;
+          color: var(--accent);
+          style: solid;
+        }
       }
 
-      border: {
-        radius: 50%;
-        width: 0.2rem;
-        color: var(--accent);
-        style: solid;
+      >.nameBox {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
+
+
+    > .removeBtn {
+      color: var(--sub);
+      width: 2.4rem;
+      height: 2.4rem;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+
   }
 
   >.cmtsCommentBox {
     flex: 1;
     padding: 1.6rem;
 
-    > .noExistsBox {
+    >.noExistsBox {
       display: flex;
       height: 100%;
       width: 100%;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      
-      > div {
+
+      >div {
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
@@ -141,6 +177,7 @@
       display: flex;
       align-items: center;
       grid-gap: 1.2rem;
+
       >.followBtn {
         color: white;
         background-color: var(--accent);
@@ -178,8 +215,10 @@
       }
     }
 
-    > .cmtsFunctionWriteBox {
-      > button, input {
+    >.cmtsFunctionWriteBox {
+
+      >button,
+      input {
         width: 100%;
         background-color: var(--sub-bg);
         text-align: start;
@@ -187,20 +226,20 @@
         border-radius: 0.8rem;
       }
 
-      > button {
+      >button {
         cursor: pointer;
         color: var(--sub);
       }
 
-      > input {
+      >input {
         color: var(--primary);
       }
 
-      > .postCmtBox {
+      >.postCmtBox {
         display: flex;
         gap: 0.8rem;
 
-        > button {
+        >button {
           background-color: var(--accent);
           color: white;
           padding: 0 1.6rem;
@@ -236,27 +275,27 @@
 
 .modalProfileMobile {
   display: none;
-    align-items: center;
-    gap: 0.8rem;
+  align-items: center;
+  gap: 0.8rem;
 
-    >div {
-      width: 3.6rem;
-      height: 3.6rem;
-      aspect-ratio: 1/1;
+  >div {
+    width: 3.6rem;
+    height: 3.6rem;
+    aspect-ratio: 1/1;
 
-      background: {
-        radius: 50%;
-        size: cover;
-        position: center;
-      }
-
-      border: {
-        radius: 50%;
-        width: 0.2rem;
-        color: var(--accent);
-        style: solid;
-      }
+    background: {
+      radius: 50%;
+      size: cover;
+      position: center;
     }
+
+    border: {
+      radius: 50%;
+      width: 0.2rem;
+      color: var(--accent);
+      style: solid;
+    }
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -266,5 +305,15 @@
 
   .modalProfileMobile {
     display: flex;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .modal {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .postBox {
+    // height: 100%;
   }
 }

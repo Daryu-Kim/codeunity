@@ -5,7 +5,7 @@ import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import { toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
+import { convertTimestamp, toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
 import {
   collection,
   doc,
@@ -22,6 +22,7 @@ import {
 import { useCollectionData, useDocumentData, useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import { AiFillLike, AiOutlineComment, AiOutlineLike, AiOutlineShareAlt } from "react-icons/ai";
 import { RiRestartLine } from "react-icons/ri";
+import { BsFillTrashFill } from "react-icons/bs";
 
 const MainCmtsModal = ({
   setModalState,
@@ -30,12 +31,9 @@ const MainCmtsModal = ({
   modalType,
 }) => {
   const firestore = getFirestore();
-  const location = useLocation();
-  const [title, setTitle] = useState("");
   const [mdValue, setMDValue] = useState({});
   const [user, setUser] = useState({});
   const [cmts, setCmts] = useState([]);
-  const [tags, setTags] = useState([]);
   const [postLike, setPostLike] = useState(false);
   const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
@@ -53,6 +51,7 @@ const MainCmtsModal = ({
   );
 
   const uid = localStorage.getItem("uid");
+  const currentTime = Timestamp.fromDate(new Date());
 
   const closeModal = () => {
     setModalState(false);
@@ -175,6 +174,10 @@ const MainCmtsModal = ({
     }
   };
 
+  const removeClick = () => {
+
+  }
+
   return (
     mdValue && user && cmts && (
       <div className={styles.modalWrapper}>
@@ -190,7 +193,7 @@ const MainCmtsModal = ({
           <div className={styles.postBox}>
             {modalType == "QnAs" ? (
               <p className={`${font.fs_24} ${font.fw_7}`}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                {mdValue.postTitle}
               </p>
             ) : null}
             <div className={styles.postContBox}>
@@ -201,29 +204,57 @@ const MainCmtsModal = ({
             </div>
             {modalType == "QnAs" ? (
               <div className={styles.postTagBox}>
-                <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
-                <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
-                <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
-                <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
-                <p className={`${styles.postTagItem} ${font.fs_14}`}>lorem</p>
+                {
+                  mdValue.postTags &&
+                  mdValue.postTags.map((item, index) => (
+                    <p key={index} className={`${styles.postTagItem} ${font.fs_14}`}>
+                      {item}
+                    </p>
+                  ))
+                }
               </div>
             ) : null}
           </div>
 
           <div className={styles.cmtsBox}>
             <div className={styles.cmtsProfileBox}>
-              {console.log(user)}
-              <div
-                className={styles.cmtsImg}
-                style={
-                  user.userImg != ""
-                  ? {backgroundImage: `url(${user.userImg})`}
-                  : {backgroundImage: `url(${baseImg})`}
+              <div className={styles.userBox}>
+                <div
+                  className={styles.cmtsImg}
+                  style={
+                    user.userImg != ""
+                    ? {backgroundImage: `url(${user.userImg})`}
+                    : {backgroundImage: `url(${baseImg})`}
+                  }
+                ></div>
+                <div className={styles.nameBox}>
+                  <p className={`${font.fs_16} ${font.fw_7}`}>
+                    {user.userName}
+                  </p>
+                  <p className={`${font.fs_10} ${font.fw_5} ${font.fc_sub_light}`}>
+                  {
+                  mdValue.createdAt && (
+                    <p className={`${font.fs_12} ${font.fw_7} ${font.fc_sub_light}`}>
+                      {
+                        convertTimestamp(
+                          currentTime.seconds,
+                          mdValue.createdAt.seconds
+                        )
+                      }
+                    </p>
+                  )
                 }
-              ></div>
-              <p className={`${font.fs_16} ${font.fw_7}`}>
-                {user.userName}
-              </p>
+                  </p>
+                </div>
+              </div>
+              {
+                uid === mdValue.userID && (
+                  <BsFillTrashFill
+                className={styles.removeBtn}
+                onClick={removeClick}
+              />
+                )
+              }
             </div>
             <div className={styles.cmtsCommentBox}>
               {
@@ -265,7 +296,9 @@ const MainCmtsModal = ({
               }
             </div>
             <div className={styles.cmtsFunctionBox}>
-              <div className={styles.cmtsFunctionBtnBox}>
+              {
+                modalType == "Posts" && (
+                  <div className={styles.cmtsFunctionBtnBox}>
                 {!postLike ? ( // 게시물 좋아요를 누르지 않은 경우
                   <AiOutlineLike
                     onClick={() => likeClick(mdValue.postID, mdValue.likeCount)} // 좋아요 버튼 클릭 시 좋아요 추가
@@ -285,6 +318,9 @@ const MainCmtsModal = ({
                 <AiOutlineShareAlt onClick={() => shareClick(mdValue)} />
                 {/* 공유 버튼 클릭 시 게시물 공유 */}
               </div>
+                )
+              }
+              
               <div className={styles.cmtsFunctionWriteBox}>
                 {
                   modalType == "Posts" &&

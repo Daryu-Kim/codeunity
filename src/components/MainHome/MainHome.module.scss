@@ -189,6 +189,23 @@
           repeat: no-repeat;
         }
       }
+
+      > .nameBox {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+
+    > .removeBtn {
+      color: var(--sub);
+      width: 2.4rem;
+      height: 2.4rem;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
     }
 
     > .topRightBox {
