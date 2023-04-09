@@ -129,9 +129,10 @@ function MainHome() {
         // popularData를 설정
         popularUser.map(
           (
-            item // popularUser를 순회하며 SwiperSlide를 생성
+            item,
+            index // popularUser를 순회하며 SwiperSlide를 생성
           ) => (
-            <SwiperSlide id={styles.popularItem} key={item.userID}>
+            <SwiperSlide id={styles.popularItem} key={index}>
               <div
                 className={styles.profileImg}
                 style={{
@@ -245,7 +246,7 @@ function MainHome() {
             item,
             index // 모든 게시물 데이터를 순회하며 게시물 아이템을 생성
           ) => (
-            <div className={styles.postItem} key={item.postID}>
+            <div className={styles.postItem} key={index}>
               {/* 게시물 아이템 */}
               <div className={styles.topBox}>
                 {/* 게시물 상단 영역 */}

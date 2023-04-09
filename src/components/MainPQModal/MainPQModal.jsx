@@ -87,19 +87,19 @@ const MainPQModal = ({ setModalState, modalType }) => {
   }
 
   const submitPQ = async () => {
-    // if문으로 바꾸기.
-    if (mdValue) {
-      if (location.pathname == "/qna") {
-        if (title) {
+    if (modalType == "QnAs") {
+      if (title) {
+        if (mdValue) {
           if (tags.length > 0) {
             toastLoading("다른 개발자에게 질문하는중입니다!");
-            await addDoc(collection(firestore, "Posts"), {
+            await addDoc(collection(firestore, modalType), {
               userID: uid,
               createdAt: Timestamp.fromDate(new Date()),
               postTitle: title,
               postContent: mdValue,
+              postTags: tags,
             }).then(async (result) => {
-              await updateDoc(doc(firestore, "QnAs", result.id), {
+              await updateDoc(doc(firestore, modalType, result.id), {
                 postID: result.id,
               }).then(() => {
                 toastClear();
@@ -107,29 +107,36 @@ const MainPQModal = ({ setModalState, modalType }) => {
               });
             });
           } else {
-            toastError("태그를 입력해주세요!");
+            toastError("태그를 입력해주세요!")
           }
         } else {
-          toastError("제목을 입력해주세요!");
+          toastError("내용을 입력해주세요!")
         }
       } else {
+        toastError("제목을 입력해주세요!");
+      }
+
+    }
+
+    if (modalType == "Posts") {
+      if (mdValue) {
         toastLoading("게시물을 업로드 중입니다!");
-        await addDoc(collection(firestore, "Posts"), {
+        await addDoc(collection(firestore, modalType), {
           userID: uid,
           createdAt: Timestamp.fromDate(new Date()),
           postContent: mdValue,
           likeCount: 0,
         }).then(async (result) => {
-          await updateDoc(doc(firestore, "Posts", result.id), {
+          await updateDoc(doc(firestore, modalType, result.id), {
             postID: result.id,
           }).then(() => {
             toastClear();
             closeModal();
           });
         });
+      } else {
+        toastError("내용을 입력해주세요!")
       }
-    } else {
-      toastError("내용을 입력해주세요!");
     }
   };
 
