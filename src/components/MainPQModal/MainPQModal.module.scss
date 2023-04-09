@@ -23,40 +23,46 @@
   max-width: 48rem;
   background-color: var(--sub-bg);
   padding: 0 2rem 2rem 2rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3);
+  border-radius: 0.8rem;
+  box-shadow: 0 0 0.8rem 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  > * {
+    width: 100%;
+  }
 }
 
 .buttonsWrapper {
   width: 100%;
-  height: 3rem;
-  line-height: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  padding: 0.8rem 0;
   text-align: center;
   color: var(--accent);
+
+  > .titleBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  > .btnBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
 }
 
 .writeTitle,
 .writeContent,
 .writeTag {
-  margin-bottom: 0.1rem;
-}
-
-.writeTitle,
-.writeContent {
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-
-  input,
-  .memoBoxMemo {
+  > input, .memoBoxMemo {
     width: 100%;
-    border: 0.1rem solid #ddd;
-    border-radius: 0.33rem;
-    padding: 1rem;
-    line-height: 1.5rem;
-    resize: none;
+    border: 0.2rem solid var(--sub-light);
+    border-radius: 0.4rem;
+    padding: 0.8rem;
   }
 
   > .memoBoxMemo {
@@ -64,16 +70,27 @@
   }
 }
 
-.writeTag {
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
+.tagsBox {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 
-  input {
-    width: 100%;
-    border: 1px solid #ddd;
+  > p {
+    padding: 0.4rem 1.6rem;
+    cursor: pointer;
+    border: {
+      style: solid;
+      width: 0.2rem;
+      color: var(--sub);
+      radius: 100rem;
+    }
+
+    &:hover {
+      border-color: transparent;
+      background-color: var(--accent);
+      color: white;
+    }
   }
 }
 
@@ -95,16 +112,13 @@
 }
 
 .submitBtn {
-  position: absolute;
-  top: 0.5rem;
-  right: 2rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
   background-color: transparent;
-  color: var(--accent);
+  color: var(--accent-light);
   cursor: pointer;
   &:hover {
-    background-color: var(--accent-more-light);
+    background-color: var(--accent);
     color: #fff;
   }
 }

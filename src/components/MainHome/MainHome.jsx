@@ -44,6 +44,7 @@ import {
 import { followUser, unfollowUser } from "../../modules/Firebase";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
 
 // const MainHome = () => {
 function MainHome() {
@@ -63,6 +64,9 @@ function MainHome() {
   const [popularData, setPopularData] = useState(null); // 인기 데이터 상태 변수
   const [modalState, setModalState] = useState(false); // 모달 상태 변수
   const navigate = useNavigate(); // React Router의 navigate 함수
+  const [cmtModalState, setCmtModalState] = useState(false);
+  const [cmtModalPostID, setCmtModalPostID] = useState("");
+  const [cmtModalUserID, setCmtModalUserID] = useState("");
 
   useEffect(() => {
     // 문서 데이터가 업데이트될 때마다 유저 이름 상태 업데이트
@@ -316,7 +320,7 @@ function MainHome() {
                 )}
                 <RiRestartLine onClick={() => rePostClick(item.postContent)} />
                 {/* 리포스트 버튼 클릭 시 게시물 내용을 복사하여 새 게시물 작성 페이지로 이동 */}
-                <AiOutlineComment onClick={commentClick} />
+                <AiOutlineComment onClick={() => commentClick(item.postID, item.userID)} />
                 {/* 댓글 버튼 클릭 시 댓글 작성 페이지로 이동 */}
                 <AiOutlineShareAlt onClick={() => shareClick(item)} />
                 {/* 공유 버튼 클릭 시 게시물 공유 */}
@@ -479,8 +483,10 @@ function MainHome() {
     }
   };
 
-  const commentClick = () => {
-    console.log("Comment");
+  const commentClick = (postID, userID) => {
+    setCmtModalPostID(postID);
+    setCmtModalUserID(userID)
+    setCmtModalState(true);
   };
 
   // |이 코드는 `navigator.share()`를 사용하여 제목, 내용, URL 및 파일을 설정하여 공유 API를 호출하는 함수입니다.
@@ -583,9 +589,18 @@ function MainHome() {
         className={styles.wrapper}
         onScroll={handleScroll}
         ref={scrollContainerRef}
-      >
+      >{cmtModalState && (
+        <div className={styles.mainCmtsModal}>
+          <MainCmtsModal
+            setModalState={setCmtModalState}
+            modalPostID={cmtModalPostID}
+            modalUserID={cmtModalUserID}
+            modalType="Posts"
+          />
+        </div>
+      )}
         <ToastContainer position="top-right" autoClose={2000} />
-        {modalState && <MainPQModal setModalState={setModalState} />}
+        {modalState && <MainPQModal setModalState={setModalState} modalType="Posts" />}
         <div className={styles.box}>
           <div className={`${styles.writePostBtn}`}>
             <div className={styles.writePostTopBox}>

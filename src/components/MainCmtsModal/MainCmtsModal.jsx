@@ -257,8 +257,11 @@ const MainCmtsModal = ({
                       </div>
                     }
                   </div>
-                ) :
-                <p>Yes!</p>
+                ) : (
+                  cmts.map((item, index) => {
+                    <p>{item}</p>
+                  })
+                )
               }
             </div>
             <div className={styles.cmtsFunctionBox}>

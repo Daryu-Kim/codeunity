@@ -14,20 +14,36 @@ import {
   getFirestore,
 } from "firebase/firestore";
 
-const MainPQModal = ({ setModalState }) => {
+const MainPQModal = ({ setModalState, modalType }) => {
   const firestore = getFirestore();
   const location = useLocation();
   const [title, setTitle] = useState("");
   const [mdValue, setMDValue] = useState("");
   const [tags, setTags] = useState([]);
+  const [tagsData, setTagsData] = useState(null);
   const modalRef = useRef(null);
 
   const uid = localStorage.getItem("uid");
 
   const titleChange = (e) => setTitle(e.target.value);
   const mdValueChange = (e) => setMDValue(e);
-  // const mdValueChange = (e) => console.log(e);
-  const tagsChange = (e) => tags.push(e.target.value);
+  const tagInput = (e) => {
+    if (e.key === "Enter") {
+      addTag(e.target.value);
+      e.target.value = "";
+    }
+  };
+
+  const addTag = (tagValue) => {
+    if (tags.indexOf(tagValue) == -1) {
+      // 중복 없을때
+      const tempTags = [...tags];
+      tempTags.push(tagValue);
+      setTags(tempTags);
+    } else {
+      toastError("이미 추가된 태그입니다!")
+    }
+  }
 
   const closeModal = () => {
     setModalState(false);
@@ -46,6 +62,29 @@ const MainPQModal = ({ setModalState }) => {
       document.removeEventListener("mousedown", handler);
     };
   });
+
+  useEffect(() => {
+    const render = () => {
+      return (
+        tags.map((item, index) => (
+          <p
+            key={index}
+            onClick={() => removeTag(index)}
+            className={`${font.fs_12} ${font.fw_7}`}
+          >
+            {item}
+          </p>
+        ))
+      )
+    }
+    setTagsData(render())
+  }, [tags])
+
+  const removeTag = (index) => {
+    const tempTags = [...tags];
+    tempTags.splice(index, 1);
+    setTags(tempTags)
+  }
 
   const submitPQ = async () => {
     // if문으로 바꾸기.
@@ -106,25 +145,37 @@ const MainPQModal = ({ setModalState }) => {
       <ToastContainer position="top-right" autoClose={2000} />
       <div ref={modalRef} className={styles.modal}>
         <div className={styles.buttonsWrapper}>
-          새 게시물 만들기
-          <button
-            className={`${styles.submitBtn} ${font.fw_5}`}
-            onClick={submitPQ}
-          >
-            공유하기
-          </button>
+          <i />
+          <div className={styles.titleBox}>
+            <p className={`${font.fs_14} ${font.fw_7}`}>
+              {
+                modalType == "QnAs" ? 
+                "새 질문 올리기" :
+                "새 게시물 올리기"
+              }
+            </p>
+          </div>
+          <div className={styles.btnBox}>
+            <button
+              className={`${styles.submitBtn} ${font.fw_5}`}
+              onClick={submitPQ}
+            >
+              {
+                modalType == "QnAs" ? 
+                "질문하기" :
+                "공유하기"
+              }
+            </button>
+          </div>
         </div>
-        {location.pathname == "/qna" ? (
+        {modalType == "QnAs" ? (
           <div className={styles.writeTitle}>
-            <label className={font.fs_16} htmlFor="title">
-              제목
-            </label>
             <input
-              className={font.fs_12}
+              className={`${font.fs_14} ${font.fw_7}`}
               type="text"
-              id="title"
               value={title}
-              placeholder="제목을 입력해주세요"
+              maxLength={50}
+              placeholder="제목을 입력해주세요 (50자 이내)"
               onChange={titleChange}
             />
           </div>
@@ -138,19 +189,25 @@ const MainPQModal = ({ setModalState }) => {
             style={{
               fontSize: 16,
             }}
+            toolbars={[
+              "bold", "italic", "strike",
+              "underline", "quote", "link", "image",
+              "code", "codeBlock"
+            ]}
+            toolbarsMode={["preview"]}
           />
         </div>
-        {location.pathname == "/qna" ? (
+        {modalType == "QnAs" ? (
           <div className={styles.writeTag}>
-            <label htmlFor="tags">태그</label>
             <input
-              className={font.fs_12}
+              className={`${font.fs_12} ${font.fw_5}`}
               type="text"
-              id="tags"
-              value={tags}
-              placeholder="태그를 선택해주세요"
-              onChange={tagsChange}
+              placeholder="태그를 입력해주세요 (Enter로 구분)"
+              onKeyUp={(e) => tagInput(e)}
             />
+            <div className={styles.tagsBox}>
+              {tagsData}
+            </div>
           </div>
         ) : null}
       </div>
