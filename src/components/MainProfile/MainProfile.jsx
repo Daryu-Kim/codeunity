@@ -168,6 +168,7 @@ const MainProfile = () => {
               <p className={`${styles.followTitle} ${font.fs_14} ${font.fw_7}`}>
                 팔로우
               </p>
+              {console.log("document : " + document.userID)}
               <p
                 className={`${styles.followTitle} ${font.fs_14} ${font.fw_7} ${font.fc_accent}`}
               >
