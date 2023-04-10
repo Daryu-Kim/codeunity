@@ -30,6 +30,12 @@
       cursor: pointer;
       color: #fff;
 
+      &:disabled {
+        background-color: var(--thd-bg);
+        color: var(--primary);
+        cursor: not-allowed;
+      }
+
       &:hover {
         opacity: 75%;
       }

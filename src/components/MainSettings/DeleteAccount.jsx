@@ -68,7 +68,11 @@ const handleDeleteAccount = async () => {
 };
 
 const DeleteAccount = () => {
-  return <button onClick={handleDeleteAccount}>회원탈퇴하기</button>;
+  return (
+    <button disabled={true} onClick={handleDeleteAccount}>
+      회원탈퇴하기
+    </button>
+  );
 };
 
 export default DeleteAccount;
