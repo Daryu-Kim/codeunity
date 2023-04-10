@@ -4,8 +4,10 @@ import styles from "./Login.module.scss";
 import font from "../../styles/Font.module.scss";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { toastClear, toastError, toastLoading } from "../../modules/Functions";
+import { isDarkMode, toastClear, toastError, toastLoading } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
+import logoImgLight from "../../assets/svgs/Symbol+type_Columns_Light.svg"
+import logoImgDark from "../../assets/svgs/Symbol+type_Columns_Dark.svg"
 import { signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGithub } from "react-firebase-hooks/auth";
@@ -134,7 +136,17 @@ function Login() {
               styles.logoLight
             }
           ></div> */}
-          <p className={`${font.fs_28} ${font.fw_9}`}>CodeUnity</p>
+          <img
+            src=
+              {
+                isDarkMode() ?
+                logoImgDark :
+                logoImgLight
+              }
+            alt="logoImg"
+            className={styles.logoImg}
+          />
+          {/* <p className={`${font.fs_28} ${font.fw_9}`}>CodeUnity</p> */}
         </div>
 
         <div className={styles.formParent}>

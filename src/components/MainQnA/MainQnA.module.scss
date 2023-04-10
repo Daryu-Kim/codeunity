@@ -81,6 +81,13 @@
   flex-direction: column;
   align-items: center;
   grid-gap: 1.6rem;
+
+  > .postRecommendBox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .postItem {
@@ -88,10 +95,6 @@
   border-radius: 0.8rem;
   background-color: var(--sub-bg);
   padding: 1.6rem;
-  margin-bottom: 1rem;
-  > p {
-    margin-top: 1rem;
-  }
   > .topBox {
     display: flex;
     justify-content: space-between;

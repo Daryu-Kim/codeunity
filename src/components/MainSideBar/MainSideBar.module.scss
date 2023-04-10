@@ -23,9 +23,11 @@ li {
 
 .sidebarIcon {
   cursor: pointer;
-  transition: color 100ms ease-in-out;
+  filter: opacity(0.5);
+  transition: filter 100ms ease-in-out;
+
   &:hover {
-    color: white;
+    filter: opacity(1);
   }
 }
 
@@ -49,12 +51,13 @@ li {
 }
 
 .logo {
-  width: 2.8rem;
-  aspect-ratio: 107 / 69;
+  width: 3.6rem;
+  aspect-ratio: 1/1;
+  margin-bottom: -0.8rem;
 
   background: {
     position: center;
-    image: url("/assets/images/logo.png");
+    image: url("/assets/svgs/Codeunity_logo_대지 1 사본 4.svg");
     repeat: no-repeat;
     size: contain;
   }

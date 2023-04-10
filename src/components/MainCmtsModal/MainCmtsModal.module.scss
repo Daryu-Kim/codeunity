@@ -131,18 +131,21 @@
       }
     }
 
+    > .funcBox {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      .removeBtn, .upBtn {
+        color: var(--sub);
+        width: 2.4rem;
+        height: 2.4rem;
+        cursor: pointer;
 
-    > .removeBtn {
-      color: var(--sub);
-      width: 2.4rem;
-      height: 2.4rem;
-      cursor: pointer;
-
-      &:hover {
-        color: var(--accent);
+        &:hover {
+          color: var(--accent);
+        }
       }
     }
-
   }
 
   >.cmtsCommentBox {
@@ -311,9 +314,12 @@
 @media screen and (max-width: 767px) {
   .modal {
     grid-template-columns: repeat(1, 1fr);
+    height: unset;
+    max-height: 90%;
+    aspect-ratio: unset;
   }
 
   .postBox {
-    // height: 100%;
+    height: fit-content;
   }
 }

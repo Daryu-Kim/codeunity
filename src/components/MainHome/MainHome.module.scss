@@ -108,6 +108,7 @@
   flex-direction: column;
   align-items: center;
   grid-gap: 0.8rem;
+  cursor: grab;
 
   &:hover {
     filter: opacity(75%);

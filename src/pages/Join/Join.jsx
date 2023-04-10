@@ -4,8 +4,10 @@ import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { toastClear, toastError, toastLoading } from "../../modules/Functions";
+import { isDarkMode, toastClear, toastError, toastLoading } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
+import logoImgLight from "../../assets/svgs/Symbol+type_Columns_Light.svg"
+import logoImgDark from "../../assets/svgs/Symbol+type_Columns_Dark.svg"
 
 import { ToastContainer } from "react-toastify";
 
@@ -157,9 +159,16 @@ const Join = () => {
       <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       <div className={styles.box}>
         <div className={styles.logoBox}>
-          <p className={`${styles.logo} ${font.fs_28} ${font.fw_9}`}>
-            CodeUnity
-          </p>
+        <img
+            src=
+              {
+                isDarkMode() ?
+                logoImgDark :
+                logoImgLight
+              }
+            alt="logoImg"
+            className={styles.logoImg}
+          />
         </div>
 
         {/* <div className={`${font.fs_20} ${font.fw_7} ${styles.headText}`}>
