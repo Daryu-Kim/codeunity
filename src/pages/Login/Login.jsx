@@ -12,11 +12,13 @@ import { signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
 import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import LoginSearchPW from "../../components/LoginSearchPW/LoginSearchPW";
 
 function Login() {
   const [isIDActive, setIsIDActive] = useState(false);
   const [isPWActive, setIsPWActive] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [modalState, setModalState] = useState(false)
 
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
@@ -126,16 +128,14 @@ function Login() {
   // Renderer
   return (
     <div className={styles.wrapper}>
+      {
+        modalState && (
+          <LoginSearchPW setModalState={setModalState} />
+        )
+      }
       <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
       <div className={styles.box}>
         <div className={styles.logoBox}>
-          {/* <div
-            className={
-              isDarkMode ?
-              styles.logoDark :
-              styles.logoLight
-            }
-          ></div> */}
           <img
             src=
               {
@@ -216,12 +216,12 @@ function Login() {
               onClick={togglePasswordVisiblity}
             />
           </label>
-          <Link
-            to=""
+          <button
             className={`${styles.searchPW} ${font.fs_12} ${font.fw_5}`}
+            onClick={() => setModalState(true)}
           >
             비밀번호를 잊으셨나요?
-          </Link>
+          </button>
         </div>
         <button
           className={`${styles.loginBtn} ${font.fs_16} ${font.fw_7}`}

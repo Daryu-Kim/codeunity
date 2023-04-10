@@ -89,10 +89,38 @@
     align-items: flex-start;
     gap: 1.6rem;
 
+    > .titleBox {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+    > .navBox {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      .nav {
+        width: 2.8rem;
+        height: 2.8rem;
+        cursor: pointer;
+        polyline {
+          stroke: var(--sub-light);
+        }
+
+        &:hover {
+          polyline {
+            stroke: var(--accent);
+          }
+        }
+      }
+    }
+    }
+
     > .swiper {
       width: 100%;
 
       .slide {
+        text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -152,6 +180,7 @@
 
         > .tagBox {
           display: flex;
+          flex-wrap: wrap;
           grid-gap: 0.8rem;
 
           > .tagItem {

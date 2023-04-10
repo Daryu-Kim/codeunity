@@ -219,9 +219,37 @@ const MainProfile = () => {
             </label>
           </div>
           {menuTab ? (
-            <div className={styles.postBox}>{userPostData}</div>
+            userPostData &&
+              userPostData.length > 0 ?
+                (<div className={styles.postBox}>
+                  {userPostData}
+                  </div>) :
+                  <div className={styles.postNone}>
+                    <p className={`${font.fs_24} ${font.fw_7}`}>
+                      게시물이 없습니다
+                    </p>
+                    <p className={`
+                          ${font.fs_16} ${font.fw_5} ${font.fc_sub_light}
+                        `}>
+                      게시물을 등록하고 공유해보세요!
+                    </p>
+                  </div>
           ) : (
-            <div className={styles.postBox}>{userQnAData}</div>
+            userQnAData &&
+            userQnAData.length > 0 ?
+                (<div className={styles.postBox}>
+                  {userQnAData}
+                  </div>) :
+                  <div className={styles.postNone}>
+                    <p className={`${font.fs_24} ${font.fw_7}`}>
+                      질문이 없습니다
+                    </p>
+                    <p className={`
+                          ${font.fs_16} ${font.fw_5} ${font.fc_sub_light}
+                        `}>
+                      질문을 등록하고 답변을 받아보세요!
+                    </p>
+                  </div>
           )}
         </div>
         {isModalOpen && (

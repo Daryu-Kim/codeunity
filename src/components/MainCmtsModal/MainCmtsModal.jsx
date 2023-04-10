@@ -294,10 +294,14 @@ toastLoading("게시물을 UP하는 중입니다!");
               {
                 uid === mdValue.userID && (
                   <div className={styles.funcBox}>
-                    <BsFillCloudUploadFill
+                    {
+                      modalType == "QnAs" && (
+                        <BsFillCloudUploadFill
                       className={styles.upBtn}
                       onClick={() => upClick(mdValue.createdAt)}
                     />
+                      )
+                    }
                     <BsFillTrashFill
                       className={styles.removeBtn}
                       onClick={removeClick}
