@@ -189,19 +189,19 @@ const MainQnA = () => {
                     <div className={styles.infoBox}>
                       <div className={styles.leftBox}>
                         <p
-                          className={`${font.fs_12} ${font.fw_5} ${font.fc_sub_light}`}
+                          className={`${font.fs_12} ${font.fw_5} ${font.fc_accent_more_light}`}
                         >
                           답변 {item.postCmts}
                         </p>
                         <p
-                          className={`${font.fs_12} ${font.fw_5} ${font.fc_sub_light}`}
+                          className={`${font.fs_12} ${font.fw_5} ${font.fc_accent_more_light}`}
                         >
                           UP {item.postUps}
                         </p>
                       </div>
                       <div className={styles.rightBox}>
                         <p
-                          className={`${font.fs_12} ${font.fw_5} ${font.fc_sub_light}`}
+                          className={`${font.fs_12} ${font.fw_5} ${font.fc_accent_more_light}`}
                         >
                           조회 {item.postViews}
                         </p>

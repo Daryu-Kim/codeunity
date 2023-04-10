@@ -125,18 +125,14 @@
         flex-direction: column;
         justify-content: space-between;
         height: 16rem;
-        border: {
-          style: solid;
-          width: 0.2rem;
-          color: var(--sub-light);
-          radius: 0.8rem;
-        };
+        background-color: var(--accent-dark);
+        border-radius: 0.8rem;
         padding: 0.8rem 1.6rem;
         cursor: pointer;
         transition: all 150ms ease-in-out;
 
         &:hover {
-          background-color: var(--sub-bg);
+          background-color: var(--accent-more-dark);
         }
 
         > .box {

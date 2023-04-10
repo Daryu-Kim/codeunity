@@ -5,7 +5,13 @@ import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import { convertTimestamp, toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
+import {
+  convertTimestamp,
+  toastClear,
+  toastError,
+  toastLoading,
+  toastSuccess,
+} from "../../modules/Functions";
 import {
   collection,
   doc,
@@ -19,11 +25,26 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { useCollectionData, useDocumentData, useDocumentDataOnce } from "react-firebase-hooks/firestore";
-import { AiFillLike, AiOutlineComment, AiOutlineLike, AiOutlineShareAlt } from "react-icons/ai";
+import {
+  useCollectionData,
+  useDocumentData,
+  useDocumentDataOnce,
+} from "react-firebase-hooks/firestore";
+import {
+  AiFillLike,
+  AiOutlineComment,
+  AiOutlineLike,
+  AiOutlineShareAlt,
+} from "react-icons/ai";
 import { RiRestartLine } from "react-icons/ri";
-import { BsFillTrashFill, BsFillCloudUploadFill } from "react-icons/bs";
+import {
+  BsFillTrashFill,
+  BsFillCloudUploadFill,
+  BsImageAlt,
+  BsSendFill,
+} from "react-icons/bs";
 import MainPQModal from "../MainPQModal/MainPQModal";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
 const MainCmtsModal = ({
   setModalState,
@@ -39,7 +60,7 @@ const MainCmtsModal = ({
   const [cmtsState, setCmtsState] = useState(false);
   const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
-  
+
   const [modalData, modalDataLoad, modalDataError] = useDocumentData(
     doc(firestore, modalType, modalPostID)
   );
@@ -90,7 +111,7 @@ const MainCmtsModal = ({
 
   useEffect(() => {
     if (modalType == "QnAs") {
-      updatePostViews()
+      updatePostViews();
     }
   }, []);
 
@@ -99,49 +120,49 @@ const MainCmtsModal = ({
     await updateDoc(doc(firestore, modalType, modalPostID), {
       postViews: post.data().postViews + 1,
     });
-  }
-
-  const handleEnter = (e) => {
-    if (e.key === "Enter") {
-      uploadClick();
-    }
-  }
+  };
 
   const uploadClick = async () => {
-    if (modalType == "Posts") {
       if (postComment.length > 0) {
         toastLoading();
-        await addDoc(collection(firestore, `${modalType}/${modalPostID}/Cmts`), {
-          userID: uid,
-          createdAt: Timestamp.fromDate(new Date()),
-          cmtContent: postComment,
-        }).then(async (result) => {
-          await updateDoc(doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id), {
-            cmtID: result.id,
-          }).then(() => {
-            toastClear();
-            toastSuccess("업로드에 성공했습니다!");
-            setPostComment("");
-          }).catch(async () => {
-            await deleteDoc(doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id))
-            toastError("업로드에 실패했습니다!")
+        await addDoc(
+          collection(firestore, `${modalType}/${modalPostID}/Cmts`),
+          {
+            userID: uid,
+            createdAt: Timestamp.fromDate(new Date()),
+            cmtContent: postComment,
+          }
+        )
+          .then(async (result) => {
+            await updateDoc(
+              doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id),
+              {
+                cmtID: result.id,
+              }
+            )
+              .then(() => {
+                toastClear();
+                toastSuccess("업로드에 성공했습니다!");
+                setPostComment("");
+              })
+              .catch(async () => {
+                await deleteDoc(
+                  doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id)
+                );
+                toastError("업로드에 실패했습니다!");
+              });
+          })
+          .catch((err) => {
+            toastError("업로드에 실패했습니다!");
           });
-        }).catch((err) => {
-          toastError("업로드에 실패했습니다!")
-        });
       } else {
-        toastError("내용을 입력해주세요!")
+        toastError("내용을 입력해주세요!");
       }
-    }
-
-    if (modalType == "QnAs") {
-
-    }
-  }
+  };
 
   useEffect(() => {
     if (cmtData) {
-      let tempArr = [...cmts]
+      let tempArr = [...cmts];
       cmtData.map((item, index) => {
         tempArr[index] = item;
       });
@@ -157,7 +178,9 @@ const MainCmtsModal = ({
         userID: uid,
       });
       // Posts/{postID} 경로의 likeCount 필드를 1 증가시킴
-      await updateDoc(doc(firestore, modalType, postID), { likeCount: ++count });
+      await updateDoc(doc(firestore, modalType, postID), {
+        likeCount: ++count,
+      });
       // postLike와 postLikeCount 배열을 복사하여 해당 index의 값을 변경하고 state를 업데이트함
       setPostLike(true);
       setPostLikeCount(count);
@@ -233,44 +256,44 @@ const MainCmtsModal = ({
   const removeClick = async () => {
     toastLoading("게시물을 삭제하는 중입니다!");
     await deleteDoc(doc(firestore, modalType, mdValue.postID))
-    .then((result) => {
-      toastClear();
-      toastSuccess("게시물을 삭제했습니다!");
-      setModalState(false);
-    }).catch((err) => {
-      toastClear();
-      toastError("게시물을 삭제하지 못했습니다!");
-    });
-  }
+      .then((result) => {
+        toastClear();
+        toastSuccess("게시물을 삭제했습니다!");
+        setModalState(false);
+      })
+      .catch((err) => {
+        toastClear();
+        toastError("게시물을 삭제하지 못했습니다!");
+      });
+  };
 
   const upClick = async (createdAt) => {
     if (currentTime.seconds - createdAt.seconds > 3600) {
-toastLoading("게시물을 UP하는 중입니다!");
-    const tempUps = modalData.postUps;
-    await updateDoc(doc(firestore, modalType, mdValue.postID), {
-      createdAt: Timestamp.fromDate(new Date()),
-      postUps: tempUps + 1,
-    })
-    .then((result) => {
-      toastClear();
-      toastSuccess("게시물을 UP했습니다!");
-    }).catch((err) => {
-      toastClear();
-      toastError("게시물을 UP하지 못했습니다!");
-    });
+      toastLoading("게시물을 UP하는 중입니다!");
+      const tempUps = modalData.postUps;
+      await updateDoc(doc(firestore, modalType, mdValue.postID), {
+        createdAt: Timestamp.fromDate(new Date()),
+        postUps: tempUps + 1,
+      })
+        .then((result) => {
+          toastClear();
+          toastSuccess("게시물을 UP했습니다!");
+        })
+        .catch((err) => {
+          toastClear();
+          toastError("게시물을 UP하지 못했습니다!");
+        });
     } else {
       toastError("게시 시간으로부터 1시간 뒤에 UP이 가능합니다!");
     }
-    
-  }
+  };
 
   return (
-    mdValue && user && cmts && (
+    mdValue &&
+    user &&
+    cmts && (
       <div className={styles.modalWrapper}>
-        {
-          cmtsState &&
-          <MainPQModal setModalState={setCmtsState} />
-        }
+        {cmtsState && <MainPQModal setModalState={setCmtsState} />}
         <button
           className={`${styles.closeBtn} ${font.fs_16} `}
           type="button"
@@ -278,7 +301,11 @@ toastLoading("게시물을 UP하는 중입니다!");
         >
           X
         </button>
-        <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          bodyClassName={styles.toast}
+        />
         <div ref={modalRef} className={styles.modal}>
           <div className={styles.postBox}>
             {modalType == "QnAs" ? (
@@ -294,14 +321,15 @@ toastLoading("게시물을 UP하는 중입니다!");
             </div>
             {modalType == "QnAs" ? (
               <div className={styles.postTagBox}>
-                {
-                  mdValue.postTags &&
+                {mdValue.postTags &&
                   mdValue.postTags.map((item, index) => (
-                    <p key={index} className={`${styles.postTagItem} ${font.fs_14}`}>
+                    <p
+                      key={index}
+                      className={`${styles.postTagItem} ${font.fs_14}`}
+                    >
                       {item}
                     </p>
-                  ))
-                }
+                  ))}
               </div>
             ) : null}
           </div>
@@ -313,144 +341,150 @@ toastLoading("게시물을 UP하는 중입니다!");
                   className={styles.cmtsImg}
                   style={
                     user.userImg != ""
-                    ? {backgroundImage: `url(${user.userImg})`}
-                    : {backgroundImage: `url(${baseImg})`}
+                      ? { backgroundImage: `url(${user.userImg})` }
+                      : { backgroundImage: `url(${baseImg})` }
                   }
                 ></div>
                 <div className={styles.nameBox}>
                   <p className={`${font.fs_16} ${font.fw_7}`}>
                     {user.userName}
                   </p>
-                  <p className={`${font.fs_10} ${font.fw_5} ${font.fc_sub_light}`}>
-                  {
-                  mdValue.createdAt && (
-                    <p className={`${font.fs_12} ${font.fw_7} ${font.fc_sub_light}`}>
-                      {
-                        convertTimestamp(
+                  <p
+                    className={`${font.fs_10} ${font.fw_5} ${font.fc_sub_light}`}
+                  >
+                    {mdValue.createdAt && (
+                      <p
+                        className={`${font.fs_12} ${font.fw_7} ${font.fc_sub_light}`}
+                      >
+                        {convertTimestamp(
                           currentTime.seconds,
                           mdValue.createdAt.seconds
-                        )
-                      }
-                    </p>
-                  )
-                }
+                        )}
+                      </p>
+                    )}
                   </p>
                 </div>
               </div>
-              {
-                uid === mdValue.userID && (
-                  <div className={styles.funcBox}>
-                    {
-                      modalType == "QnAs" && (
-                        <BsFillCloudUploadFill
+              {uid === mdValue.userID && (
+                <div className={styles.funcBox}>
+                  {modalType == "QnAs" && (
+                    <BsFillCloudUploadFill
                       className={styles.upBtn}
                       onClick={() => upClick(mdValue.createdAt)}
                     />
-                      )
-                    }
-                    <BsFillTrashFill
-                      className={styles.removeBtn}
-                      onClick={removeClick}
-                    />
-                  </div>
-                  
-                )
-              }
+                  )}
+                  <BsFillTrashFill
+                    className={styles.removeBtn}
+                    onClick={removeClick}
+                  />
+                </div>
+              )}
             </div>
             <div className={styles.cmtsCommentBox}>
-              {
-                cmts.length == 0 ?
-                (
-                  <div className={styles.noExistsBox}>
-                    {
-                      modalType == "Posts" &&
-                      <div>
-                        <p className={`${font.fs_24} ${font.fw_7}`}>
-                          댓글이 없습니다
-                        </p>
-                        <p className={`
+              {cmts.length === 0 ? (
+                <div className={styles.noExistsBox}>
+                  {modalType == "Posts" && (
+                    <div>
+                      <p className={`${font.fs_24} ${font.fw_7}`}>
+                        댓글이 없습니다
+                      </p>
+                      <p
+                        className={`
                           ${font.fs_16} ${font.fw_5} ${font.fc_sub_light}
-                        `}>
-                          이 게시물의 첫 댓글을 달아주세요!
-                        </p>
-                      </div>
-                    }
-                    {
-                      modalType == "QnAs" &&
-                      <div>
-                        <p className={`${font.fs_24} ${font.fw_7}`}>
-                          답변이 없습니다
-                        </p>
-                        <p className={`
+                        `}
+                      >
+                        이 게시물의 첫 댓글을 달아주세요!
+                      </p>
+                    </div>
+                  )}
+                  {modalType == "QnAs" && (
+                    <div>
+                      <p className={`${font.fs_24} ${font.fw_7}`}>
+                        답변이 없습니다
+                      </p>
+                      <p
+                        className={`
                           ${font.fs_16} ${font.fw_5} ${font.fc_sub_light}
-                        `}>
-                          이 질문의 첫 답변을 달아주세요!
-                        </p>
-                      </div>
-                    }
-                  </div>
-                ) : (
-                  cmts.map((item, index) => {
-                    <p>{item}</p>
-                  })
-                )
-              }
+                        `}
+                      >
+                        이 질문의 첫 답변을 달아주세요!
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.existsBox}>
+                  {cmts.map((item, index) => (
+                    <div className={styles.commentBox}>
+                      <p>adsf</p>
+                      <MarkdownPreview className={styles.comment} key={index} source={item.cmtContent} />
+                    </div>
+                ))}
+                </div>
+                
+              )}
             </div>
             <div className={styles.cmtsFunctionBox}>
-              {
-                modalType == "Posts" && (
-                  <div className={styles.cmtsFunctionBtnBox}>
-                {!postLike ? ( // 게시물 좋아요를 누르지 않은 경우
-                  <AiOutlineLike
-                    onClick={() => likeClick(mdValue.postID, mdValue.likeCount)} // 좋아요 버튼 클릭 시 좋아요 추가
-                  />
-                ) : (
-                  // 게시물 좋아요를 누른 경우
-                  <AiFillLike
-                    onClick={() =>
-                      dislikeClick(mdValue.postID, mdValue.likeCount)
-                    } // 좋아요 버튼 클릭 시 좋아요 취소
-                  />
-                )}
-                <RiRestartLine
-                  onClick={() => rePostClick(mdValue.postContent)}
-                />
-                {/* 리포스트 버튼 클릭 시 게시물 내용을 복사하여 새 게시물 작성 페이지로 이동 */}
-                <AiOutlineShareAlt onClick={() => shareClick(mdValue)} />
-                {/* 공유 버튼 클릭 시 게시물 공유 */}
-              </div>
-                )
-              }
-              
-              <div className={styles.cmtsFunctionWriteBox}>
-                {
-                  modalType == "Posts" &&
-                  <div className={styles.postCmtBox}>
-                    <input
-                      type="text"
-                      className={`${font.fs_14}`}
-                      placeholder="댓글 작성하기..."
-                      value={postComment}
-                      onChange={(e) => setPostComment(e.target.value)}
-                      onKeyUp={(e) => handleEnter(e)}
+              {modalType == "Posts" && (
+                <div className={styles.cmtsFunctionBtnBox}>
+                  {!postLike ? ( // 게시물 좋아요를 누르지 않은 경우
+                    <AiOutlineLike
+                      onClick={() =>
+                        likeClick(mdValue.postID, mdValue.likeCount)
+                      } // 좋아요 버튼 클릭 시 좋아요 추가
                     />
-                    <button
-                      className={`${font.fs_14} ${font.fw_7}`}
-                      onClick={uploadClick}
-                    >
-                      게시
-                    </button>
-                  </div>
-                }
-                {
-                  modalType == "QnAs" &&
+                  ) : (
+                    // 게시물 좋아요를 누른 경우
+                    <AiFillLike
+                      onClick={() =>
+                        dislikeClick(mdValue.postID, mdValue.likeCount)
+                      } // 좋아요 버튼 클릭 시 좋아요 취소
+                    />
+                  )}
+                  <RiRestartLine
+                    onClick={() => rePostClick(mdValue.postContent)}
+                  />
+                  {/* 리포스트 버튼 클릭 시 게시물 내용을 복사하여 새 게시물 작성 페이지로 이동 */}
+                  <AiOutlineShareAlt onClick={() => shareClick(mdValue)} />
+                  {/* 공유 버튼 클릭 시 게시물 공유 */}
+                </div>
+              )}
+
+              <div className={styles.cmtsFunctionWriteBox}>
+                <MarkdownEditor
+                  value={postComment}
+                  onChange={(e) => setPostComment(e)}
+                  className={styles.inputComment}
+                  previewWidth={"100%"}
+                  style={{
+                    fontSize: 16,
+                  }}
+                  toolbars={[
+                    "bold",
+                    "italic",
+                    // "strike",
+                    // "underline",
+                    "quote",
+                    "link",
+                    "image",
+                    "code",
+                    "codeBlock",
+                  ]}
+                  toolbarsMode={["preview"]}
+                />
+                <div className="">
+                  <input type="file" accept="image/*" id="image" />
+                  <label htmlFor="image">
+                    <BsImageAlt />
+                  </label>
+
                   <button
                     className={`${font.fs_14} ${font.fw_7}`}
                     onClick={uploadClick}
                   >
-                    답변 작성하기...
+                    <BsSendFill />
                   </button>
-                }
+                </div>
               </div>
             </div>
           </div>

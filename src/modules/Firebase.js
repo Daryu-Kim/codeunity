@@ -17,6 +17,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,6 +38,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
+export const storage = getStorage(app);
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -126,3 +128,18 @@ export const unfollowUser = async (targetID) => {
     toastError(error);
   }
 };
+
+export const uploadImage = async (img, col, sub, id) => {
+  const fileName = Math.random().toString(36).substring(2, 24)
+  const storageRef = ref(storage, `${col}/${sub}/${id}/${fileName}.png`);
+  const response = await uploadBytes(storageRef, img);
+  const url = await getDownloadURL(response.ref);
+  return url;
+}
+
+export const uploadProfileImage = async (img, uid) => {
+  const storageRef = ref(storage, `Users/${uid}/profile_image.png`);
+  const response = await uploadBytes(storageRef, img);
+  const url = await getDownloadURL(response.ref);
+  return url;
+}

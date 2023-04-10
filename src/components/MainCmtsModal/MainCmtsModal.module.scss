@@ -105,6 +105,7 @@
       display: flex;
       align-items: center;
       gap: 0.8rem;
+
       >.cmtsImg {
         width: 3.6rem;
         height: 3.6rem;
@@ -131,11 +132,13 @@
       }
     }
 
-    > .funcBox {
+    >.funcBox {
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      .removeBtn, .upBtn {
+
+      .removeBtn,
+      .upBtn {
         color: var(--sub);
         width: 2.4rem;
         height: 2.4rem;
@@ -149,7 +152,9 @@
   }
 
   >.cmtsCommentBox {
-    flex: 1;
+    // flex: 1;
+    height: calc(100vh - 10vh - 17.1rem);
+    overflow: hidden;
     padding: 1.6rem;
 
     >.noExistsBox {
@@ -165,6 +170,31 @@
         flex-direction: column;
         gap: 0.4rem;
         text-align: center;
+      }
+    }
+
+    > .existsBox {
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      border-radius: 0.8rem;
+
+      > .commentBox {
+        border-radius: 0.8rem;
+        background-color: var(--bg);
+        padding: 1.2rem 1.6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        
+        > .comment {
+      background-color: var(--sub-bg);
+      border-radius: 0.8rem;
+      padding: 1.6rem;
+        }
       }
     }
   }
@@ -219,39 +249,55 @@
     }
 
     >.cmtsFunctionWriteBox {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      height: 100%;
 
-      >button,
-      input {
-        width: 100%;
-        background-color: var(--sub-bg);
-        text-align: start;
-        padding: 0.8rem 1.6rem;
-        border-radius: 0.8rem;
-      }
-
-      >button {
-        cursor: pointer;
-        color: var(--sub);
-      }
-
-      >input {
-        color: var(--primary);
-      }
-
-      >.postCmtBox {
+      >div {
+        height: 100%;
         display: flex;
+        flex-direction: column;
         gap: 0.8rem;
 
-        >button {
+        input {
+          display: none;
+        }
+
+        >button,
+        label {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
           background-color: var(--accent);
           color: white;
-          padding: 0 1.6rem;
+          padding: 0.4rem 1.6rem;
           border-radius: 0.8rem;
           cursor: pointer;
 
           &:hover {
             background-color: var(--accent-light);
           }
+
+          svg,
+          path {
+            width: 1.6rem;
+            height: 1.6rem;
+          }
+        }
+      }
+
+
+
+      >.inputComment {
+        flex: 1;
+        height: 7.2rem;
+        border-radius: 0.8rem;
+        background-color: var(--bg);
+
+        >div:first-child {
+          border-radius: 0.8rem;
         }
       }
     }
