@@ -174,8 +174,17 @@ const MainCmtsModal = ({
     }
   };
 
-  const removeClick = () => {
-
+  const removeClick = async () => {
+    toastLoading("게시물을 삭제하는 중입니다!");
+    await deleteDoc(doc(firestore, modalType, mdValue.postID))
+    .then((result) => {
+      toastClear();
+      toastSuccess("게시물을 삭제했습니다!");
+      setModalState(false);
+    }).catch((err) => {
+      toastClear();
+      toastError("게시물을 삭제하지 못했습니다!");
+    });
   }
 
   return (

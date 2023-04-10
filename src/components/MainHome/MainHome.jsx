@@ -284,6 +284,7 @@ function MainHome() {
                 ? (
                   <BsFillTrashFill
                     className={styles.removeBtn}
+                    onClick={() => removeClick("Posts", item.postID)}
                   />
                   )
                 : ( // 게시물 작성자가 현재 사용자인 경우 팔로우 버튼을 표시하지 않음
@@ -599,6 +600,19 @@ function MainHome() {
     scrollToTop();
     setScrollTop(0);
   };
+
+  const removeClick = async (modalType, postID) => {
+    toastLoading("게시물을 삭제하는 중입니다!");
+    await deleteDoc(doc(firestore, modalType, postID))
+    .then((result) => {
+      toastClear();
+      toastSuccess("게시물을 삭제했습니다!");
+      setModalState(false);
+    }).catch((err) => {
+      toastClear();
+      toastError("게시물을 삭제하지 못했습니다!");
+    });
+  }
 
   if (document) {
     return (
