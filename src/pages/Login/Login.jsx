@@ -126,7 +126,7 @@ function Login() {
   // Renderer
   return (
     <div className={styles.wrapper}>
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
       <div className={styles.box}>
         <div className={styles.logoBox}>
           {/* <div

@@ -37,6 +37,7 @@ const MainCmtsModal = ({
   const [postLike, setPostLike] = useState(false);
   const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
+  
   const [modalData, modalDataLoad, modalDataError] = useDocumentData(
     doc(firestore, modalType, modalPostID)
   );
@@ -200,10 +201,13 @@ const MainCmtsModal = ({
     });
   }
 
-  const upClick = async () => {
-    toastLoading("게시물을 UP하는 중입니다!");
+  const upClick = async (createdAt) => {
+    if (currentTime.seconds - createdAt.seconds > 3600) {
+toastLoading("게시물을 UP하는 중입니다!");
+    const tempUps = modalData.postUps;
     await updateDoc(doc(firestore, modalType, mdValue.postID), {
       createdAt: Timestamp.fromDate(new Date()),
+      postUps: tempUps + 1,
     })
     .then((result) => {
       toastClear();
@@ -212,6 +216,10 @@ const MainCmtsModal = ({
       toastClear();
       toastError("게시물을 UP하지 못했습니다!");
     });
+    } else {
+      toastError("게시 시간으로부터 1시간 뒤에 UP이 가능합니다!");
+    }
+    
   }
 
   return (
@@ -224,7 +232,7 @@ const MainCmtsModal = ({
         >
           X
         </button>
-        <ToastContainer position="top-right" autoClose={2000} />
+        <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
         <div ref={modalRef} className={styles.modal}>
           <div className={styles.postBox}>
             {modalType == "QnAs" ? (
@@ -288,7 +296,7 @@ const MainCmtsModal = ({
                   <div className={styles.funcBox}>
                     <BsFillCloudUploadFill
                       className={styles.upBtn}
-                      onClick={upClick}
+                      onClick={() => upClick(mdValue.createdAt)}
                     />
                     <BsFillTrashFill
                       className={styles.removeBtn}

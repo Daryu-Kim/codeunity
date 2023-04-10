@@ -156,7 +156,7 @@ const MainSideBar = () => {
 
   return (
     <div className={styles.mainSideBar}>
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
       <div className={styles.iconBox}>
         <div className={styles.onIconBox}>
           <div
