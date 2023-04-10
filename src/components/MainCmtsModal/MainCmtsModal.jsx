@@ -23,6 +23,7 @@ import { useCollectionData, useDocumentData, useDocumentDataOnce } from "react-f
 import { AiFillLike, AiOutlineComment, AiOutlineLike, AiOutlineShareAlt } from "react-icons/ai";
 import { RiRestartLine } from "react-icons/ri";
 import { BsFillTrashFill, BsFillCloudUploadFill } from "react-icons/bs";
+import MainPQModal from "../MainPQModal/MainPQModal";
 
 const MainCmtsModal = ({
   setModalState,
@@ -35,6 +36,7 @@ const MainCmtsModal = ({
   const [user, setUser] = useState({});
   const [cmts, setCmts] = useState([]);
   const [postLike, setPostLike] = useState(false);
+  const [cmtsState, setCmtsState] = useState(false);
   const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
   
@@ -50,6 +52,8 @@ const MainCmtsModal = ({
       orderBy("createdAt", "desc")
     )
   );
+
+  const [postComment, setPostComment] = useState("");
 
   const uid = localStorage.getItem("uid");
   const currentTime = Timestamp.fromDate(new Date());
@@ -95,6 +99,44 @@ const MainCmtsModal = ({
     await updateDoc(doc(firestore, modalType, modalPostID), {
       postViews: post.data().postViews + 1,
     });
+  }
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      uploadClick();
+    }
+  }
+
+  const uploadClick = async () => {
+    if (modalType == "Posts") {
+      if (postComment.length > 0) {
+        toastLoading();
+        await addDoc(collection(firestore, `${modalType}/${modalPostID}/Cmts`), {
+          userID: uid,
+          createdAt: Timestamp.fromDate(new Date()),
+          cmtContent: postComment,
+        }).then(async (result) => {
+          await updateDoc(doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id), {
+            cmtID: result.id,
+          }).then(() => {
+            toastClear();
+            toastSuccess("업로드에 성공했습니다!");
+            setPostComment("");
+          }).catch(async () => {
+            await deleteDoc(doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id))
+            toastError("업로드에 실패했습니다!")
+          });
+        }).catch((err) => {
+          toastError("업로드에 실패했습니다!")
+        });
+      } else {
+        toastError("내용을 입력해주세요!")
+      }
+    }
+
+    if (modalType == "QnAs") {
+
+    }
   }
 
   useEffect(() => {
@@ -225,6 +267,10 @@ toastLoading("게시물을 UP하는 중입니다!");
   return (
     mdValue && user && cmts && (
       <div className={styles.modalWrapper}>
+        {
+          cmtsState &&
+          <MainPQModal setModalState={setCmtsState} />
+        }
         <button
           className={`${styles.closeBtn} ${font.fs_16} `}
           type="button"
@@ -380,15 +426,28 @@ toastLoading("게시물을 UP하는 중입니다!");
                 {
                   modalType == "Posts" &&
                   <div className={styles.postCmtBox}>
-                    <input type="text" className={`${font.fs_14}`} placeholder="댓글 작성하기..." />
-                    <button className={`${font.fs_14} ${font.fw_7}`}>
+                    <input
+                      type="text"
+                      className={`${font.fs_14}`}
+                      placeholder="댓글 작성하기..."
+                      value={postComment}
+                      onChange={(e) => setPostComment(e.target.value)}
+                      onKeyUp={(e) => handleEnter(e)}
+                    />
+                    <button
+                      className={`${font.fs_14} ${font.fw_7}`}
+                      onClick={uploadClick}
+                    >
                       게시
                     </button>
                   </div>
                 }
                 {
                   modalType == "QnAs" &&
-                  <button className={`${font.fs_14} ${font.fw_7}`}>
+                  <button
+                    className={`${font.fs_14} ${font.fw_7}`}
+                    onClick={uploadClick}
+                  >
                     답변 작성하기...
                   </button>
                 }
