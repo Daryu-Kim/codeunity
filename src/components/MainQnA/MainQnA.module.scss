@@ -80,63 +80,109 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  grid-gap: 1.6rem;
+  grid-gap: 2.4rem;
 
   > .postRecommendBox {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-}
+    gap: 1.6rem;
 
-.postItem {
-  width: 100%;
-  border-radius: 0.8rem;
-  background-color: var(--sub-bg);
-  padding: 1.6rem;
-  > .topBox {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    > .swiper {
+      width: 100%;
 
-    > .topLeftBox {
-      display: flex;
-      align-items: center;
-      grid-gap: 0.8rem;
-
-      > .profileImg {
-        width: 3.2rem;
-        height: 3.2rem;
-        aspect-ratio: 1 / 1;
-
+      .slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 16rem;
         border: {
-          radius: 50%;
           style: solid;
-          width: 0.25rem;
-          color: var(--accent);
+          width: 0.2rem;
+          color: var(--sub-light);
+          radius: 0.8rem;
+        };
+        padding: 0.8rem 1.6rem;
+        cursor: pointer;
+        transition: all 150ms ease-in-out;
+
+        &:hover {
+          background-color: var(--sub-bg);
         }
 
-        background: {
-          position: center;
-          size: cover;
-          repeat: no-repeat;
+        > .box {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: transparent;
+        }
+
+        > .infoBox {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          > .leftBox {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+          }
         }
       }
     }
-
-    > .topRightBox {
-      > .followBtn {
-        color: white;
-        background-color: var(--accent);
-        padding: 0.4rem 1.6rem;
-        border-radius: 0.8rem;
+  }
+    
+    > .allPostBox {
+      width: 100%;
+      > .postItem {
+        width: 100%;
+        border: {
+          top: 0.1rem solid var(--sub-light);
+        };
+        padding: 1.2rem 1.8rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
         cursor: pointer;
 
         &:hover {
-          background-color: var(--accent-light);
+          background-color: var(--sub-bg);
+        }
+
+        > .tagBox {
+          display: flex;
+          grid-gap: 0.8rem;
+
+          > .tagItem {
+            padding: 0.4rem 1.6rem;
+            cursor: pointer;
+            border: {
+              style: solid;
+              width: 0.2rem;
+              color: var(--sub);
+              radius: 0.8rem
+            };
+
+            &:hover {
+              border-color: transparent;
+              background-color: var(--accent);
+              color: white;
+            }
+          }
+        }
+
+        > .funcBox {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          > .rightBox {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+          }
         }
       }
     }
-  }
 }

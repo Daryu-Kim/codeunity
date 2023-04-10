@@ -70,7 +70,7 @@ const ChangePassword = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
 
       <label className={styles.passwordBox}>
         현재 비밀번호 :

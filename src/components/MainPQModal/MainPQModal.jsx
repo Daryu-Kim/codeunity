@@ -99,6 +99,8 @@ const MainPQModal = ({ setModalState, modalType }) => {
               postContent: mdValue,
               postTags: tags,
               postViews: 0,
+              postUps: 0,
+              postCmts: 0,
             }).then(async (result) => {
               await updateDoc(doc(firestore, modalType, result.id), {
                 postID: result.id,
@@ -152,7 +154,7 @@ const MainPQModal = ({ setModalState, modalType }) => {
       >
         X
       </button>
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
       <div ref={modalRef} className={styles.modal}>
         <div className={styles.buttonsWrapper}>
           <i />
