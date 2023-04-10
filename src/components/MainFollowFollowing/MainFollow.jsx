@@ -34,23 +34,23 @@ const MainFollow = ({ closeModal, userID }) => {
 
   useEffect(() => {
     if (follower) {
-      const tempFollower = [...followerData];
-      follower.map(async (item, index) => {
-        const tempData = await getDoc(doc(firestore, "Users", item.userID));
-        tempFollower[index] = tempData.data();
-      });
-      setFollowerData(tempFollower);
+      Promise.all(
+        follower.map(async (item) => {
+          const tempData = await getDoc(doc(firestore, "Users", item.userID));
+          return tempData.data();
+        })
+      ).then((data) => setFollowerData(data));
     }
   }, [follower]);
 
   useEffect(() => {
     if (following) {
-      const tempfollowing = [...followingData];
-      following.map(async (item, index) => {
-        const tempData = await getDoc(doc(firestore, "Users", item.userID));
-        tempfollowing[index] = tempData.data();
-      });
-      setFollowingData(tempfollowing);
+      Promise.all(
+        following.map(async (item) => {
+          const tempData = await getDoc(doc(firestore, "Users", item.userID));
+          return tempData.data();
+        })
+      ).then((data) => setFollowingData(data));
     }
   }, [following]);
 
@@ -87,7 +87,6 @@ const MainFollow = ({ closeModal, userID }) => {
           </button>
         </div>
         <div className={styles.modalBody}>
-          {console.log(followerData, followingData)}
           {activeTab === "followers" ? (
             <ul className={styles.modalList}>
               {followerData &&

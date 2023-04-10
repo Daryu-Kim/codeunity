@@ -27,13 +27,13 @@
   flex-direction: column;
   grid-gap: 1.6rem;
 
-  >.imgBox {
+  > .imgBox {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    >.img {
+    > .img {
       width: 7.2rem;
       height: 7.2rem;
       aspect-ratio: 1 / 1;
@@ -52,7 +52,7 @@
       }
     }
 
-    >.btnBox {
+    > .btnBox {
       display: flex;
       align-items: center;
       grid-gap: 0.8rem;
@@ -67,16 +67,17 @@
     }
   }
 
-  >.nameBox {
+  > .nameBox {
     width: 100%;
   }
 
-  >.followBox {
+  > .followBox {
     display: flex;
     align-items: center;
     grid-gap: 1.6rem;
+    cursor: pointer;
 
-    >div {
+    > div {
       display: flex;
       align-items: center;
       grid-gap: 0.8rem;
@@ -98,7 +99,7 @@
         color: var(--accent);
       }
     }
-    
+
     > label {
       width: 100%;
       text-align: center;
