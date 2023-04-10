@@ -168,7 +168,6 @@ const MainProfile = () => {
               <p className={`${styles.followTitle} ${font.fs_14} ${font.fw_7}`}>
                 팔로우
               </p>
-              {console.log("document : " + document.userID)}
               <p
                 className={`${styles.followTitle} ${font.fs_14} ${font.fw_7} ${font.fc_accent}`}
               >
@@ -226,12 +225,7 @@ const MainProfile = () => {
           )}
         </div>
         {isModalOpen && (
-          <MainFollow
-            followers={1}
-            following={1}
-            userID={document.userID}
-            closeModal={handleModalClose}
-          />
+          <MainFollow userID={document.userID} closeModal={handleModalClose} />
         )}
       </div>
     );

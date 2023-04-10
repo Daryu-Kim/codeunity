@@ -7,8 +7,9 @@ import { firestore } from "../../modules/Firebase";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 
 const MainFollow = ({ closeModal, userID }) => {
-  const [activeTab, setActiveTab] = useState("followers");
+  const [activeTab, setActiveTab] = useState("");
   const modalRef = useRef(null);
+
   const [follower, followerLoad, followerError] = useCollectionData(
     collection(firestore, `Follows/${userID}/Follower`)
   );
@@ -26,6 +27,10 @@ const MainFollow = ({ closeModal, userID }) => {
       closeModal();
     }
   };
+
+  useEffect(() => {
+    setActiveTab("followers");
+  }, []);
 
   useEffect(() => {
     if (follower) {
@@ -82,6 +87,7 @@ const MainFollow = ({ closeModal, userID }) => {
           </button>
         </div>
         <div className={styles.modalBody}>
+          {console.log(followerData, followingData)}
           {activeTab === "followers" ? (
             <ul className={styles.modalList}>
               {followerData &&
