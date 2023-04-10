@@ -22,7 +22,7 @@ import {
 import { useCollectionData, useDocumentData, useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import { AiFillLike, AiOutlineComment, AiOutlineLike, AiOutlineShareAlt } from "react-icons/ai";
 import { RiRestartLine } from "react-icons/ri";
-import { BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill, BsFillCloudUploadFill } from "react-icons/bs";
 
 const MainCmtsModal = ({
   setModalState,
@@ -82,6 +82,19 @@ const MainCmtsModal = ({
       setMDValue(modalData);
     }
   }, [modalData]);
+
+  useEffect(() => {
+    if (modalType == "QnAs") {
+      updatePostViews()
+    }
+  }, []);
+
+  const updatePostViews = async () => {
+    const post = await getDoc(doc(firestore, modalType, modalPostID));
+    await updateDoc(doc(firestore, modalType, modalPostID), {
+      postViews: post.data().postViews + 1,
+    });
+  }
 
   useEffect(() => {
     if (cmtData) {
@@ -187,6 +200,20 @@ const MainCmtsModal = ({
     });
   }
 
+  const upClick = async () => {
+    toastLoading("게시물을 UP하는 중입니다!");
+    await updateDoc(doc(firestore, modalType, mdValue.postID), {
+      createdAt: Timestamp.fromDate(new Date()),
+    })
+    .then((result) => {
+      toastClear();
+      toastSuccess("게시물을 UP했습니다!");
+    }).catch((err) => {
+      toastClear();
+      toastError("게시물을 UP하지 못했습니다!");
+    });
+  }
+
   return (
     mdValue && user && cmts && (
       <div className={styles.modalWrapper}>
@@ -258,10 +285,17 @@ const MainCmtsModal = ({
               </div>
               {
                 uid === mdValue.userID && (
-                  <BsFillTrashFill
-                className={styles.removeBtn}
-                onClick={removeClick}
-              />
+                  <div className={styles.funcBox}>
+                    <BsFillCloudUploadFill
+                      className={styles.upBtn}
+                      onClick={upClick}
+                    />
+                    <BsFillTrashFill
+                      className={styles.removeBtn}
+                      onClick={removeClick}
+                    />
+                  </div>
+                  
                 )
               }
             </div>

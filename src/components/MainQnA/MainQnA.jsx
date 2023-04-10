@@ -7,6 +7,11 @@ import { query, collection, orderBy, doc } from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 import baseImg from "../../assets/svgs/352174_user_icon.svg"
 import { useNavigate } from "react-router-dom";
+import { FreeMode } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/free-mode";
+import "swiper/css";
+
 
 const MainQnA = () => {
   const uid = localStorage.getItem("uid");
@@ -34,10 +39,11 @@ const MainQnA = () => {
 
   useEffect(() => {
     if (qnaPost) {
+      const tempQnAData = [...qnaData];
       qnaPost.map((item, index) => {
-        console.log(item);
-        
+        tempQnAData[index] = item;
       });
+      setQnAData(tempQnAData);
     }
   }, [qnaPost])
 
@@ -57,7 +63,7 @@ const MainQnA = () => {
 
 
   return (
-    qnaPost && myData && (
+    qnaPost && myData && qnaData && (
       <div className={styles.wrapper}>
       <div className={styles.box}>
       <div className={`${styles.writePostBtn}`}>
@@ -82,24 +88,22 @@ const MainQnA = () => {
               </div>
             </div>
           </div>
-        <hr />
+
         <div className={styles.postBox}>
-          
-          <button onClick={() => setModalState(true)}>글쓰기</button>
-          <h2>게시글 목록</h2>
-          {posts.length === 0 ? (
-            <p>게시글이 없습니다.</p>
-          ) : (
-            <ul>
-              {posts.map((post, index) => (
-                <li className={styles.postItem} key={index}>
-                  <h2>{post.title}</h2>
-                  <p>{post.content}</p>
-                  <p>태그: {post.tags}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className={styles.postRecommendBox}>
+            <p className={`${font.fs_24} ${font.fw_7}`}>
+              추천 질문
+            </p>
+            <Swiper>
+              {
+                qnaData.map((item, index) => {
+                  <SwiperSlide>
+                    {item}
+                  </SwiperSlide>
+                })
+              }
+            </Swiper>
+          </div>
         </div>
       </div>
 

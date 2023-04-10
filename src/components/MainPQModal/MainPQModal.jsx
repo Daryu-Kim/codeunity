@@ -4,7 +4,7 @@ import styles from "./MainPQModal.module.scss";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import { toastClear, toastError, toastLoading } from "../../modules/Functions";
+import { toastClear, toastError, toastLoading, toastSuccess } from "../../modules/Functions";
 import {
   collection,
   doc,
@@ -91,19 +91,21 @@ const MainPQModal = ({ setModalState, modalType }) => {
       if (title) {
         if (mdValue) {
           if (tags.length > 0) {
-            toastLoading("다른 개발자에게 질문하는중입니다!");
+            toastLoading("다른 개발자에게 질문하는 중입니다!");
             await addDoc(collection(firestore, modalType), {
               userID: uid,
               createdAt: Timestamp.fromDate(new Date()),
               postTitle: title,
               postContent: mdValue,
               postTags: tags,
+              postViews: 0,
             }).then(async (result) => {
               await updateDoc(doc(firestore, modalType, result.id), {
                 postID: result.id,
               }).then(() => {
                 toastClear();
                 closeModal();
+                toastSuccess("질문을 완료했습니다!");
               });
             });
           } else {
@@ -132,6 +134,7 @@ const MainPQModal = ({ setModalState, modalType }) => {
           }).then(() => {
             toastClear();
             closeModal();
+            toastSuccess("업로드를 완료했습니다!");
           });
         });
       } else {
