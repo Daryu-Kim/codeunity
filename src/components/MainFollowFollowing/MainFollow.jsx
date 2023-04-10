@@ -87,7 +87,6 @@ const MainFollow = ({ closeModal, userID }) => {
           </button>
         </div>
         <div className={styles.modalBody}>
-          {console.log(followerData, followingData)}
           {activeTab === "followers" ? (
             <ul className={styles.modalList}>
               {followerData &&
