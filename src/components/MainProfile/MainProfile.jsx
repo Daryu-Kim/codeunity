@@ -37,7 +37,7 @@ const MainProfile = () => {
       orderBy("createdAt", "desc")
     ) // 생성일 기준으로 내림차순 정렬
   );
-  console.log(userPost)
+  console.log(userPost);
   const [userQnA, userQnALoad, userQnAError] = useCollectionData(
     query(
       collection(firestore, "QnAs"),
@@ -229,6 +229,7 @@ const MainProfile = () => {
           <MainFollow
             followers={1}
             following={1}
+            userID={document.userID}
             closeModal={handleModalClose}
           />
         )}

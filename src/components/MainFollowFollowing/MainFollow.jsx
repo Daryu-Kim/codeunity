@@ -1,10 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./MainFollow.module.scss";
 import font from "../../styles/Font.module.scss";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { firestore } from "../../modules/Firebase";
+import baseImg from "../../assets/svgs/352174_user_icon.svg";
 
-const MainFollow = ({ follower, following1, closeModal }) => {
+const MainFollow = ({ closeModal, userID }) => {
   const [activeTab, setActiveTab] = useState("followers");
   const modalRef = useRef(null);
+  const [follower, followerLoad, followerError] = useCollectionData(
+    collection(firestore, `Follows/${userID}/Follower`)
+  );
+  const [following, followingLoad, followingError] = useCollectionData(
+    collection(firestore, `Follows/${userID}/Following`)
+  );
+  const [followerData, setFollowerData] = useState([]);
+  const [followingData, setFollowingData] = useState([]);
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -15,131 +27,27 @@ const MainFollow = ({ follower, following1, closeModal }) => {
     }
   };
 
-  const followers = [
-    {
-      id: 1,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser1",
-      name: "User One",
-    },
-    {
-      id: 2,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser2",
-      name: "User Two",
-    },
-    {
-      id: 3,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser3",
-      name: "User Three",
-    },
-    {
-      id: 4,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser4",
-      name: "User Four",
-    },
-    {
-      id: 5,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser5",
-      name: "User Five",
-    },
-    {
-      id: 6,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser6",
-      name: "User Six",
-    },
-    {
-      id: 7,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser7",
-      name: "User Seven",
-    },
-    {
-      id: 8,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser8",
-      name: "User Eight",
-    },
-    {
-      id: 9,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser9",
-      name: "User Nine",
-    },
-    {
-      id: 10,
-      avatar: "https://via.placeholder.com/50",
-      username: "followeruser10",
-      name: "User Ten",
-    },
-  ];
+  useEffect(() => {
+    if (follower) {
+      const tempFollower = [...followerData];
+      follower.map(async (item, index) => {
+        const tempData = await getDoc(doc(firestore, "Users", item.userID));
+        tempFollower[index] = tempData.data();
+      });
+      setFollowerData(tempFollower);
+    }
+  }, [follower]);
 
-  const following = [
-    {
-      id: 1,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser1",
-      name: "User One",
-    },
-    {
-      id: 2,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser2",
-      name: "User Two",
-    },
-    {
-      id: 3,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser3",
-      name: "User Three",
-    },
-    {
-      id: 4,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser4",
-      name: "User Four",
-    },
-    {
-      id: 5,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser5",
-      name: "User Five",
-    },
-    {
-      id: 6,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser6",
-      name: "User Six",
-    },
-    {
-      id: 7,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser7",
-      name: "User Seven",
-    },
-    {
-      id: 8,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser8",
-      name: "User Eight",
-    },
-    {
-      id: 9,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser9",
-      name: "User Nine",
-    },
-    {
-      id: 10,
-      avatar: "https://via.placeholder.com/50",
-      username: "followinguser10",
-      name: "User Ten",
-    },
-  ];
+  useEffect(() => {
+    if (following) {
+      const tempfollowing = [...followingData];
+      following.map(async (item, index) => {
+        const tempData = await getDoc(doc(firestore, "Users", item.userID));
+        tempfollowing[index] = tempData.data();
+      });
+      setFollowingData(tempfollowing);
+    }
+  }, [following]);
 
   return (
     <div className={styles.modal} onClick={overlayClick} ref={modalRef}>
@@ -176,41 +84,43 @@ const MainFollow = ({ follower, following1, closeModal }) => {
         <div className={styles.modalBody}>
           {activeTab === "followers" ? (
             <ul className={styles.modalList}>
-              {followers.map((follower) => (
-                <li key={follower.id} className={styles.modalItem}>
-                  <img
-                    src={follower.avatar}
-                    alt={`${follower.username} ${font.fs_12} ${font.fw_6} profile`}
-                    className={styles.modalAvatar}
-                  />
-                  <div className={styles.modalUser}>
-                    <p className={`${font.fs_12} ${font.fw_5}`}>
-                      {follower.username}
-                    </p>
-                    <p className={`${styles.modalName} ${font.fs_10}`}>
-                      {follower.name}
-                    </p>
-                  </div>
-                </li>
-              ))}
+              {followerData &&
+                followerData.map((item) => (
+                  <li key={item.userID} className={styles.modalItem}>
+                    <img
+                      src={item.userImg}
+                      alt={`${item.userName} ${font.fs_12} ${font.fw_6} profile`}
+                      className={styles.modalAvatar}
+                    />
+                    <div className={styles.modalUser}>
+                      <p className={`${font.fs_12} ${font.fw_5}`}>
+                        {item.userName}
+                      </p>
+                      <p className={`${styles.modalName} ${font.fs_10}`}>
+                        {item.userSearchID}
+                      </p>
+                    </div>
+                  </li>
+                ))}
             </ul>
           ) : (
             <ul className={styles.modalList}>
-              {following.map((follow) => (
-                <li key={follow.id} className={styles.modalItem}>
-                  <img
-                    src={follow.avatar}
-                    alt={`${follow.username} profile`}
-                    className={styles.modalAvatar}
-                  />
-                  <div className={styles.modalUser}>
-                    <p className={`${font.fs_12} ${font.fw_5}`}>
-                      {follow.username}
-                    </p>
-                    <p className={styles.modalName}>{follow.name}</p>
-                  </div>
-                </li>
-              ))}
+              {following &&
+                followingData.map((item) => (
+                  <li key={item.userID} className={styles.modalItem}>
+                    <img
+                      src={item.userImg}
+                      alt={`${item.userName} profile`}
+                      className={styles.modalAvatar}
+                    />
+                    <div className={styles.modalUser}>
+                      <p className={`${font.fs_12} ${font.fw_5}`}>
+                        {item.userName}
+                      </p>
+                      <p className={styles.modalName}>{item.userSearchID}</p>
+                    </div>
+                  </li>
+                ))}
             </ul>
           )}
         </div>
