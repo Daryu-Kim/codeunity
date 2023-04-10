@@ -104,6 +104,30 @@
   }
 }
 
+.img {
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-right: 1rem;
+  aspect-ratio: 1 / 1;
+
+  background: {
+    position: center;
+    repeat: no-repeat;
+    size: cover;
+  }
+
+  border: {
+    radius: 50%;
+    width: 0.2rem;
+    color: var(--accent);
+    style: solid;
+  }
+
+  &:hover {
+    filter: opacity(75%);
+  }
+}
+
 .modalUser {
   display: flex;
   flex: 1;
