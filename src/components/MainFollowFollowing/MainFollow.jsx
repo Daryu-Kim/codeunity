@@ -87,11 +87,14 @@ const MainFollow = ({ closeModal, userID }) => {
               {followerData &&
                 followerData.map((item) => (
                   <li key={item.userID} className={styles.modalItem}>
-                    <img
-                      src={item.userImg}
-                      alt={`${item.userName} ${font.fs_12} ${font.fw_6} profile`}
+                    <div
                       className={styles.modalAvatar}
-                    />
+                      style={
+                        item.userImg
+                          ? { backgroundImage: `url(${item.userImg})` }
+                          : { backgroundImage: `url(${baseImg})` }
+                      }
+                    ></div>
                     <div className={styles.modalUser}>
                       <p className={`${font.fs_12} ${font.fw_5}`}>
                         {item.userName}
@@ -108,11 +111,14 @@ const MainFollow = ({ closeModal, userID }) => {
               {following &&
                 followingData.map((item) => (
                   <li key={item.userID} className={styles.modalItem}>
-                    <img
-                      src={item.userImg}
-                      alt={`${item.userName} profile`}
+                    <div
                       className={styles.modalAvatar}
-                    />
+                      style={
+                        item.userImg
+                          ? { backgroundImage: `url(${item.userImg})` }
+                          : { backgroundImage: `url(${baseImg})` }
+                      }
+                    ></div>
                     <div className={styles.modalUser}>
                       <p className={`${font.fs_12} ${font.fw_5}`}>
                         {item.userName}
