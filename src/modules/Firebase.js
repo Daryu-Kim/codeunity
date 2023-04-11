@@ -129,17 +129,28 @@ export const unfollowUser = async (targetID) => {
   }
 };
 
-export const uploadImage = async (img, col, sub, id) => {
-  const fileName = Math.random().toString(36).substring(2, 24)
-  const storageRef = ref(storage, `${col}/${sub}/${id}/${fileName}.png`);
-  const response = await uploadBytes(storageRef, img);
-  const url = await getDownloadURL(response.ref);
-  return url;
+export const uploadImage = (img, path) => {
+  console.log(path);
+  const myUID = localStorage.getItem("uid");
+  const fileName = Math.random().toString(36).substring(2, 24) + ".png";
+  const storageRef = ref(storage, `${path}/${myUID}_${fileName}`);
+  uploadBytes(storageRef, img).then((snapshot) => {
+    snapshot.ref.getDownloadURL().then((url) => {
+      return url;
+    }).catch(() => {
+      toastError("getDownloadURL 실패")
+    });
+  }).catch(() => {
+    toastError("uploadBytes 실패");
+  });
+  
 }
 
 export const uploadProfileImage = async (img, uid) => {
   const storageRef = ref(storage, `Users/${uid}/profile_image.png`);
-  const response = await uploadBytes(storageRef, img);
-  const url = await getDownloadURL(response.ref);
+  const response = uploadImage(storageRef, img);
+  console.log(response);
+  const url = getDownloadURL(response.ref);
+  console.log(url);
   return url;
 }

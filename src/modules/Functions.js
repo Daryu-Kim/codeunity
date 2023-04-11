@@ -1,4 +1,6 @@
 import { toast } from "react-toastify";
+import imageCompression from "browser-image-compression";
+import axios from "axios"
 
 export const toastError = (msg) => {
   if (isDarkMode()) {
@@ -67,3 +69,20 @@ export const convertTimestamp = (current, created) => {
     return "오래 전";
   }
 };
+
+export const zipImage = async (file) => {
+  if (file.size > 1000000) {
+    try {
+      const options = {
+        maxSizeMB: 1,
+        useWebWorker: true,
+      };
+      const compressedFile = await imageCompression(file, options);
+      return compressedFile;
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    return file;
+  }
+}

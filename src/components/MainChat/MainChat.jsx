@@ -3,6 +3,7 @@ import styles from "./MainChat.module.scss";
 import font from "../../styles/Font.module.scss";
 import { RiImageAddLine } from "react-icons/ri";
 import imageCompression from "browser-image-compression";
+import { zipImage } from "../../modules/Functions";
 
 const MainChat = () => {
   const [messages, setMessages] = useState([]);
@@ -14,23 +15,10 @@ const MainChat = () => {
     setInputValue(event.target.value);
   };
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (file.size > 1000000) {
-        try {
-          const options = {
-            maxSizeMB: 1,
-            useWebWorker: true,
-          };
-          const compressedFile = await imageCompression(file, options);
-          setSelectedFile(compressedFile);
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        setSelectedFile(file);
-      }
+      setSelectedFile(zipImage(file));
     }
   };
 

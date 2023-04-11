@@ -11,6 +11,7 @@ import {
   toastError,
   toastLoading,
   toastSuccess,
+  zipImage,
 } from "../../modules/Functions";
 import {
   collection,
@@ -31,6 +32,9 @@ import {
   useDocumentDataOnce,
 } from "react-firebase-hooks/firestore";
 import {
+  useUploadFile,
+} from "react-firebase-hooks/storage"
+import {
   AiFillLike,
   AiOutlineComment,
   AiOutlineLike,
@@ -45,6 +49,9 @@ import {
 } from "react-icons/bs";
 import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { storage, uploadImage } from "../../modules/Firebase";
+import { getStorage, ref, uploadBytes, uploadBytesResumable} from "firebase/storage";
 
 const MainCmtsModal = ({
   setModalState,
@@ -60,6 +67,7 @@ const MainCmtsModal = ({
   const [cmtsState, setCmtsState] = useState(false);
   const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
+  const [cmtUser, setCmtUser] = useState([]);
 
   const [modalData, modalDataLoad, modalDataError] = useDocumentData(
     doc(firestore, modalType, modalPostID)
@@ -73,6 +81,7 @@ const MainCmtsModal = ({
       orderBy("createdAt", "desc")
     )
   );
+  const [uploadFile, uploading, snapshot, error] = useUploadFile();
 
   const [postComment, setPostComment] = useState("");
 
@@ -96,6 +105,18 @@ const MainCmtsModal = ({
       document.removeEventListener("mousedown", handler);
     };
   });
+
+  useEffect(() => {
+    if (cmtData) {
+      const tempCmtUser = [...cmtData];
+      cmtData.map(async (item, index) => {
+        const tempUser = await getDoc(doc(firestore, "Users", item.userID));
+        tempCmtUser[index] = tempUser.data();
+      });
+      setCmtUser(tempCmtUser);
+      console.log(cmtUser);
+    }
+  }, [cmtData, cmts])
 
   useEffect(() => {
     if (modalUserID) {
@@ -162,7 +183,7 @@ const MainCmtsModal = ({
 
   useEffect(() => {
     if (cmtData) {
-      let tempArr = [...cmts];
+      let tempArr = [...cmtData];
       cmtData.map((item, index) => {
         tempArr[index] = item;
       });
@@ -288,10 +309,32 @@ const MainCmtsModal = ({
     }
   };
 
+  const handleChangeImage = async (file, postID) => {
+    if (file) {
+      uploadImage(file, postID)
+    }
+    // await zipImage(e.target.files[0])
+    // .then(async (zippedImage) => {
+    //   console.log(zippedImage);
+    //   await uploadImage(zippedImage, `Cmts/${postID}`, "")
+    //   .then((url) => {
+    //     navigator.clipboard.writeText(`![](${url})`);
+    //     toastSuccess("이미지를 삽입하고자 하는 곳에 붙여넣기 해주세요!");
+    //   })
+    //   .catch(() => {
+    //     toastError("이미지를 불러오지 못했습니다!");
+    //   });
+    // })
+    // .catch(() => {
+    //   toastError("이미지를 불러오지 못했습니다!");
+    // });
+  }
+
   return (
     mdValue &&
     user &&
-    cmts && (
+    cmts &&
+    cmtUser && (
       <div className={styles.modalWrapper}>
         {cmtsState && <MainPQModal setModalState={setCmtsState} />}
         <button
@@ -306,8 +349,17 @@ const MainCmtsModal = ({
           autoClose={2000}
           bodyClassName={styles.toast}
         />
-        <div ref={modalRef} className={styles.modal}>
-          <div className={styles.postBox}>
+        <Swiper
+          slidesPerView={1}
+          ref={modalRef}
+          className={styles.modal}
+          breakpoints={{
+            768: {
+              slidesPerView: 2
+            }
+          }}
+        >
+          <SwiperSlide className={styles.postBox}>
             {modalType == "QnAs" ? (
               <p className={`${font.fs_24} ${font.fw_7}`}>
                 {mdValue.postTitle}
@@ -332,9 +384,9 @@ const MainCmtsModal = ({
                   ))}
               </div>
             ) : null}
-          </div>
+          </SwiperSlide>
 
-          <div className={styles.cmtsBox}>
+          <SwiperSlide className={styles.cmtsBox}>
             <div className={styles.cmtsProfileBox}>
               <div className={styles.userBox}>
                 <div
@@ -380,7 +432,14 @@ const MainCmtsModal = ({
                 </div>
               )}
             </div>
-            <div className={styles.cmtsCommentBox}>
+            <div
+              className={styles.cmtsCommentBox}
+              style={
+                modalType === "Posts" ?
+                {height: "calc(90vh - 21.1rem)"} :
+                {height: "calc(90vh - 17.1rem)"}
+              }
+            >
               {cmts.length === 0 ? (
                 <div className={styles.noExistsBox}>
                   {modalType == "Posts" && (
@@ -416,7 +475,24 @@ const MainCmtsModal = ({
                 <div className={styles.existsBox}>
                   {cmts.map((item, index) => (
                     <div className={styles.commentBox}>
-                      <p>adsf</p>
+                      <div className={styles.titleBox}>
+                        <div className={styles.profileBox}>
+                          <div
+                            className={styles.profileImg}
+                            style={
+                              cmtUser[index].userImg ?
+                              { backgroundImage: `url(${cmtUser[index].userImg})` } :
+                              { backgroundImage: `url(${baseImg})` }
+                            }
+                          ></div>
+                          <p className={`${font.fw_7} ${font.fs_16}`}>
+                            {cmtUser[index].userName}
+                          </p>
+                        </div>
+                        <p className={`${font.fw_7} ${font.fs_12} ${font.fc_sub_light}`}>
+                          {convertTimestamp(currentTime, item.createdAt)}
+                        </p>
+                      </div>
                       <MarkdownPreview className={styles.comment} key={index} source={item.cmtContent} />
                     </div>
                 ))}
@@ -462,8 +538,6 @@ const MainCmtsModal = ({
                   toolbars={[
                     "bold",
                     "italic",
-                    // "strike",
-                    // "underline",
                     "quote",
                     "link",
                     "image",
@@ -473,7 +547,7 @@ const MainCmtsModal = ({
                   toolbarsMode={["preview"]}
                 />
                 <div className="">
-                  <input type="file" accept="image/*" id="image" />
+                  <input type="file" accept="image/*" id="image" onChange={(e) => handleChangeImage(e.target.files[0], mdValue.postID)} />
                   <label htmlFor="image">
                     <BsImageAlt />
                   </label>
@@ -487,8 +561,8 @@ const MainCmtsModal = ({
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </SwiperSlide>
+        </Swiper>
       </div>
     )
   );

@@ -93,6 +93,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--thd-bg);
+  height: 100%;
 
   >.cmtsProfileBox {
     display: flex;
@@ -152,8 +153,6 @@
   }
 
   >.cmtsCommentBox {
-    // flex: 1;
-    height: calc(100vh - 10vh - 17.1rem);
     overflow: hidden;
     padding: 1.6rem;
 
@@ -189,6 +188,36 @@
         display: flex;
         flex-direction: column;
         gap: 0.8rem;
+
+        > .titleBox {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          > .profileBox {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+  
+          > .profileImg {
+            width: 2.8rem;
+            height: 2.8rem;
+            aspect-ratio: 1 / 1;
+  
+            border: {
+              radius: 50%;
+              style: solid;
+              width: 0.25rem;
+              color: var(--accent);
+            }
+  
+            background: {
+              position: center;
+              size: cover;
+              repeat: no-repeat;
+            }
+          }
+        }
+        }
         
         > .comment {
       background-color: var(--sub-bg);
