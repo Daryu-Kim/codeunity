@@ -9,6 +9,7 @@ import {
   where,
   collection,
   orderBy,
+  updateDoc,
 } from "firebase/firestore";
 import {
   useDocumentData,
@@ -18,11 +19,13 @@ import MarkdownPreview from "@uiw/react-markdown-preview";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
 import MainFollow from "../MainFollowFollowing/MainFollow";
+import { toastError, toastSuccess } from "../../modules/Functions";
 
 const MainProfile = () => {
   const firestore = getFirestore();
   const { state } = useLocation();
   const uid = sessionStorage.getItem("tempState");
+  const myUID = localStorage.getItem("uid");
   const [document, loading, error, snapshot] = useDocumentData(
     doc(firestore, "Users", uid)
   );
@@ -47,11 +50,16 @@ const MainProfile = () => {
   );
   const [userPostData, setUserPostData] = useState(null);
   const [userQnAData, setUserQnAData] = useState(null);
-  const [isList, setIsList] = useState(false);
+  const [isModifying, setIsModifying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
+
+  const [modifyName, setModifyName] = useState("");
+  const [modifySearchID, setModifySearchID] = useState("");
+  const [modifyDesc, setModifyDesc] = useState("");
+  const [modifyTags, setModifyTags] = useState([]);
 
   useEffect(() => {
     if (userPost != undefined) {
@@ -66,7 +74,6 @@ const MainProfile = () => {
               <MarkdownPreview
                 className={`
                   ${styles.postItemMd}
-                  ${isList && styles.list}
                 `}
                 key={item.postID}
                 source={item.postContent}
@@ -85,17 +92,17 @@ const MainProfile = () => {
           return (
             <div
               key={index}
-              className={styles.postItem}
+              className={styles.qnaItem}
               onClick={() => showModal(item.postID, "QnAs")}
             >
-              <MarkdownPreview
+              <p
                 className={`
-                  ${styles.postItem}
-                  ${isList && styles.list}
+                  ${font.fw_7}
+                  ${font.fs_20}
                 `}
-                key={item.questID}
-                source={item.questContent}
-              />
+              >
+                {item.postTitle}
+              </p>
             </div>
           );
         })
@@ -121,6 +128,66 @@ const MainProfile = () => {
     setModalState(true);
   };
 
+  const changeProfile = (
+    userName,
+    userSearchID,
+    userDesc,
+    userTags
+  ) => {
+    setModifyName(userName)
+    setModifySearchID(userSearchID)
+    setModifyDesc(userDesc)
+    setModifyTags(userTags)
+    setIsModifying(true)
+  }
+
+  const submitProfile = async () => {
+    if (modifyName) {
+      if (modifySearchID) {
+        await updateDoc(doc(firestore, "Users", myUID), {
+          userName: modifyName,
+          userSearchID: modifySearchID[0] != "@" ? `@${modifySearchID}` : modifySearchID,
+          userDesc: modifyDesc,
+          userTag: modifyTags
+        }).then(() => {
+          toastSuccess("프로필이 변경되었습니다!");
+          setIsModifying(false)
+        }).catch(() => {
+          toastError("프로필 변경에 실패했습니다!");
+        });
+      } else {
+        toastError("검색 ID는 공백으로 둘 수 없습니다!");
+      }
+    } else {
+      toastError("이름은 공백으로 둘 수 없습니다!");
+    }
+  }
+
+  const tagInput = (e) => {
+    if (e.key === "Enter") {
+      addTag(e.target.value);
+      e.target.value = "";
+    }
+  };
+
+  const addTag = (tagValue) => {
+    console.log(modifyTags)
+    if (modifyTags.indexOf(tagValue) == -1) {
+      // 중복 없을때
+      const tempTags = [...modifyTags];
+      tempTags.push(tagValue);
+      setModifyTags(tempTags);
+    } else {
+      toastError("이미 추가된 태그입니다!")
+    }
+  }
+
+  const removeTag = (index) => {
+    const tempTags = [...modifyTags];
+    tempTags.splice(index, 1);
+    setModifyTags(tempTags)
+  }
+
   if (document) {
     return (
       <div className={styles.wrapper}>
@@ -145,23 +212,78 @@ const MainProfile = () => {
               }
             ></div>
             <div className={styles.btnBox}>
-              {document.userID == uid ? (
-                <button
-                  className={`${styles.modifyBtn} ${font.fs_14} ${font.fw_7}`}
-                >
-                  편집
-                </button>
-              ) : null}
+              {document.userID == myUID && (
+                (
+                  <button
+                      className={`${styles.modifyBtn} ${font.fs_14} ${font.fw_7}`}
+                      onClick={() => 
+                        isModifying ?
+                        submitProfile() :
+                        changeProfile(
+                          document.userName,
+                          document.userSearchID,
+                          document.userDesc,
+                          document.userTag
+                        )
+                      }
+                    >
+                      {
+                        isModifying ? "완료" : "편집"
+                      }
+                    </button>
+                ) 
+              )}
             </div>
           </div>
           <div className={styles.nameBox}>
-            <p className={`${font.fs_24} ${font.fw_7}`}>{document.userName}</p>
-            <p className={`${font.fs_14} ${font.fw_7} ${font.fc_accent}`}>
-              {document.userSearchID}
-            </p>
-            <p className={`${font.fs_16} ${font.fc_sub}`}>
-              {document.userDesc ? document.userDesc : "자기소개가 없습니다!"}
-            </p>
+            {
+            !isModifying ?
+            <p className={`${font.fs_24} ${font.fw_7}`}>{document.userName}</p> :
+            <input
+              type="text"
+              value={modifyName}
+              placeholder="이름을 입력해주세요! (최대 8글자)"
+              maxLength={8}
+              onChange={(e) => setModifyName(e.target.value)}
+              className={`${font.fs_24} ${font.fw_7}`}
+            />
+            }
+            {
+              !isModifying ?
+              (
+                <p className={`${font.fs_14} ${font.fw_7} ${font.fc_accent}`}>
+                  {document.userSearchID}
+                </p>
+              ) :
+              (
+                <input
+                  type="text"
+                  placeholder="검색 ID를 입력해주세요!"
+                  value={modifySearchID}
+                  onChange={(e) => setModifySearchID(e.target.value)}
+                  className={`${font.fs_14} ${font.fw_7} ${font.fc_accent}`}
+                />
+              )
+            }
+
+            {
+              !isModifying ?
+              (
+                <p className={`${font.fs_16} ${font.fc_sub}`}>
+                  {document.userDesc ? document.userDesc : "자기소개가 없습니다!"}
+                </p>
+              ) :
+              (
+                <input
+                  type="text"
+                  value={modifyDesc}
+                  placeholder="자기소개를 입력해주세요! (최대 50글자)"
+                  maxLength={50}
+                  onChange={(e) => setModifyDesc(e.target.value)}
+                  className={`${font.fs_16} ${font.fc_sub}`}
+                />
+              )
+            }
           </div>
           <div className={styles.followBox} onClick={handleModalOpen}>
             <div className={styles.followerBox}>
@@ -185,7 +307,38 @@ const MainProfile = () => {
               </p>
             </div>
           </div>
-          <div className={styles.userTagBox}>{document.userTag}</div>
+          {
+            isModifying ? (
+              <div className={styles.tagBox}>
+                <input
+                  className={`${font.fs_12} ${font.fw_5}`}
+                  type="text"
+                  placeholder="태그를 입력해주세요 (Enter로 구분)"
+                  onKeyUp={(e) => tagInput(e)}
+                />
+                
+          <div className={styles.userTagBox}>
+            {
+              modifyTags.map((item, index) => (
+                <p className={`${font.fs_12} ${font.fw_7}`} key={index} onClick={() => removeTag(index)}>
+                  {item}
+                </p>
+              ))
+            }
+          </div>
+              </div>
+            ) : (
+              <div className={styles.userTagBox}>
+            {
+              document.userTag.map((item, index) => (
+                <p className={`${font.fs_12} ${font.fw_7}`} key={index}>
+                  {item}
+                </p>
+              ))
+            }
+          </div>
+            )
+          }
         </div>
         <div className={styles.contBox}>
           <div className={styles.menuTab}>

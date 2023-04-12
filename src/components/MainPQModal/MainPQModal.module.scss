@@ -101,24 +101,23 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 0.3rem;
-  background-color: transparent;
-  text-align: center;
-  line-height: 1.5rem;
-  color: #fff;
+  width: 2.4rem;
+  height: 2.4rem;
+  fill: var(--sub-semi-light);
   cursor: pointer;
+
   &:hover {
-    opacity: 75%;
+    fill: var(--accent);
   }
 }
 
 .submitBtn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.4rem;
-  background-color: transparent;
-  color: var(--accent-light);
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: var(--sub-semi-light);
   cursor: pointer;
+
   &:hover {
-    background-color: var(--accent);
-    color: #fff;
+    fill: var(--accent);
   }
 }

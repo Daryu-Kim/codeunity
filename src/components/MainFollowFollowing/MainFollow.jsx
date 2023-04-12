@@ -5,6 +5,8 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineClose } from "react-icons/ai";
 
 const MainFollow = ({ closeModal, userID }) => {
   const [activeTab, setActiveTab] = useState("");
@@ -54,6 +56,13 @@ const MainFollow = ({ closeModal, userID }) => {
     }
   }, [following]);
 
+  const profileClick = (
+    userID // profileClick 함수 선언, 매개변수로 userID 전달
+  ) => {
+    sessionStorage.setItem("tempState", userID);
+    closeModal();
+  };
+
   return (
     <div className={styles.modal} onClick={overlayClick} ref={modalRef}>
       <div className={styles.modalContent}>
@@ -61,12 +70,10 @@ const MainFollow = ({ closeModal, userID }) => {
           <h2 className={`${font.fs_16} ${font.fw_7} ${styles.modalTitle}`}>
             Followers and Following
           </h2>
-          <button
-            className={`${font.fs_18} ${font.fw_6} ${styles.modalClose}`}
+          <AiOutlineClose
+            className={`${styles.modalClose}`}
             onClick={closeModal}
-          >
-            &times;
-          </button>
+          />
         </div>
         <div className={styles.modalTabs}>
           <button
@@ -99,6 +106,7 @@ const MainFollow = ({ closeModal, userID }) => {
                           ? { backgroundImage: `url(${item.userImg})` }
                           : { backgroundImage: `url(${baseImg})` }
                       }
+                      onClick={() => profileClick(item.userID)}
                     ></div>
                     <div className={styles.modalUser}>
                       <p className={`${font.fs_12} ${font.fw_5}`}>
@@ -123,6 +131,7 @@ const MainFollow = ({ closeModal, userID }) => {
                           ? { backgroundImage: `url(${item.userImg})` }
                           : { backgroundImage: `url(${baseImg})` }
                       }
+                      onClick={() => profileClick(item.userID)}
                     ></div>
                     <div className={styles.modalUser}>
                       <p className={`${font.fs_12} ${font.fw_5}`}>

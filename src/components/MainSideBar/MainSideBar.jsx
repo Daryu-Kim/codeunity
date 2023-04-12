@@ -173,17 +173,13 @@ const MainSideBar = () => {
             icon={faUserGroup}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
-          <FontAwesomeIcon
-            icon={faCodeBranch}
-            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
-          />
-          <FontAwesomeIcon
-            icon={faGithub}
-            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
-          />
           <RiQuestionnaireFill
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
             onClick={() => movePath("/qna")}
+          />
+          <BsMailbox2
+            onClick={() => movePath("/inquiry")}
+            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
         </div>
         <div className={styles.underIconBox}>
@@ -195,10 +191,6 @@ const MainSideBar = () => {
             />
           )}
 
-          <BsMailbox2
-            onClick={() => movePath("/inquiry")}
-            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
-          />
           <FontAwesomeIcon
             icon={faUser}
             onClick={() => {

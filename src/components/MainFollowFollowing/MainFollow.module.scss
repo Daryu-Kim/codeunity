@@ -25,10 +25,14 @@
 }
 
 .modalClose {
-  border: none;
-  background-color: transparent;
-  color: var(--sub-semi-light);
+  width: 2.4rem;
+  height: 2.4rem;
+  fill: var(--sub-semi-light);
   cursor: pointer;
+
+  &:hover {
+    fill: var(--accent);
+  }
 }
 
 .modalTabs {

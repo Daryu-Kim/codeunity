@@ -69,6 +69,8 @@
 
   > .nameBox {
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   > .followBox {
@@ -83,6 +85,45 @@
       grid-gap: 0.8rem;
     }
   }
+
+  input::placeholder {
+    transition: all 150ms ease-in-out;
+  }
+
+  input:focus {
+    &::placeholder {
+      color: var(--accent-more-light);
+    }
+  }
+}
+ .userTagBox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+
+    > p {
+      color: var(--sub-light);
+      cursor: pointer;
+      padding: 0.2rem 1.2rem;
+      border: {
+        radius: 0.8rem;
+        style: solid;
+        width: 0.2rem;
+        color: var(--sub);
+      };
+
+      &:hover {
+        border-color: transparent;
+        color: white;
+        background-color: var(--accent);
+      }
+    }
+  }
+
+.tagBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .contBox {
@@ -133,6 +174,33 @@
       padding: 0.8rem;
       cursor: pointer;
       filter: blur(0.15rem) brightness(85%);
+
+      &:hover {
+        filter: none;
+      }
+      > .postItemMd {
+        background-color: var(--bg);
+        > * {
+          color: var(--primary);
+          border-color: var(--sub-light);
+        }
+      }
+    }
+
+    > .qnaItem {
+      width: 100%;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      border-radius: 0.8rem;
+      background-color: var(--bg);
+      color: var(--primary);
+      padding: 0.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      filter: blur(0.15rem) brightness(85%);
+      text-align: center;
 
       &:hover {
         filter: none;

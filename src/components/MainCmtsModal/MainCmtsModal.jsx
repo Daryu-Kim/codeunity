@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import font from "../../styles/Font.module.scss";
 import styles from "./MainCmtsModal.module.scss";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { ToastContainer } from "react-toastify";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   convertTimestamp,
   toastClear,
@@ -36,6 +36,7 @@ import {
 } from "react-firebase-hooks/storage"
 import {
   AiFillLike,
+  AiOutlineClose,
   AiOutlineComment,
   AiOutlineLike,
   AiOutlineShareAlt,
@@ -52,6 +53,7 @@ import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { storage, uploadImage } from "../../modules/Firebase";
 import { getStorage, ref, uploadBytes, uploadBytesResumable} from "firebase/storage";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 const MainCmtsModal = ({
   setModalState,
@@ -65,9 +67,10 @@ const MainCmtsModal = ({
   const [cmts, setCmts] = useState([]);
   const [postLike, setPostLike] = useState(false);
   const [cmtsState, setCmtsState] = useState(false);
-  const modalRef = useRef(null);
   const [postLikeCount, setPostLikeCount] = useState(0);
   const [cmtUser, setCmtUser] = useState([]);
+  const modalRef = useRef(null);
+  const navigate = useNavigate();
 
   const [modalData, modalDataLoad, modalDataError] = useDocumentData(
     doc(firestore, modalType, modalPostID)
@@ -85,6 +88,14 @@ const MainCmtsModal = ({
 
   const uid = localStorage.getItem("uid");
   const currentTime = Timestamp.fromDate(new Date());
+
+  const handlePrev = useCallback(() => {
+    if (!modalRef.current.swiper.slidePrev());
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (!modalRef.current.swiper.slideNext());
+  }, []);
 
   const closeModal = () => {
     setModalState(false);
@@ -307,6 +318,14 @@ const MainCmtsModal = ({
     }
   };
 
+  const profileClick = (
+    userID // profileClick 함수 선언, 매개변수로 userID 전달
+  ) => {
+    sessionStorage.setItem("tempState", userID);
+    navigate("/profile", { state: userID, replace: true });
+    setModalState(false)
+  };
+
   return (
     mdValue &&
     user &&
@@ -314,13 +333,10 @@ const MainCmtsModal = ({
     cmtUser && (
       <div className={styles.modalWrapper}>
         {cmtsState && <MainPQModal setModalState={setCmtsState} />}
-        <button
+        <AiOutlineClose
           className={`${styles.closeBtn} ${font.fs_16} `}
-          type="button"
           onClick={closeModal}
-        >
-          X
-        </button>
+        />
         <ToastContainer
           position="top-right"
           autoClose={2000}
@@ -338,9 +354,13 @@ const MainCmtsModal = ({
         >
           <SwiperSlide className={styles.postBox}>
             {modalType == "QnAs" ? (
-              <p className={`${font.fs_24} ${font.fw_7}`}>
-                {mdValue.postTitle}
-              </p>
+              <div className={styles.titleBox}>
+                <p className={`${font.fs_24} ${font.fw_7}`}>
+                  {mdValue.postTitle}
+                </p>
+                <GrNext className={styles.nav} onClick={handleNext} />
+              </div>
+              
             ) : null}
             <div className={styles.postContBox}>
               <MarkdownPreview
@@ -365,33 +385,37 @@ const MainCmtsModal = ({
 
           <SwiperSlide className={styles.cmtsBox}>
             <div className={styles.cmtsProfileBox}>
-              <div className={styles.userBox}>
-                <div
-                  className={styles.cmtsImg}
-                  style={
-                    user.userImg != ""
-                      ? { backgroundImage: `url(${user.userImg})` }
-                      : { backgroundImage: `url(${baseImg})` }
-                  }
-                ></div>
-                <div className={styles.nameBox}>
-                  <p className={`${font.fs_16} ${font.fw_7}`}>
-                    {user.userName}
-                  </p>
-                  <p
-                    className={`${font.fs_10} ${font.fw_5} ${font.fc_sub_light}`}
-                  >
-                    {mdValue.createdAt && (
-                      <p
-                        className={`${font.fs_12} ${font.fw_7} ${font.fc_sub_light}`}
-                      >
-                        {convertTimestamp(
-                          currentTime.seconds,
-                          mdValue.createdAt.seconds
-                        )}
-                      </p>
-                    )}
-                  </p>
+              <div className={styles.leftBox}>
+                <GrPrevious className={styles.nav} onClick={handlePrev} />
+                <div className={styles.userBox}>
+                  <div
+                    className={styles.cmtsImg}
+                    style={
+                      user.userImg != ""
+                        ? { backgroundImage: `url(${user.userImg})` }
+                        : { backgroundImage: `url(${baseImg})` }
+                    }
+                    onClick={() => profileClick(user.userID)}
+                  ></div>
+                  <div className={styles.nameBox}>
+                    <p className={`${font.fs_16} ${font.fw_7}`}>
+                      {user.userName}
+                    </p>
+                    <p
+                      className={`${font.fs_10} ${font.fw_5} ${font.fc_sub_light}`}
+                    >
+                      {mdValue.createdAt && (
+                        <p
+                          className={`${font.fs_12} ${font.fw_7} ${font.fc_sub_light}`}
+                        >
+                          {convertTimestamp(
+                            currentTime.seconds,
+                            mdValue.createdAt.seconds
+                          )}
+                        </p>
+                      )}
+                    </p>
+                  </div>
                 </div>
               </div>
               {uid === mdValue.userID && (

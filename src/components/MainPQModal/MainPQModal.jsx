@@ -13,6 +13,8 @@ import {
   updateDoc,
   getFirestore,
 } from "firebase/firestore";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsSendFill } from "react-icons/bs";
 
 const MainPQModal = ({ setModalState, modalType }) => {
   const firestore = getFirestore();
@@ -147,13 +149,10 @@ const MainPQModal = ({ setModalState, modalType }) => {
 
   return (
     <div className={styles.modalWrapper}>
-      <button
-        className={`${styles.closeBtn} ${font.fs_16} `}
-        type="button"
+      <AiOutlineClose
+        className={`${styles.closeBtn}`}
         onClick={closeModal}
-      >
-        X
-      </button>
+      />
       <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
       <div ref={modalRef} className={styles.modal}>
         <div className={styles.buttonsWrapper}>
@@ -168,16 +167,10 @@ const MainPQModal = ({ setModalState, modalType }) => {
             </p>
           </div>
           <div className={styles.btnBox}>
-            <button
-              className={`${styles.submitBtn} ${font.fw_5}`}
+            <BsSendFill
+              className={`${styles.submitBtn}`}
               onClick={submitPQ}
-            >
-              {
-                modalType == "QnAs" ? 
-                "질문하기" :
-                "공유하기"
-              }
-            </button>
+            />
           </div>
         </div>
         {modalType == "QnAs" ? (
