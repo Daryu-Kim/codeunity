@@ -22,8 +22,9 @@ const MainSearch = () => {
   const [isSearch, setIsSearch] = useState(false);
   const navigate = useNavigate();
 
-  const [searchUserData, setSearchUserData] = useState([])
+  const [searchUserData, setSearchUserData] = useState([]);
   const [searchTagUserData, setSearchTagUserData] = useState([]);
+  const [searchTagQnAData, setSearchTagQnAData] = useState([]);
 
   const handleInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -38,7 +39,8 @@ const MainSearch = () => {
   const handleSearch = async () => {
     setIsSearch(true)
     setSearchUserData([])
-    setIsTag(false)
+    setSearchTagUserData([])
+    setSearchTagQnAData([])
     if (searchInput[0] == "@") {
       const filter = query(
         collection(firestore, "Users"),
@@ -51,14 +53,22 @@ const MainSearch = () => {
     }
     
     else if (searchInput[0] == "#") {
-      const filter = query(
+      const temp = searchInput.substring(1);
+      const userFilter = query(
         collection(firestore, "Users"),
-        where("userSearchID", "==", searchInput)
+        where("userTag", "array-contains", temp)
       );
-      const snapshot = await getDocs(filter);
-      const result = snapshot.docs.map((doc) => doc.data());
-      setSearchResults(result);
-      setIsTag(true)
+      const qnaFilter = query(
+        collection(firestore, "QnAs"),
+        where("postTags", "array-contains", temp)
+      );
+      const userSnapshot = await getDocs(userFilter);
+      const qnaSnapshot = await getDocs(qnaFilter);
+      const userResult = userSnapshot.docs.map((doc) => doc.data());
+      const qnaResult = qnaSnapshot.docs.map((doc) => doc.data());
+      console.log(userResult, qnaResult);
+      setSearchTagUserData(userResult);
+      setSearchTagQnAData(qnaResult);
     }
     
     else {
@@ -99,7 +109,7 @@ const MainSearch = () => {
             <div className={styles.gridBox}>
               {
                 searchUserData.map((item, index) => (
-                  <div className={styles.profileBox} onClick={() => profileClick(item.userID)}>
+                  <div key={index} className={styles.profileBox} onClick={() => profileClick(item.userID)}>
                     <div
                       className={styles.profileImg}
                       style={
@@ -124,15 +134,15 @@ const MainSearch = () => {
         )
       }
       {
-        searchUserData.length !== 0 && (
+        searchTagUserData.length !== 0 && (
           <div className={styles.userBox}>
             <p className={`${font.fs_20} ${font.fw_7}`}>
-              "{searchInput}"에 대한 사용자 검색 결과 {searchUserData.length}건
+              "{searchInput}"에 대한 사용자 태그 검색 결과 {searchTagUserData.length}건
             </p>
             <div className={styles.gridBox}>
               {
-                searchUserData.map((item, index) => (
-                  <div className={styles.profileBox} onClick={() => profileClick(item.userID)}>
+                searchTagUserData.map((item, index) => (
+                  <div key={index} className={styles.profileBox} onClick={() => profileClick(item.userID)}>
                     <div
                       className={styles.profileImg}
                       style={
@@ -156,9 +166,34 @@ const MainSearch = () => {
           </div>
         )
       }
+      {
+        searchTagQnAData.length !== 0 && (
+          <div className={styles.userBox}>
+            <p className={`${font.fs_20} ${font.fw_7}`}>
+              "{searchInput}"에 대한 QnA 태그 검색 결과 {searchTagQnAData.length}건
+            </p>
+            <div className={styles.gridBox}>
+              {
+                searchTagQnAData.map((item, index) => (
+                  <div key={index} className={styles.profileBox} onClick={() => profileClick(item.userID)}>
+                    <div className={styles.infoBox}>
+                      <p className={`${font.fw_7} ${font.fs_14}`}>
+                        {item.userName}
+                      </p>
+                      <p className={`${font.fs_12} ${font.fc_sub_light}`}>
+                        {item.userSearchID} | 팔로워 {item.followerCount}명
+                      </p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        )
+      }
       
       {!isSearch && (
-        <p className={`${font.fs_24} ${font.fw_7} ${font.fc_accent}`}>
+        <p className={`${font.fs_24} ${font.fw_7} ${font.fc_sub_light}`}>
           검색할 내용을 입력해주세요!
         </p>
       )}
