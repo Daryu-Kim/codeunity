@@ -293,8 +293,7 @@
           display: none;
         }
 
-        >button,
-        label {
+        >button {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -321,6 +320,7 @@
 
       >.inputComment {
         flex: 1;
+        max-width: calc(100% - 4.8rem - 0.8rem);
         height: 7.2rem;
         border-radius: 0.8rem;
         background-color: var(--bg);
@@ -351,38 +351,9 @@
   }
 }
 
-.modalProfileMobile {
-  display: none;
-  align-items: center;
-  gap: 0.8rem;
-
-  >div {
-    width: 3.6rem;
-    height: 3.6rem;
-    aspect-ratio: 1/1;
-
-    background: {
-      radius: 50%;
-      size: cover;
-      position: center;
-    }
-
-    border: {
-      radius: 50%;
-      width: 0.2rem;
-      color: var(--accent);
-      style: solid;
-    }
-  }
-}
-
 @media screen and (min-width: 768px) and (max-width: 1279px) {
   .modal {
     grid-template-columns: 1fr 0.75fr;
-  }
-
-  .modalProfileMobile {
-    display: flex;
   }
 }
 

@@ -81,8 +81,6 @@ const MainCmtsModal = ({
       orderBy("createdAt", "desc")
     )
   );
-  const [uploadFile, uploading, snapshot, error] = useUploadFile();
-
   const [postComment, setPostComment] = useState("");
 
   const uid = localStorage.getItem("uid");
@@ -309,27 +307,6 @@ const MainCmtsModal = ({
     }
   };
 
-  const handleChangeImage = async (file, postID) => {
-    if (file) {
-      uploadImage(file, postID)
-    }
-    // await zipImage(e.target.files[0])
-    // .then(async (zippedImage) => {
-    //   console.log(zippedImage);
-    //   await uploadImage(zippedImage, `Cmts/${postID}`, "")
-    //   .then((url) => {
-    //     navigator.clipboard.writeText(`![](${url})`);
-    //     toastSuccess("이미지를 삽입하고자 하는 곳에 붙여넣기 해주세요!");
-    //   })
-    //   .catch(() => {
-    //     toastError("이미지를 불러오지 못했습니다!");
-    //   });
-    // })
-    // .catch(() => {
-    //   toastError("이미지를 불러오지 못했습니다!");
-    // });
-  }
-
   return (
     mdValue &&
     user &&
@@ -547,11 +524,6 @@ const MainCmtsModal = ({
                   toolbarsMode={["preview"]}
                 />
                 <div className="">
-                  <input type="file" accept="image/*" id="image" onChange={(e) => handleChangeImage(e.target.files[0], mdValue.postID)} />
-                  <label htmlFor="image">
-                    <BsImageAlt />
-                  </label>
-
                   <button
                     className={`${font.fs_14} ${font.fw_7}`}
                     onClick={uploadClick}

@@ -48,6 +48,7 @@
   font-weight: 600;
   margin-right: 1rem;
   padding-bottom: 0.5rem;
+  border-bottom: 0.2rem solid transparent;
   cursor: pointer;
   transition: all 0.2s;
 
@@ -58,7 +59,7 @@
 
 .modalTabActive {
   color: var(--primary);
-  border-bottom: 2px solid var(--primary);
+  border-color: var(--primary);
 }
 
 .modalBody {

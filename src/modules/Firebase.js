@@ -133,8 +133,8 @@ export const uploadImage = (img, path) => {
   console.log(path);
   const myUID = localStorage.getItem("uid");
   const fileName = Math.random().toString(36).substring(2, 24) + ".png";
-  const storageRef = ref(storage, `${path}/${myUID}_${fileName}`);
-  uploadBytes(storageRef, img).then((snapshot) => {
+  const storageRef = ref(storage, `file.png`);
+  uploadBytes(storageRef, img, "").then((snapshot) => {
     snapshot.ref.getDownloadURL().then((url) => {
       return url;
     }).catch(() => {
