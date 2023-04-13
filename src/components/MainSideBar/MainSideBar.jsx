@@ -26,6 +26,7 @@ import { toastError, toastSuccess } from "../../modules/Functions";
 import { vscodeDark, noctisLilac } from "@uiw/codemirror-themes-all";
 import { useReactPWAInstall } from "react-pwa-install";
 import { ToastContainer } from "react-toastify";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
 const MainSideBar = () => {
   const location = useLocation();
@@ -41,11 +42,11 @@ const MainSideBar = () => {
     "친구8.scss",
     "친구9.scss",
   ];
-  const [friendView, setFriendView] = useState(false);
-  const [homeView, setHomeView] = useState(false);
   const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
 
   const navigate = useNavigate();
+  const [openFriendsMenu, setOpenFriendsMenu] = useState(false);
+  const [codeValue, setCodeValue] = useState();
 
   const userID = localStorage.getItem("uid");
 
@@ -77,40 +78,8 @@ const MainSideBar = () => {
       });
   };
 
-  function HomeSideBar() {
-    const [openFriendsMenu, setOpenFriendsMenu] = useState(false);
-
     const toggleFriendsMenu = () => {
       setOpenFriendsMenu(!openFriendsMenu);
-    };
-
-    return (
-      <div className={styles.homeSide}>
-        <button onClick={toggleFriendsMenu}>
-          <p>친구.List</p>
-        </button>
-        {openFriendsMenu ? <div>hello</div> : null}
-        <MemoBox />
-      </div>
-    );
-  }
-
-  function MemoBox() {
-    const [codeValue, setCodeValue] = useState();
-    const [codeLang, setCodeLang] = useState("html");
-    const [codeLangs, setCodeLangs] = useState([]);
-
-    let codeTemp = "";
-
-    useEffect(() => {
-      let tempLangs = [...langNames];
-      tempLangs = tempLangs.sort();
-      setCodeLangs(tempLangs);
-    }, []);
-
-    const handleCodeInputChange = (value) => {
-      setCodeValue(value);
-      codeTemp = value;
     };
 
     const handleCopyClick = () => {
@@ -118,41 +87,9 @@ const MainSideBar = () => {
       toastSuccess("코드를 복사하였습니다!");
     };
 
-    const handleMemoLang = (e) => {
-      console.log(e.target.value);
-      setCodeLang(e.target.value);
+    const handleCodeValueChange = (value) => {
+      setCodeValue(value);
     };
-
-    return (
-      <div className={styles.memoBox}>
-        <div>
-          <select name="" id="" onChange={(e) => handleMemoLang(e)}>
-            <option value="asciiArmor">언어를 선택하세요</option>
-            {codeLangs.map((item, index) => (
-              <option value={item} key={index}>
-                {item.replace(/^[a-z]/, (char) => char.toUpperCase())}
-              </option>
-            ))}
-          </select>
-          <CodeMirror
-            id={styles.code}
-            onChange={handleCodeInputChange}
-            extensions={[loadLanguage(codeLang)]}
-            width={"calc(25vw - 4.8rem - 1.6rem)"}
-            height={"20rem"}
-            theme={noctisLilac}
-            style={{ fontSize: 16 }}
-          />
-        </div>
-        <button
-          className={`${styles.memoBoxBtn} ${font.fw_7} ${font.fs_10}`}
-          onClick={handleCopyClick}
-        >
-          복사
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.mainSideBar}>
@@ -208,57 +145,32 @@ const MainSideBar = () => {
         </div>
       </div>
       <div className={`${styles.contBox} ${font.fs_14}`}>
-        {/* <div>
-          <ul
-            className={font.fw_7}
-            onClick={() => {
-              setHomeView(!homeView);
-            }}
-          >
-            {homeView ? (
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className={styles.contBoxIcon}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className={styles.contBoxIcon}
-              />
-            )}
-            &nbsp; Home
-          </ul>
-          <ul
-            className={font.fw_5}
-            onClick={() => {
-              setFriendView(!friendView);
-            }}
-          >
-            &nbsp; &nbsp;
-            {friendView ? (
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className={styles.contBoxIcon}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className={styles.contBoxIcon}
-              />
-            )}
-            &nbsp; 친구.List
-            {friendView &&
-              friends.map((friend, index) => (
-                <li className={font.fw_4} key={index}>
-                  &nbsp; &nbsp; &nbsp; &nbsp;
-                  <FontAwesomeIcon icon={faHashtag} /> &nbsp;
-                  {friend}
-                </li>
-              ))}
-          </ul>
-        </div>
-        <MemoBox /> */}
-        {location.pathname == "/" && <HomeSideBar />}
+          <button onClick={toggleFriendsMenu}>
+            <p>친구.List</p>
+          </button>
+          {openFriendsMenu ? <div>hello</div> : null}
+          <div className={styles.codeBox}>
+            <MarkdownEditor
+              value={codeValue}
+              onChange={(e) => handleCodeValueChange(e)}
+              className={styles.code}
+              previewWidth={"100%"}
+              style={{
+                fontSize: 16,
+              }}
+              height="16rem"
+              toolbars={[
+                "code", "codeBlock"
+              ]}
+              toolbarsMode={["preview"]}
+            />
+            <button
+              className={`${styles.memoBoxBtn} ${font.fw_7} ${font.fs_10}`}
+              onClick={handleCopyClick}
+            >
+              복사
+            </button>
+          </div>
       </div>
     </div>
   );

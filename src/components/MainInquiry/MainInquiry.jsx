@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./MainInquiry.module.scss";
 import font from "../../styles/Font.module.scss";
+import { BsFillTelephoneFill, BsGithub } from "react-icons/bs";
+import { AiFillMail } from "react-icons/ai";
 
 const MainInquiry = () => {
   const members = [
@@ -37,12 +39,22 @@ const MainInquiry = () => {
               <div className={styles.member}>
                 <img src={member.img}></img>
                 <div className={styles.infoBox}>
-                  <h1>{member.name}</h1>
-                  <h3>{member.position}</h3>
-                  <p>{member.comment}</p>
-                  <p>Tel : {member.phone}</p>
-                  <p>Email : {member.email}</p>
-                  <a href={member.github}>GitHub 바로가기</a>
+                  <div>
+                    <h1 className={font.fs_24}>{member.name}</h1>
+                    <h3 className={font.fs_16}>{member.position}</h3>
+                  </div>
+                  <p className={font.fs_12}>{member.comment}</p>
+                  <div className={styles.contactBox}>
+                    <a href={`tel:${member.phone}`}>
+                      <BsFillTelephoneFill />
+                    </a>
+                    <a href={`mailto: ${member.email}`}>
+                      <AiFillMail />
+                    </a>
+                    <a href={member.github} target="_blank">
+                      <BsGithub />
+                    </a>
+                  </div>
                 </div>
               </div>
             );

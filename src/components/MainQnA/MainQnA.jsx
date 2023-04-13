@@ -191,11 +191,6 @@ const MainQnA = () => {
                         <p
                           className={`${font.fs_12} ${font.fw_5} ${font.fc_accent_more_light}`}
                         >
-                          답변 {item.postCmts}
-                        </p>
-                        <p
-                          className={`${font.fs_12} ${font.fw_5} ${font.fc_accent_more_light}`}
-                        >
                           UP {item.postUps}
                         </p>
                       </div>
@@ -240,7 +235,7 @@ const MainQnA = () => {
                       <p
                         className={`${font.fs_12} ${font.fw_5} ${font.fc_sub_light}`}
                       >
-                        답변 {item.postCmts}
+                        UP {item.postUps}
                       </p>
                     </div>
                     <div className={styles.rightBox}>
@@ -251,11 +246,6 @@ const MainQnA = () => {
                           currentTime.seconds,
                           item.createdAt.seconds
                         )}
-                      </p>
-                      <p
-                        className={`${font.fs_12} ${font.fw_5} ${font.fc_sub_light}`}
-                      >
-                        UP {item.postUps}
                       </p>
                       <p
                         className={`${font.fs_12} ${font.fw_5} ${font.fc_sub_light}`}

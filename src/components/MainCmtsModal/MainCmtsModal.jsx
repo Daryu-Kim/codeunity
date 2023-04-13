@@ -25,15 +25,14 @@ import {
   setDoc,
   query,
   orderBy,
+  getDocs,
 } from "firebase/firestore";
 import {
   useCollectionData,
   useDocumentData,
   useDocumentDataOnce,
 } from "react-firebase-hooks/firestore";
-import {
-  useUploadFile,
-} from "react-firebase-hooks/storage"
+import { useUploadFile } from "react-firebase-hooks/storage";
 import {
   AiFillLike,
   AiOutlineClose,
@@ -52,7 +51,12 @@ import MainPQModal from "../MainPQModal/MainPQModal";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { storage, uploadImage } from "../../modules/Firebase";
-import { getStorage, ref, uploadBytes, uploadBytesResumable} from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { GrNext, GrPrevious } from "react-icons/gr";
 
 const MainCmtsModal = ({
@@ -125,7 +129,7 @@ const MainCmtsModal = ({
       setCmtUser(tempCmtUser);
       console.log(cmtUser);
     }
-  }, [cmtData, cmts])
+  }, [cmtData, cmts]);
 
   useEffect(() => {
     if (modalUserID) {
@@ -153,41 +157,38 @@ const MainCmtsModal = ({
   };
 
   const uploadClick = async () => {
-      if (postComment.length > 0) {
-        toastLoading();
-        await addDoc(
-          collection(firestore, `${modalType}/${modalPostID}/Cmts`),
-          {
-            userID: uid,
-            createdAt: Timestamp.fromDate(new Date()),
-            cmtContent: postComment,
-          }
-        )
-          .then(async (result) => {
-            await updateDoc(
-              doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id),
-              {
-                cmtID: result.id,
-              }
-            )
-              .then(() => {
-                toastClear();
-                toastSuccess("업로드에 성공했습니다!");
-                setPostComment("");
-              })
-              .catch(async () => {
-                await deleteDoc(
-                  doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id)
-                );
-                toastError("업로드에 실패했습니다!");
-              });
-          })
-          .catch((err) => {
-            toastError("업로드에 실패했습니다!");
-          });
-      } else {
-        toastError("내용을 입력해주세요!");
-      }
+    if (postComment.length > 0) {
+      toastLoading();
+      await addDoc(collection(firestore, `${modalType}/${modalPostID}/Cmts`), {
+        userID: uid,
+        createdAt: Timestamp.fromDate(new Date()),
+        cmtContent: postComment,
+      })
+        .then(async (result) => {
+          await updateDoc(
+            doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id),
+            {
+              cmtID: result.id,
+            }
+          )
+            .then(() => {
+              toastClear();
+              toastSuccess("업로드에 성공했습니다!");
+              setPostComment("");
+            })
+            .catch(async () => {
+              await deleteDoc(
+                doc(firestore, `${modalType}/${modalPostID}/Cmts`, result.id)
+              );
+              toastError("업로드에 실패했습니다!");
+            });
+        })
+        .catch((err) => {
+          toastError("업로드에 실패했습니다!");
+        });
+    } else {
+      toastError("내용을 입력해주세요!");
+    }
   };
 
   useEffect(() => {
@@ -285,11 +286,41 @@ const MainCmtsModal = ({
 
   const removeClick = async () => {
     toastLoading("게시물을 삭제하는 중입니다!");
-    await deleteDoc(doc(firestore, modalType, mdValue.postID))
-      .then((result) => {
-        toastClear();
-        toastSuccess("게시물을 삭제했습니다!");
-        setModalState(false);
+    await getDocs(collection(firestore, `${modalType}/${mdValue.postID}/Likes`))
+      .then(async (result) => {
+        result.forEach(async (document) => {
+          await deleteDoc(
+            doc(firestore, `${modalType}/${mdValue.postID}/Likes`, document.id)
+          );
+        });
+        await getDocs(
+          collection(firestore, `${modalType}/${mdValue.postID}/Cmts`)
+        )
+          .then(async (result) => {
+            result.forEach(async (document) => {
+              await deleteDoc(
+                doc(
+                  firestore,
+                  `${modalType}/${mdValue.postID}/Cmts`,
+                  document.id
+                )
+              );
+            });
+            await deleteDoc(doc(firestore, modalType, mdValue.postID))
+              .then((result) => {
+                toastClear();
+                toastSuccess("게시물을 삭제했습니다!");
+                setModalState(false);
+              })
+              .catch((err) => {
+                toastClear();
+                toastError("게시물을 삭제하지 못했습니다!");
+              });
+          })
+          .catch((err) => {
+            toastClear();
+            toastError("게시물을 삭제하지 못했습니다!");
+          });
       })
       .catch((err) => {
         toastClear();
@@ -323,7 +354,7 @@ const MainCmtsModal = ({
   ) => {
     sessionStorage.setItem("tempState", userID);
     navigate("/profile", { state: userID, replace: true });
-    setModalState(false)
+    setModalState(false);
   };
 
   return (
@@ -348,8 +379,8 @@ const MainCmtsModal = ({
           className={styles.modal}
           breakpoints={{
             768: {
-              slidesPerView: 2
-            }
+              slidesPerView: 2,
+            },
           }}
         >
           <SwiperSlide className={styles.postBox}>
@@ -360,7 +391,6 @@ const MainCmtsModal = ({
                 </p>
                 <GrNext className={styles.nav} onClick={handleNext} />
               </div>
-              
             ) : null}
             <div className={styles.postContBox}>
               <MarkdownPreview
@@ -436,9 +466,9 @@ const MainCmtsModal = ({
             <div
               className={styles.cmtsCommentBox}
               style={
-                modalType === "Posts" ?
-                {height: "calc(90vh - 21.1rem)"} :
-                {height: "calc(90vh - 17.1rem)"}
+                modalType === "Posts"
+                  ? { height: "calc(90vh - 21.1rem)" }
+                  : { height: "calc(90vh - 17.1rem)" }
               }
             >
               {cmts.length === 0 ? (
@@ -481,24 +511,31 @@ const MainCmtsModal = ({
                           <div
                             className={styles.profileImg}
                             style={
-                              cmtUser[index].userImg ?
-                              { backgroundImage: `url(${cmtUser[index].userImg})` } :
-                              { backgroundImage: `url(${baseImg})` }
+                              cmtUser[index].userImg
+                                ? {
+                                    backgroundImage: `url(${cmtUser[index].userImg})`,
+                                  }
+                                : { backgroundImage: `url(${baseImg})` }
                             }
                           ></div>
                           <p className={`${font.fw_7} ${font.fs_16}`}>
                             {cmtUser[index].userName}
                           </p>
                         </div>
-                        <p className={`${font.fw_7} ${font.fs_12} ${font.fc_sub_light}`}>
+                        <p
+                          className={`${font.fw_7} ${font.fs_12} ${font.fc_sub_light}`}
+                        >
                           {convertTimestamp(currentTime, item.createdAt)}
                         </p>
                       </div>
-                      <MarkdownPreview className={styles.comment} key={index} source={item.cmtContent} />
+                      <MarkdownPreview
+                        className={styles.comment}
+                        key={index}
+                        source={item.cmtContent}
+                      />
                     </div>
-                ))}
+                  ))}
                 </div>
-                
               )}
             </div>
             <div className={styles.cmtsFunctionBox}>

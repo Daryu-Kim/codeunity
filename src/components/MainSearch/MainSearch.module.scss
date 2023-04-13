@@ -57,15 +57,80 @@
 
   }
 
-  >.userBox {
+  >.userBox, .tagBox {
     display: flex;
     flex-direction: column;
-    gap: 1.6rem;
+    gap: 2.4rem;
 
-    >.gridBox {
+    > div {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1.2rem;
+
+      > p {
+        padding-bottom: 0.8rem;
+        border-bottom: 0.2rem solid var(--accent);
+      }
+    }
+
+    .gridBox {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.2rem;
+    }
+
+    .postBox {
+      > .postItem {
+        width: 100%;
+        border: {
+          top: 0.1rem solid var(--sub-light);
+        };
+        padding: 1.2rem 1.8rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--sub-bg);
+        }
+
+        > .qnaTagBox {
+          display: flex;
+          flex-wrap: wrap;
+          grid-gap: 0.8rem;
+
+          > .tagItem {
+            padding: 0.4rem 1.6rem;
+            cursor: pointer;
+            border: {
+              style: solid;
+              width: 0.2rem;
+              color: var(--sub);
+              radius: 0.8rem
+            };
+
+            &:hover {
+              border-color: transparent;
+              background-color: var(--accent);
+              color: white;
+            }
+          }
+        }
+
+        > .funcBox {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          > div {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+          }
+        }
+      }
     }
 
     .profileBox {

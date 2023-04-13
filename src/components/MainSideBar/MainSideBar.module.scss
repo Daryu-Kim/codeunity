@@ -19,6 +19,11 @@ li {
   overflow: hidden;
   background-color: var(--sub-bg);
   z-index: 10;
+
+  > .contBox {
+    > .codeBox {
+    }
+  }
 }
 
 .sidebarIcon {
