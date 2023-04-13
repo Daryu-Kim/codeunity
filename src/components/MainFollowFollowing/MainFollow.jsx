@@ -157,7 +157,7 @@ const MainFollow = ({ closeModal, userID, modalType }) => {
             </ul>
           ) : (
             <ul className={styles.modalList}>
-              {following &&
+              {following && 
                 followingData.map((item) => (
                   <li key={item.userID} className={styles.modalItem}
                   onClick={() => profileClick(item.userID, item.userName)}>
