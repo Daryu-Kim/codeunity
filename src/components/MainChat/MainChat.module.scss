@@ -73,6 +73,29 @@
   padding: 0.8rem 1.6rem;
   box-sizing: border-box;
   background-color: var(--sub-bg);
+
+  > .titleBox {
+    padding: 0.8rem 1.6rem;
+    border-bottom: 0.2rem solid var(--sub-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > .title {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    > .newChat {
+      cursor: pointer;
+      color: var(--accent-more-light);
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
 }
 
 .messageList {

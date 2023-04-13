@@ -19,7 +19,7 @@ import { useReactPWAInstall } from "react-pwa-install";
 import { ToastContainer } from "react-toastify";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 
 const MainSideBar = () => {
@@ -79,9 +79,20 @@ const MainSideBar = () => {
     setCodeValue(value);
   };
 
-  const handleFriendClick = (userID) => {
-    sessionStorage.setItem("tempChat", userID);
-    navigate("/chat", { replace: true });
+  const handleFriendClick = async (targetID) => {
+    const tempArr = [userID, targetID];
+    const filter = query(
+      collection(firestore, "Chats"),
+      where("user1", "in", tempArr),
+      where("user2", "in", tempArr),
+    )
+    const chatData = await getDocs(filter);
+    if (chatData.docs.length !== 0) {
+      
+    }
+    console.log(chatData.docs.length)
+    // sessionStorage.setItem("tempChat", userID);
+    // navigate("/chat", { replace: true });
   }
 
   return (

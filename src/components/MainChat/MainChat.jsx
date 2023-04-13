@@ -10,20 +10,37 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection, query, where } from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 import { BsChatDotsFill } from "react-icons/bs";
+import { useEffect } from "react";
 
 const MainChat = () => {
   const userID = localStorage.getItem("uid");
   const [chatListData] = useCollectionData(
     query(
       collection(firestore, "Chats"),
-      where("userArr", "array-contains", userID)
+      where("userArr", "array-contains", userID),
     )
   );
 
+  const [chatData, setChatData] = useState([]);
+  const [targetData, setTargetData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const inputFileRef = useRef(null);
+
+  useEffect(() => {
+
+  }, [sessionStorage.getItem("tempChat")]);
+
+  useEffect(() => {
+    if (chatListData) {
+      const tempChatData = [...chatListData];
+      chatListData.map((item, index) => {
+        tempChatData[index] = item;
+      });
+      setChatData(tempChatData);
+    }
+  }, [chatListData])
 
   const handleMessageChange = (event) => {
     setInputValue(event.target.value);
@@ -67,45 +84,55 @@ const MainChat = () => {
   return (
     <div className={styles.wrapper}>
       <Swiper
-      className={styles.swiper}
+        className={styles.swiper}
         slidesPerView={1}
         breakpoints={{
           768: {
             slidesPerView: 2,
-          }
+          },
         }}
       >
-{chatListData && (
-        <SwiperSlide className={styles.listBox}>
+        {chatListData && (
+          <SwiperSlide className={styles.listBox}>
+            <div className={styles.titleBox}>
+              <div className={styles.title}>
+                <p className={`${font.fs_18} ${font.fw_7}`}>채팅</p>
+                <p className={`${font.fs_18} ${font.fw_7} ${font.fc_accent}`}>
+                  {chatListData.length}
+                </p>
+              </div>
+              <BsChatDotsFill className={`${font.fs_20} ${styles.newChat}`} />
+            </div>
+            {chatListData.length > 0 ? (
+              chatData && (
+                chatData.map((item, index) => (
+                  <p>{item.userArr}</p>
+                ))
+              )
+            ) : (
+              <div className={styles.noExistsBox}>
+                <p className={`${font.fs_20} ${font.fw_7}`}>
+                  채팅방이 없습니다!
+                </p>
+                <p
+                  className={`
+                ${font.fs_14} ${font.fw_5} ${font.fc_sub_light}
+              `}
+                >
+                  팔로워 / 팔로잉 분들이랑 채팅을 시작해보세요!
+                </p>
+              </div>
+            )}
+          </SwiperSlide>
+        )}
+
+        <SwiperSlide className={styles.chatContainer}>
           <div className={styles.titleBox}>
             <div className={styles.title}>
-              <p className={`${font.fs_18} ${font.fw_7}`}>
-                채팅
-              </p>
-              <p className={`${font.fs_18} ${font.fw_7} ${font.fc_accent}`}>
-                {chatListData.length}
-              </p>
+              <p className={`${font.fs_18} ${font.fw_7}`}>채팅</p>
             </div>
             <BsChatDotsFill className={`${font.fs_20} ${styles.newChat}`} />
           </div>
-          {chatListData.length > 0 ? (
-            <p>채팅방이 있습니다!</p>
-          ) : (
-            <div className={styles.noExistsBox}>
-              <p className={`${font.fs_20} ${font.fw_7}`}>
-                채팅방이 없습니다!
-              </p>
-              <p className={`
-                ${font.fs_14} ${font.fw_5} ${font.fc_sub_light}
-              `}>
-                팔로워 / 팔로잉 분들이랑 채팅을 시작해보세요!
-              </p>
-            </div>
-          )}
-        </SwiperSlide>
-      )}
-
-        <SwiperSlide className={styles.chatContainer}>
           <div className={styles.messageList}>
             {messages.map((message, index) => (
               <div
@@ -167,13 +194,16 @@ const MainChat = () => {
           <form className={styles.chatInput} onSubmit={SendMessage}>
             <div className={`${styles.chatInputBox} ${font.fs_14}`}>
               <input
-                className={`${styles.chatInputIn} ${font.fs_14}`}
+                className={`${styles.chatInputIn} ${font.fs_14} ${font.fw_5}`}
                 type="text"
                 placeholder="메시지를 입력하세요"
                 value={inputValue}
                 onChange={handleMessageChange}
               />
-              <div className={styles.postFunBox} onClick={handlePostFunBoxClick}>
+              <div
+                className={styles.postFunBox}
+                onClick={handlePostFunBoxClick}
+              >
                 <RiImageAddLine />
               </div>
             </div>
