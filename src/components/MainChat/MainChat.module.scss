@@ -8,6 +8,60 @@
   background-color: var(--bg);
   display: flex;
   justify-content: center;
+
+  >.swiper {
+    width: 100%;
+    height: 100%;
+    max-width: 64rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.4rem 0.8rem rgba($color: #000000, $alpha: 0.35);
+
+    .listBox {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      max-width: 64rem;
+      text-align: center;
+      padding: 0.8rem 1.6rem;
+    
+      > div {
+        padding: 0.8rem 1.6rem;
+      }
+    
+      > .titleBox {
+        border-bottom: 0.2rem solid var(--sub-light);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    
+        > .title {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        }
+    
+        > .newChat {
+          cursor: pointer;
+          color: var(--accent-more-light);
+    
+          &:hover {
+            color: var(--accent);
+          }
+        }
+      }
+    
+      > .noExistsBox {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+    }
+  }
 }
 
 .chatContainer {
@@ -18,6 +72,7 @@
   max-width: 64rem;
   padding: 0.8rem 1.6rem;
   box-sizing: border-box;
+  background-color: var(--sub-bg);
 }
 
 .messageList {
@@ -98,20 +153,23 @@
 .chatInput {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  gap: 0.8rem;
 
   &Box {
     display: flex;
-    flex-grow: 1;
-    padding: 1rem;
+    gap: 0.4rem;
+    flex: 1;
+    padding: 0.8rem 1.6rem;
     border: none;
     border-radius: 0.8rem;
     background-color: var(--thd-bg);
     // color: #262626;
-    line-height: 1.8rem;
     box-shadow: none;
 
     > .postFunBox {
+      width: 2rem;
+      height: 2rem;
+      aspect-ratio: 1/1;
       > svg {
         width: 2rem;
         height: 2rem;
@@ -130,13 +188,12 @@
     width: 100%;
   }
   &Btn {
-    margin-left: 1rem;
-    padding: 1rem;
+    height: 100%;
+    padding: 0.8rem 1.6rem;
     border: none;
     border-radius: 0.8rem;
     background-color: var(--accent);
     color: #fff;
-    line-height: 1.8rem;
     box-shadow: none;
     cursor: pointer;
   }

@@ -103,7 +103,7 @@ const MainSideBar = () => {
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
-            onClick={() => movePath("/chatlist")}
+            onClick={() => movePath("/chat")}
             icon={faUserGroup}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
