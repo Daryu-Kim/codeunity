@@ -154,7 +154,7 @@ const MainSideBar = () => {
         </div>
       </div>
       <div className={`${styles.contBox}`}>
-          <p className={`${font.fw_7} ${font.fs_20}`}>친구</p>
+          <p className={`${font.fw_7} ${font.fs_20}`}>팔로잉</p>
         <div className={styles.friendsBox}>
           {
             followingUser.length && (

@@ -10,14 +10,55 @@
   justify-content: center;
 }
 
-.chatContainer {
+.listBox {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   max-width: 64rem;
-  padding: 0.8rem 1.6rem;
-  box-sizing: border-box;
+  text-align: center;
+  border: {
+    style: solid;
+    color: var(--sub-light);
+    width: 0.2rem;
+    radius: 0.8rem;
+  };
+
+  > div {
+    padding: 0.8rem 1.6rem;
+  }
+
+  > .titleBox {
+    box-shadow: 0 0.2rem 0.4rem rgba($color: #000000, $alpha: 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > .title {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    > .newChat {
+      cursor: pointer;
+      color: var(--accent-more-light);
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  > .noExistsBox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
 }
 
 .messageList {
