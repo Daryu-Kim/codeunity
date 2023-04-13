@@ -21,7 +21,9 @@ const MainInquiry = () => {
       name: "백승호",
       img: "https://avatars.githubusercontent.com/u/18731998?v=4",
       position: "Front-End Developer",
-      comment: "你好，我是白承昊。我毕业于北京理工大学，是前台开发人员.",
+      comment: `북경이공대학교를 졸업하면서 계속 공부해왔고 앞으로도 계속 공부하고싶은 웹 개발자입니다.
+      저의 강점은 끈기와 성실함 입니다. 또한 부족한 부분은 빠르게 인정하고 더 배우고자 하고 초심을 잃지않고 문제를 해결
+      할 때까지 절대 포기하지 않습니다. `,
       phone: "010-2045-7967",
       email: "vudrkd1580@naver.com",
       github: "https://github.com/baekseungho",
