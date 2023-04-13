@@ -1,54 +1,46 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MainSideBar.module.scss";
 import font from "../../styles/Font.module.scss";
-import {
-  faChevronDown,
-  faChevronRight,
-  faDownload,
-  faHashtag,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCodeBranch,
   faGear,
   faMagnifyingGlass,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
+import {IoSend} from "react-icons/io5"
+import baseImg from "../../assets/svgs/352174_user_icon.svg"
 import logo from "../../assets/images/logo.png";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import CodeMirror from "@uiw/react-codemirror";
-import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
 import { useLocation, useNavigate } from "react-router";
 import { BsMailbox2 } from "react-icons/bs";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import { toastError, toastSuccess } from "../../modules/Functions";
-import { vscodeDark, noctisLilac } from "@uiw/codemirror-themes-all";
 import { useReactPWAInstall } from "react-pwa-install";
 import { ToastContainer } from "react-toastify";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { firestore } from "../../modules/Firebase";
 
 const MainSideBar = () => {
-  const location = useLocation();
-
-  const friends = [
-    "친구1.scss",
-    "친구2.scss",
-    "친구3.scss",
-    "친구4.scss",
-    "친구5.scss",
-    "친구6.scss",
-    "친구7.scss",
-    "친구8.scss",
-    "친구9.scss",
-  ];
-  const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
-
-  const navigate = useNavigate();
-  const [openFriendsMenu, setOpenFriendsMenu] = useState(false);
-  const [codeValue, setCodeValue] = useState();
-
   const userID = localStorage.getItem("uid");
+  const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
+  const navigate = useNavigate();
+  const [codeValue, setCodeValue] = useState();
+  const [userData] = useDocumentData(doc(firestore, "Users", userID));
+  const [followingData] = useCollectionData(collection(firestore, `Follows/${userID}/Following`));
+  const [followingUser, setFollowingUser] = useState([]);
+
+  useEffect(() => {
+    if (followingData) {
+      Promise.all(
+        followingData.map(async (item) => {
+          const tempData = await getDoc(doc(firestore, "Users", item.userID));
+          return tempData.data();
+        })
+      ).then((data) => setFollowingUser(data.sort((x, y) => y.followerCount - x.followerCount)));
+    }
+  }, [followingData])
 
   const movePath = (path, param) => {
     navigate(path, { replace: true, state: param });
@@ -78,22 +70,27 @@ const MainSideBar = () => {
       });
   };
 
-    const toggleFriendsMenu = () => {
-      setOpenFriendsMenu(!openFriendsMenu);
-    };
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(codeValue); // 복사 기능
+    toastSuccess("코드를 복사하였습니다!");
+  };
 
-    const handleCopyClick = () => {
-      navigator.clipboard.writeText(codeValue); // 복사 기능
-      toastSuccess("코드를 복사하였습니다!");
-    };
+  const handleCodeValueChange = (value) => {
+    setCodeValue(value);
+  };
 
-    const handleCodeValueChange = (value) => {
-      setCodeValue(value);
-    };
+  const handleFriendClick = (userID) => {
+    sessionStorage.setItem("tempChat", userID);
+    navigate("/chat", { replace: true });
+  }
 
   return (
     <div className={styles.mainSideBar}>
-      <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        bodyClassName={styles.toast}
+      />
       <div className={styles.iconBox}>
         <div className={styles.onIconBox}>
           <div
@@ -106,7 +103,7 @@ const MainSideBar = () => {
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
           <FontAwesomeIcon
-            onClick={() => movePath("/chat")}
+            onClick={() => movePath("/chatlist")}
             icon={faUserGroup}
             className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
           />
@@ -127,16 +124,28 @@ const MainSideBar = () => {
               onClick={handleInstallClick}
             />
           )}
-
-          <FontAwesomeIcon
-            icon={faUser}
-            onClick={() => {
-              movePath("/profile", userID);
-              sessionStorage.setItem("tempState", userID);
-            }}
-            className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
-          />
-          {/* <div className={styles.myProfile}></div> */}
+          {userData &&
+            (userData.userImg ? (
+              <div
+                className={styles.myProfile}
+                style={
+                  {backgroundImage: `url(${userData.userImg})`}
+                }
+                onClick={() => {
+                  movePath("/profile", userID);
+                  sessionStorage.setItem("tempState", userID);
+                }}
+              ></div>
+            ) : (
+              <FontAwesomeIcon
+                icon={faUser}
+                onClick={() => {
+                  movePath("/profile", userID);
+                  sessionStorage.setItem("tempState", userID);
+                }}
+                className={`${styles.sidebarIcon} ${font.fs_24} ${font.bg}`}
+              />
+            ))}
           <FontAwesomeIcon
             onClick={() => movePath("/settings")}
             icon={faGear}
@@ -144,33 +153,52 @@ const MainSideBar = () => {
           />
         </div>
       </div>
-      <div className={`${styles.contBox} ${font.fs_14}`}>
-          <button onClick={toggleFriendsMenu}>
-            <p>친구.List</p>
+      <div className={`${styles.contBox}`}>
+          <p className={`${font.fw_7} ${font.fs_20}`}>친구</p>
+        <div className={styles.friendsBox}>
+          {
+            followingUser.length && (
+              followingUser.map((item, index) => (
+                <div className={styles.friends} onClick={() => handleFriendClick(item.userID)} key={index}>
+                  <div>
+                    <div
+                      className={styles.profileImg}
+                      style={
+                        item.userImg ?
+                        {backgroundImage: `url(${item.userImg})`} :
+                        {backgroundImage: `url(${baseImg})`}
+                      }
+                    ></div>
+                    <p className={`${font.fs_16} ${font.fw_7}`}>
+                      {item.userName}
+                    </p>
+                  </div>
+                  <IoSend className={`${font.fs_16} ${font.fc_accent}`} />
+                </div>
+              ))
+            )
+          }
+        </div>
+        <div className={styles.codeBox}>
+          <MarkdownEditor
+            value={codeValue}
+            onChange={(e) => handleCodeValueChange(e)}
+            id={styles.code}
+            previewWidth={"100%"}
+            style={{
+              fontSize: 16,
+            }}
+            height="16rem"
+            toolbars={["code", "codeBlock"]}
+            toolbarsMode={["preview"]}
+          />
+          <button
+            className={`${styles.memoBoxBtn} ${font.fw_7} ${font.fs_12}`}
+            onClick={handleCopyClick}
+          >
+            복사
           </button>
-          {openFriendsMenu ? <div>hello</div> : null}
-          <div className={styles.codeBox}>
-            <MarkdownEditor
-              value={codeValue}
-              onChange={(e) => handleCodeValueChange(e)}
-              className={styles.code}
-              previewWidth={"100%"}
-              style={{
-                fontSize: 16,
-              }}
-              height="16rem"
-              toolbars={[
-                "code", "codeBlock"
-              ]}
-              toolbarsMode={["preview"]}
-            />
-            <button
-              className={`${styles.memoBoxBtn} ${font.fw_7} ${font.fs_10}`}
-              onClick={handleCopyClick}
-            >
-              복사
-            </button>
-          </div>
+        </div>
       </div>
     </div>
   );

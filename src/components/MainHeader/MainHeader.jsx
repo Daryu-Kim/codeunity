@@ -114,12 +114,8 @@ const MainHeader = () => {
             id={styles.tabMenu}
             // 클릭 시 movePath 함수 실행
             onClick={(event) => movePath(event, item.pathName, item.state)}
-          >
-            <FontAwesomeIcon
-              // 아이콘 스타일 설정
-              className={`${font.fs_14} ${font.fc_accent}`}
-              icon={item.icon}
-            />
+          >            
+            <img src={item.icon} alt="" />
             <p className={`${font.fs_14} ${font.fw_7}`}>
               {item.displayName}
             </p>
