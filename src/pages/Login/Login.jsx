@@ -4,106 +4,127 @@ import styles from "./Login.module.scss";
 import font from "../../styles/Font.module.scss";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { isDarkMode, toastClear, toastError, toastLoading } from "../../modules/Functions";
+import {
+  isDarkMode,
+  toastClear,
+  toastError,
+  toastLoading,
+} from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
-import logoImgLight from "../../assets/svgs/Symbol+type_Columns_Light.svg"
-import logoImgDark from "../../assets/svgs/Symbol+type_Columns_Dark.svg"
+import logoImgLight from "../../assets/svgs/Symbol+type_Columns_Light.svg";
+import logoImgDark from "../../assets/svgs/Symbol+type_Columns_Dark.svg";
 import { signInEmail, signInGitHub } from "../../modules/Firebase";
 import { ToastContainer } from "react-toastify";
-import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGithub } from "react-firebase-hooks/auth";
-import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
+import {
+  useAuthState,
+  useSignInWithEmailAndPassword,
+  useSignInWithGithub,
+} from "react-firebase-hooks/auth";
+import {
+  getAuth,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
 import LoginSearchPW from "../../components/LoginSearchPW/LoginSearchPW";
 
 function Login() {
-  const [isIDActive, setIsIDActive] = useState(false);
-  const [isPWActive, setIsPWActive] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [modalState, setModalState] = useState(false)
+  const [isIDActive, setIsIDActive] = useState(false); // ID input이 활성화되었는지 여부를 저장하는 state
+  const [isPWActive, setIsPWActive] = useState(false); // PW input이 활성화되었는지 여부를 저장하는 state
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // PW input의 가리기/보이기 여부를 저장하는 state
+  const [modalState, setModalState] = useState(false); // modal의 상태를 저장하는 state
 
-  const [idValue, setIdValue] = useState("");
-  const [pwValue, setPwValue] = useState("");
+  const [idValue, setIdValue] = useState(""); // ID input의 value를 저장하는 state
+  const [pwValue, setPwValue] = useState(""); // PW input의 value를 저장하는 state
 
-  const auth = getAuth();
-  const navigate = useNavigate();
+  const auth = getAuth(); // Firebase auth 객체
+  const navigate = useNavigate(); // react-router-dom의 navigate 함수
 
   const handleIDInputChange = (e) => {
-    setIdValue(e.target.value.trim());
-    if (e.target.value.trim().length > 0) {
-      setIsIDActive(true);
-    } else {
-      setIsIDActive(false);
-    }
+    // ID input의 value가 변경될 때 실행되는 함수
+    setIdValue(e.target.value.trim()); // ID input의 value를 trim하여 state에 저장
+    setIsIDActive(e.target.value.trim().length > 0); // ID input이 활성화되었는지 여부를 state에 저장
   };
 
   const handlePWInputChange = (e) => {
-    setPwValue(e.target.value.trim());
-    if (e.target.value.trim().length > 0) {
-      setIsPWActive(true);
-    } else {
-      setIsPWActive(false);
-    }
+    // PW input의 value가 변경될 때 실행되는 함수
+    setPwValue(e.target.value.trim()); // PW input의 value를 trim하여 state에 저장
+    setIsPWActive(e.target.value.trim().length > 0); // PW input이 활성화되었는지 여부를 state에 저장
   };
 
   const togglePasswordVisiblity = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+    // PW input의 가리기/보이기 여부를 변경하는 함수
+    setIsPasswordVisible(!isPasswordVisible); // isPasswordVisible state를 반전시켜 저장
   };
 
   const activeEnter = (e) => {
-    if(e.key === "Enter") {
-      formCheck(idValue, pwValue);
+    // Enter key가 눌렸을 때 실행되는 함수
+    if (e.key === "Enter") {
+      // Enter key가 눌렸을 때
+      formCheck(idValue, pwValue); // formCheck 함수 실행
     }
-  }
+  };
 
   const formCheck = (email, password) => {
+    // form이 유효한지 체크하는 함수
     if (!idValue) {
-      toastError("이메일을 입력해주세요!");
+      // ID input이 비어있을 때
+      toastError("이메일을 입력해주세요!"); // 에러 메시지 출력
+    } else if (!pwValue) {
+      // PW input이 비어있을 때
+      toastError("비밀번호를 입력해주세요!"); // 에러 메시지 출력
     } else {
-      if (!pwValue) {
-        toastError("비밀번호를 입력해주세요!");
-      } else {
-        signInWithEmailAndPassword(email, password);
-      }
+      // ID와 PW input이 모두 유효할 때
+      signInWithEmailAndPassword(email, password); // Firebase의 signInWithEmailAndPassword 함수 실행
     }
   };
 
   /* Email Login */
-  const [signInWithEmailAndPassword, emailUser, emailLoading, emailError] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, emailUser, emailLoading, emailError] =
+    useSignInWithEmailAndPassword(auth); // Firebase의 useSignInWithEmailAndPassword hook
+
   if (emailError) {
-    // if Login Error
-    if (emailError.code == "auth/wrong-password") {
-      toastError("비밀번호가 맞지 않습니다!");
-    }
-    if (emailError.code == "auth/internal-error") {
-      toastError("알 수 없는 오류입니다!");
-    }
-    if (emailError.code == "auth/invalid-email") {
-      toastError("이메일 형식이 맞지 않습니다!");
-    }
-    if (emailError.code == "auth/user-not-found") {
-      toastError("이메일 또는 비밀번호가 잘못되었습니다!");
-    }
-    if (emailError.code == "auth/too-many-requests") {
-      toastError("잠시 후 다시 시도해주세요!");
+    // 로그인 에러가 발생했을 때
+    switch (
+      emailError.code // Firebase error code에 따라 분기 처리
+    ) {
+      case "auth/wrong-password": // 비밀번호가 틀렸을 때
+        toastError("비밀번호가 맞지 않습니다!"); // 에러 메시지 출력
+        break;
+      case "auth/internal-error": // 내부 오류가 발생했을 때
+        toastError("알 수 없는 오류입니다!"); // 에러 메시지 출력
+        break;
+      case "auth/invalid-email": // 이메일 형식이 맞지 않을 때
+        toastError("이메일 형식이 맞지 않습니다!"); // 에러 메시지 출력
+        break;
+      case "auth/user-not-found": // 유저를 찾을 수 없을 때
+        toastError("이메일 또는 비밀번호가 잘못되었습니다!"); // 에러 메시지 출력
+        break;
+      case "auth/too-many-requests": // 로그인 시도가 너무 많을 때
+        toastError("잠시 후 다시 시도해주세요!"); // 에러 메시지 출력
+        break;
+      default:
+        break;
     }
   }
   if (emailLoading) {
-    // if Logging..
-    console.log("logging..");
-    toastLoading("로그인 중입니다...");
+    // 로그인 중일 때
+    toastLoading("로그인 중입니다..."); // 로딩 메시지 출력
   }
   if (emailUser) {
-    // if Login Completed!
-    console.log(emailUser);
-    toastClear();
-    localStorage.setItem("uid", emailUser.user.uid);
+    // 로그인이 완료되었을 때
+    toastClear(); // 모든 toast 메시지 제거
+    localStorage.setItem("uid", emailUser.user.uid); // 로그인한 유저의 uid를 localStorage에 저장
     setTimeout(() => {
-      navigate("/", { replace: true });
+      // 0.5초 후에
+      navigate("/", { replace: true }); // 메인 페이지로 이동
     }, 500);
   }
 
   /* GitHub Login */
   // const [signInWithGithub, gitUser, gitLoading, gitError] = useSignInWithGithub(auth);
-  
+
   // if (gitError) {
   //   // if Login Error
   //   console.error(gitError);
@@ -120,33 +141,27 @@ function Login() {
   // }
 
   const signInWithGithub = () => {
-    window.open("https://github.com/login/oauth/authorize?client_id=4972759927ee7d81c2b5&redirect_uri=http://localhost:3000/callback");
-  }
+    // GitHub 로그인 버튼 클릭 시 실행되는 함수
+    window.open(
+      "https://github.com/login/oauth/authorize?client_id=4972759927ee7d81c2b5&redirect_uri=http://localhost:3000/callback" // 새 창을 열어 GitHub OAuth 인증 페이지로 이동
+    );
+  };
 
-  
-
-  // Renderer
   return (
     <div className={styles.wrapper}>
-      {
-        modalState && (
-          <LoginSearchPW setModalState={setModalState} />
-        )
-      }
-      <ToastContainer position="top-right" autoClose={2000} bodyClassName={styles.toast} />
+      {modalState && <LoginSearchPW setModalState={setModalState} />}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        bodyClassName={styles.toast}
+      />
       <div className={styles.box}>
         <div className={styles.logoBox}>
           <img
-            src=
-              {
-                isDarkMode() ?
-                logoImgDark :
-                logoImgLight
-              }
+            src={isDarkMode() ? logoImgDark : logoImgLight}
             alt="logoImg"
             className={styles.logoImg}
           />
-          {/* <p className={`${font.fs_28} ${font.fw_9}`}>CodeUnity</p> */}
         </div>
 
         <div className={styles.formParent}>
@@ -234,9 +249,7 @@ function Login() {
           <p className={font.fs_12}>또는</p>
           <hr />
         </div>
-        <div
-          className={styles.githubBtn} onClick={signInWithGithub}
-        >
+        <div className={styles.githubBtn} onClick={signInWithGithub}>
           <FontAwesomeIcon icon={faGithub} className={styles.github} />
           <p className={`${font.fs_16} ${font.fw_7}`}>GitHub로 로그인</p>
         </div>

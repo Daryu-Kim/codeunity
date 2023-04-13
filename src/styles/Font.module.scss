@@ -1,27 +1,24 @@
+// 구글 폰트 불러오기
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+// 변수 파일 불러오기
 @import "./_variabled";
 
-@font-face {
-  font-family: "D2Coding";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff")
-    format("woff");
-}
-
+// 기본 폰트 사이즈 설정
 $BASE_FONT_SIZE: 10px;
+
+// 미디어 쿼리를 위한 브레이크포인트 설정
 $breakpoints: (
   0px: 1,
-  768px: 1.2,
-  // 1280px: 1.4
+  768px: 1.2
 );
 
+// 전체 요소에 Noto Sans KR 폰트 적용
 * {
   font-family: "Noto Sans KR";
 }
 
-.f_code {
-  font-family: "D2Coding";
-}
-
+// 강조 색상 관련 클래스
 .fc_accent {
   color: var(--accent);
 }
@@ -34,6 +31,7 @@ $breakpoints: (
   color: var(--accent-more-light);
 }
 
+// 보조 색상 관련 클래스
 .fc_sub {
   color: var(--sub);
 }
@@ -46,25 +44,30 @@ $breakpoints: (
   color: var(--sub-semi-light);
 }
 
+// 폰트 웨이트 관련 클래스
 @for $i from 1 through 9 {
   .fw_#{$i} {
     font-weight: $i * 100;
   }
 }
 
+// 폰트 사이즈 관련 클래스
 @for $i from 10 through 28 {
   .fs_#{$i} {
     font-size: 1rem * ($i / 10);
   }
 }
 
+// 제목 태그 관련 스타일
 @for $i from 1 through 6 {
   h#{$i} {
     color: var(--primary);
   }
 }
 
-@each $breakpoint, $font-size in $breakpoints {
+// 미디어 쿼리를 이용한 폰트 사이즈 조절
+@each $breakpoint,
+$font-size in $breakpoints {
   @media (min-width: $breakpoint) {
     html {
       font-size: $font-size * $BASE_FONT_SIZE;

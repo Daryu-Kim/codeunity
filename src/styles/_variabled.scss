@@ -1,48 +1,51 @@
-$LIGHT_THEME: (
-  bg: #fff,
-  sub-bg: #f3f3f3,
-  thd-bg: #e6e6e6,
-  overlay-gradient-bg: #040008,
-  primary: #101010,
-  reverse-primary: #FFF,
-  accent: #9564c5,
-  accent-light: #ab7ed2,
-  accent-more-light: #be94d8,
-  accent-dark: #7e43b1,
-  accent-more-dark: #5c2994,
-  sub: #666,
-  sub-semi-light: #888,
-  sub-light: #aaa,
-  sub-more-light: #ccc,
-);
-$DARK_THEME: (
-  bg: #242028,
-  sub-bg: #343038,
-  thd-bg: #444048,
-  overlay-gradient-bg: #040008,
-  primary: #fff,
-  reverse-primary: #101010,
-  accent: #9564c5,
-  accent-light: #ab7ed2,
-  accent-more-light: #be94d8,
-  accent-dark: #7e43b1,
-  accent-more-dark: #5c2994,
-  sub: #666,
-  sub-semi-light: #888,
-  sub-light: #aaa,
-  sub-more-light: #ccc,
+$LIGHT_THEME: (   // 라이트 테마 변수 선언
+  bg: #fff,   // 배경 색상
+  sub-bg: #f3f3f3,  // 보조 배경 색상
+  thd-bg: #e6e6e6,  // 3차 보조 배경 색상
+  overlay-gradient-bg: #040008,   // 오버레이 그라데이션 배경 색상
+  primary: #101010,   // 기본 색상
+  reverse-primary: #FFF,  // 반전된 기본 색상
+  accent: #9564c5,  // 강조 색상
+  accent-light: #ab7ed2,  // 강조 색상 밝은 버전
+  accent-more-light: #be94d8,   // 강조 색상 더 밝은 버전
+  accent-dark: #7e43b1,   // 강조 색상 어두운 버전
+  accent-more-dark: #5c2994,  // 강조 색상 더 어두운 버전
+  sub: #666,  // 보조 색상
+  sub-semi-light: #888,   // 보조 색상 반 밝은 버전
+  sub-light: #aaa,  // 보조 색상 밝은 버전
+  sub-more-light: #ccc // 보조 색상 더 밝은 버전
 );
 
-:root {
-  @each $k, $v in $LIGHT_THEME {
-    #{"--" + $k}: #{$v};
+$DARK_THEME: (  // 다크 테마 변수 선언
+  bg: #242028,  // 배경 색상
+  sub-bg: #343038,  // 보조 배경 색상
+  thd-bg: #444048,  // 3차 보조 배경 색상
+  overlay-gradient-bg: #040008,   // 오버레이 그라데이션 배경 색상
+  primary: #fff,  // 기본 색상
+  reverse-primary: #101010,   // 반전된 기본 색상
+  accent: #9564c5,  // 강조 색상
+  accent-light: #ab7ed2,  // 강조 색상 밝은 버전
+  accent-more-light: #be94d8,   // 강조 색상 더 밝은 버전
+  accent-dark: #7e43b1,   // 강조 색상 어두운 버전
+  accent-more-dark: #5c2994,  // 강조 색상 더 어두운 버전
+  sub: #666,  // 보조 색상
+  sub-semi-light: #888,   // 보조 색상 반 밝은 버전
+  sub-light: #aaa,  // 보조 색상 밝은 버전
+  sub-more-light: #ccc // 보조 색상 더 밝은 버전
+);
+
+:root {   // 루트 요소 선택자
+  @each $k,
+  $v in $LIGHT_THEME {  // 라이트 테마 변수를 반복문으로 처리
+    #{"--" + $k}: #{$v}; // CSS 변수 선언
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    @each $k, $v in $DARK_THEME {
-      #{"--" + $k}: #{$v};
+@media (prefers-color-scheme: dark) {   // 다크 모드 미디어 쿼리
+  :root {   // 루트 요소 선택자
+    @each $k,
+    $v in $DARK_THEME {   // 다크 테마 변수를 반복문으로 처리
+      #{"--" + $k}: #{$v}; // CSS 변수 선언
     }
   }
 }

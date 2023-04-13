@@ -4,15 +4,10 @@ import font from "../../styles/Font.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import {
-  isDarkMode,
-  toastClear,
-  toastError,
-  toastLoading,
-} from "../../modules/Functions";
+import { isDarkMode, toastClear, toastError, toastLoading } from "../../modules/Functions";
 import { Link, useNavigate } from "react-router-dom";
-import logoImgLight from "../../assets/svgs/Symbol+type_Columns_Light.svg";
-import logoImgDark from "../../assets/svgs/Symbol+type_Columns_Dark.svg";
+import logoImgLight from "../../assets/svgs/Symbol+type_Columns_Light.svg"
+import logoImgDark from "../../assets/svgs/Symbol+type_Columns_Dark.svg"
 
 import { ToastContainer } from "react-toastify";
 
@@ -22,60 +17,121 @@ import { getAuth } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const Join = () => {
-  const [emailMessage, setEmailMessage] = useState(""); // 이메일 입력 시 에러 메시지
-  const [nameMessage, setNameMessage] = useState(""); // 이름 입력 시 에러 메시지
-  const [passwordMessage, setPasswordMessage] = useState(""); // 비밀번호 입력 시 에러 메시지
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState(""); // 비밀번호 확인 입력 시 에러 메시지
-  const [phoneMessage, setPhoneMessage] = useState(""); // 전화번호 입력 시 에러 메시지
+  const [emailMessage, setEmailMessage] = useState("");
+  const [nameMessage, setNameMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
 
-  const [isEmailActive, setIsEmailActive] = useState(false); // 이메일 입력창 활성화 여부
-  const [isIDActive, setIsIDActive] = useState(false); // 아이디 입력창 활성화 여부
-  const [isPWActive, setIsPWActive] = useState(false); // 비밀번호 입력창 활성화 여부
-  const [isPWCActive, setIsPWCActive] = useState(false); // 비밀번호 확인 입력창 활성화 여부
-  const [isPhoneActive, setIsPhoneActive] = useState(false); // 전화번호 입력창 활성화 여부
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 비밀번호 입력창에 입력한 값의 가리기/보이기 여부
+  const [isEmailActive, setIsEmailActive] = useState(false);
+  const [isIDActive, setIsIDActive] = useState(false);
+  const [isPWActive, setIsPWActive] = useState(false);
+  const [isPWCActive, setIsPWCActive] = useState(false);
+  const [isPhoneActive, setIsPhoneActive] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPasswordConfirmVisible, setIsPasswordConfirmVisible] =
-    useState(false); // 비밀번호 확인 입력창에 입력한 값의 가리기/보이기 여부
+    useState(false);
 
-  const [emailValue, setEmailValue] = useState(""); // 이메일 입력값
-  const [idValue, setIdValue] = useState(""); // 아이디 입력값
-  const [pwValue, setPwValue] = useState(""); // 비밀번호 입력값
-  const [pwCValue, setPwCValue] = useState(""); // 비밀번호 확인 입력값
+  const [emailValue, setEmailValue] = useState("");
+  const [idValue, setIdValue] = useState("");
+  const [pwValue, setPwValue] = useState("");
+  const [pwCValue, setPwCValue] = useState("");
 
-  const auth = getAuth(); // Firebase 인증 객체
-  const firestore = getFirestore(); // Firebase Firestore 객체
-  const navigate = useNavigate(); // React Router의 navigate 함수
+  const auth = getAuth();
+  const firestore = getFirestore();
+
+  const navigate = useNavigate();
+
+  const togglePasswordVisiblity = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+  const togglePasswordConfirmVisiblity = () => {
+    setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
+  };
+
+  const onChangeEmail = (e) => {
+    setEmailValue(e.target.value.trim());
+    if (e.target.value.trim().length > 0) {
+      setIsEmailActive(true);
+    } else {
+      setIsEmailActive(false);
+    }
+  };
+
+  const onChangeName = (e) => {
+    setIdValue(e.target.value.trim());
+    if (e.target.value.trim().length > 0) {
+      setIsIDActive(true);
+    } else {
+      setIsIDActive(false);
+    }
+  };
+
+  const onChangePassword = (e) => {
+    setPwValue(e.target.value.trim());
+    if (e.target.value.trim().length > 0) {
+      setIsPWActive(true);
+    } else {
+      setIsPWActive(false);
+    }
+  };
+
+  const onChangePasswordConfirm = (e) => {
+    setPwCValue(e.target.value.trim());
+    if (e.target.value.trim().length > 0) {
+      setIsPWCActive(true);
+    } else {
+      setIsPWCActive(false);
+    }
+  };
+
+  const emailLogin = (email, password) => {
+    if (!emailValue) {
+      toastError("이메일을 입력해주세요!");
+    } else if (!idValue) {
+      toastError("닉네임을 입력해주세요!");
+    } else if (!pwValue) {
+      toastError("비밀번호를 입력해주세요!");
+    } else if (!pwCValue) {
+      toastError("비밀번호 확인을 입력해주세요!");
+    } else if (pwValue.length < 6) {
+      toastError("비밀번호는 최소 6자리 이상이어야 합니다!");
+    } else if (pwValue !== pwCValue) {
+      toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+    } else {
+      createUserWithEmailAndPassword(emailValue, pwValue);
+    }
+  };
 
   const [
     createUserWithEmailAndPassword,
     createUser,
     createLoading,
     createError,
-  ] = useCreateUserWithEmailAndPassword(auth); // Firebase 인증을 이용한 회원가입 함수, 회원가입 함수 실행 여부, 회원가입 에러 메시지
+  ] = useCreateUserWithEmailAndPassword(auth);
 
   if (createError) {
     toastClear();
-    switch (createError.code) {
-      case "auth/email-already-in-use":
-        toastError("이미 사용 중인 이메일입니다.");
-        break;
-      case "auth/invalid-email":
-        toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
-        break;
-      case "auth/weak-password":
-        toastError("비밀번호는 최소 6자리 이상이어야 합니다!");
-        break;
-      case "auth/too-many-requests":
-        toastError("잠시 후 다시 시도해주세요!");
-        break;
-      default:
-        break;
+    console.log(createError.code);
+    if (createError.code == "auth/email-already-in-use") {
+      toastError("이미 사용 중인 이메일입니다.");
+    }
+    if (createError.code == "auth/invalid-email") {
+      toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
+    }
+    if (createError.code == "auth/weak-password") {
+      toastError("비밀번호는 최소  6자리 이상이어야 합니다!");
+    }
+    if (createError.code == "auth/too-many-requests") {
+      toastError("잠시 후 다시 시도해주세요!");
     }
   }
-
-  createLoading && toastLoading("회원가입 중입니다...");
-
+  if (createLoading) {
+    console.log("Creating..");
+    toastLoading("회원가입 중입니다...");
+  }
   if (createUser) {
+    console.log(createUser);
     const user = createUser.user;
     setDoc(doc(firestore, "Users", user.uid), {
       followerCount: 0,
@@ -86,71 +142,38 @@ const Join = () => {
       userName: idValue,
       verifiedEmail: user.emailVerified,
       userTag: [],
-      userSearchID: `@${user.uid}`,
-    }).then(() => {
+      userSearchID: `@${user.uid}`
+    })
+    .then(() => {
       localStorage.setItem("uid", user.uid);
-      setTimeout(() => navigate("/", { replace: true }), 500);
+      toastClear();
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 500);
     });
   }
-
-  const togglePasswordVisiblity = () =>
-    setIsPasswordVisible(!isPasswordVisible);
-
-  const togglePasswordConfirmVisiblity = () =>
-    setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
-
-  const onChangeEmail = (e) => {
-    const emailValue = e.target.value.trim();
-    setEmailValue(emailValue);
-    setIsEmailActive(emailValue.length > 0);
-  };
-
-  const onChangeName = (e) => {
-    const trimmedValue = e.target.value.trim();
-    setIdValue(trimmedValue);
-    setIsIDActive(trimmedValue.length > 0);
-  };
-
-  const onChangePassword = (e) => {
-    const trimmedValue = e.target.value.trim();
-    setPwValue(trimmedValue);
-    setIsPWActive(trimmedValue.length > 0);
-  };
-
-  const onChangePasswordConfirm = (e) => {
-    const value = e.target.value.trim();
-    setPwCValue(value);
-    setIsPWCActive(value.length > 0);
-  };
-
-  const emailLogin = (emailValue, idValue, pwValue, pwCValue) => {
-    if (!emailValue || !idValue || !pwValue || !pwCValue) {
-      toastError("모든 필드를 입력해주세요!");
-    } else if (pwValue.length < 6) {
-      toastError("비밀번호는 최소 6자리 이상이어야 합니다!");
-    } else if (pwValue !== pwCValue) {
-      toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-    } else {
-      createUserWithEmailAndPassword(emailValue, pwValue);
-    }
-  };
 
   // Renderer
   return (
     <div className={styles.wrapper}>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        bodyClassName={styles.toast}
-      />
+      <ToastContainer position="top-right" autoClose={2000}  bodyClassName={styles.toast} />
       <div className={styles.box}>
         <div className={styles.logoBox}>
-          <img
-            src={isDarkMode() ? logoImgDark : logoImgLight}
+        <img
+            src=
+              {
+                isDarkMode() ?
+                logoImgDark :
+                logoImgLight
+              }
             alt="logoImg"
             className={styles.logoImg}
           />
         </div>
+
+        {/* <div className={`${font.fs_20} ${font.fw_7} ${styles.headText}`}>
+          개발자들이 머문자리를 보려면 가입하세요.
+        </div> */}
         <button className={styles.githubBtn}>
           <FontAwesomeIcon icon={faGithub} className={styles.github} />
           <p className={`${font.fs_16} ${font.fw_7}`}>GitHub로 로그인</p>

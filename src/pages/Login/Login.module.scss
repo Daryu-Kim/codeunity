@@ -1,195 +1,209 @@
-@import "../../styles/_variabled";
-@import "../../styles/reset.scss";
-
-// .logoLight {
-//   background: {
-//     position: 0 -52px;
-//     image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-//   };
-//   width: 175px;
-//   height: 51px;
-// }
-
-// .logoDark {
-//   background: {
-//     position: 0 0;
-//     image: url("https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png");
-//   };
-//   width: 175px;
-//   height: 51px;
-// }
+@import "../../styles/_variabled"; // _variabled.scss 파일 import
+@import "../../styles/reset.scss"; // reset.scss 파일 import
 
 .container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  // container 클래스
+  position: fixed; // 고정 위치
+  top: 50%; // 위에서 50% 위치
+  left: 50%; // 왼쪽에서 50% 위치
+  transform: translate(-50%, -50%); // 위치 조정
 }
 
 .box {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30rem;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  grid-gap: 2.4rem;
+  // box 클래스
+  position: fixed; // 고정 위치
+  top: 50%; // 위에서 50% 위치
+  left: 50%; // 왼쪽에서 50% 위치
+  transform: translate(-50%, -50%); // 위치 조정
+  width: 30rem; // 너비 30rem
+  margin: auto; // 가운데 정렬
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가운데 정렬
+  justify-content: center; // 가운데 정렬
+  grid-gap: 2.4rem; // 그리드 간격 2.4rem
 }
 
 .formParent {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 0.8rem;
+  // formParent 클래스
+  width: 100%; // 너비 100%
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  grid-gap: 0.8rem; // 그리드 간격 0.8rem
 }
 
 .formGroup {
-  width: 100%;
-  padding: 0.8rem 1.2rem;
-  border: 0.1rem solid var(--sub-light);
-  border-radius: 0.8rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 4.8rem;
-  background-color: var(--sub-bg);
+  // formGroup 클래스
+  width: 100%; // 너비 100%
+  padding: 0.8rem 1.2rem; // 안쪽 여백
+  border: 0.1rem solid var(--sub-light); // 테두리
+  border-radius: 0.8rem; // 테두리 둥글기
+  position: relative; // 상대 위치
+  display: flex; // flex로 배치
+  align-items: center; // 가운데 정렬
+  height: 4.8rem; // 높이 4.8rem
+  background-color: var(--sub-bg); // 배경색
+
   &.active {
-    align-items: flex-end;
+    // active 클래스
+    align-items: flex-end; // 가운데 정렬
   }
+
   &:hover {
-    border-color: var(--accent);
+    // hover 상태
+    border-color: var(--accent); // 테두리 색상
   }
 }
 
 .input {
-  width: 100%;
-  border: none;
+  // input 클래스
+  width: 100%; // 너비 100%
+  border: none; // 테두리 없음
 
   &:focus {
-    outline: none;
-    color: var(--accent);
+    // focus 상태
+    outline: none; // 아웃라인 없음
+    color: var(--accent); // 글자색
   }
 }
 
 .inputDes {
-  width: fit-content;
-  position: absolute;
-  left: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--sub-light);
-  cursor: text;
+  // inputDes 클래스
+  width: fit-content; // 너비 내용에 맞게
+  position: absolute; // 절대 위치
+  left: 1.2rem; // 왼쪽 여백
+  top: 50%; // 위에서 50% 위치
+  transform: translateY(-50%); // 위치 조정
+  color: var(--sub-light); // 글자색
+  cursor: text; // 커서 모양
 
   &.active {
-    top: 0.4rem;
-    transform: none;
+    // active 클래스
+    top: 0.4rem; // 위 여백
+    transform: none; // 위치 조정 없음
   }
 }
 
 .inputToggle {
-  width: 2.4rem;
-  height: 2.4rem;
-  position: absolute;
-  top: 50%;
-  right: 1.2rem;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: var(--accent);
+  // inputToggle 클래스
+  width: 2.4rem; // 너비 2.4rem
+  height: 2.4rem; // 높이 2.4rem
+  position: absolute; // 절대 위치
+  top: 50%; // 위에서 50% 위치
+  right: 1.2rem; // 오른쪽 여백
+  transform: translateY(-50%); // 위치 조정
+  cursor: pointer; // 커서 모양
+  color: var(--accent); // 글자색
 }
 
 .searchPW {
-  width: fit-content;
-  align-self: flex-end;
-  color: var(--accent);
-  cursor: pointer;
+  // searchPW 클래스
+  width: fit-content; // 너비 내용에 맞게
+  align-self: flex-end; // 오른쪽 정렬
+  color: var(--accent); // 글자색
+  cursor: pointer; // 커서 모양
 }
 
 .loginBtn {
-  width: 100%;
-  background-color: var(--accent-light);
-  cursor: pointer;
-  color: white;
-  border-radius: 0.8rem;
-  padding: 0.8rem 1.6rem;
+  // loginBtn 클래스
+  width: 100%; // 너비 100%
+  background-color: var(--accent-light); // 배경색
+  cursor: pointer; // 커서 모양
+  color: white; // 글자색
+  border-radius: 0.8rem; // 테두리 둥글기
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+
   &:hover {
-    background-color: var(--accent);
+    // hover 상태
+    background-color: var(--accent); // 배경색
   }
 }
 
 .hrBox {
-  width: 100%;
-  height: 1.8rem;
-  display: flex;
-  align-items: center;
-  > hr {
-    width: 100%;
-    height: 0.1rem;
-    background-color: var(--sub);
+  // hrBox 클래스
+  width: 100%; // 너비 100%
+  height: 1.8rem; // 높이 1.8rem
+  display: flex; // flex로 배치
+  align-items: center; // 가운데 정렬
+
+  >hr {
+    // hr 태그
+    width: 100%; // 너비 100%
+    height: 0.1rem; // 높이 0.1rem
+    background-color: var(--sub); // 배경색
   }
-  > p {
-    width: 34%;
-    color: var(--sub);
-    text-align: center;
+
+  >p {
+    // p 태그
+    width: 34%; // 너비 34%
+    color: var(--sub); // 글자색
+    text-align: center; // 가운데 정렬
   }
 }
 
 .githubBtn {
-  width: 100%;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  padding: 0.8rem 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-gap: 0.8rem;
-  border-radius: 0.8rem;
+  // githubBtn 클래스
+  width: 100%; // 너비 100%
+  background-color: black; // 배경색
+  color: white; // 글자색
+  cursor: pointer; // 커서 모양
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+  display: flex; // flex로 배치
+  justify-content: center; // 가운데 정렬
+  align-items: center; // 가운데 정렬
+  grid-gap: 0.8rem; // 그리드 간격 0.8rem
+  border-radius: 0.8rem; // 테두리 둥글기
+
   * {
-    color: white;
+    // 모든 하위 요소
+    color: white; // 글자색
   }
 }
 
 .github {
-  width: 2.4rem;
-  height: 2.4rem;
+  // github 클래스
+  width: 2.4rem; // 너비 2.4rem
+  height: 2.4rem; // 높이 2.4rem
 }
 
 .joinBox {
-  display: flex;
-  align-items: center;
-  grid-gap: 0.4rem;
+  // joinBox 클래스
+  display: flex; // flex로 배치
+  align-items: center; // 가운데 정렬
+  grid-gap: 0.4rem; // 그리드 간격 0.4rem
 }
 
 .joinDes {
-  color: var(--sub);
+  // joinDes 클래스
+  color: var(--sub); // 글자색
 }
 
 .joinBtn {
-  width: fit-content;
-  align-self: flex-end;
-  color: var(--accent);
-  text-decoration: none;
+  // joinBtn 클래스
+  width: fit-content; // 너비 내용에 맞게
+  align-self: flex-end; // 오른쪽 정렬
+  color: var(--accent); // 글자색
+  text-decoration: none; // 밑줄 없음
 }
 
 .company {
-  position: fixed;
-  bottom: 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  left: 50%;
-  transform: translateX(-50%);
+  // company 클래스
+  position: fixed; // 고정 위치
+  bottom: 1.6rem; // 아래 여백
+  display: flex; // flex로 배치
+  justify-content: center; // 가운데 정렬
+  align-items: center; // 가운데 정렬
+  flex-direction: column; // 세로 방향으로 배치
+  left: 50%; // 왼쪽에서 50% 위치
+  transform: translateX(-50%); // 위치 조정
 }
 
 .companyName {
-  color: var(--accent);
+  // companyName 클래스
+  color: var(--accent); // 글자색
 }
 
 .logoImg {
-  height: 2.8rem;
+  // logoImg 클래스
+  height: 2.8rem; // 높이 2.8rem
 }

@@ -5,19 +5,21 @@ html {
   height: 100vh;
   overflow: hidden;
   -ms-content-zooming: none;
-  -ms-touch-action: pan-x pan-y;
+  -ms-touch-action: pan-x pan-y; /* 터치 액션 설정 */
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: all 200ms ease-in-out;
+  -webkit-font-smoothing: antialiased; /* 폰트 부드럽게 */
+  -moz-osx-font-smoothing: grayscale; /* 폰트 부드럽게 */
+  transition: all 200ms ease-in-out; /* 모든 속성에 대한 전환 효과 */
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: var(--bg);
-  p, input {
-    color: var(--primary);
+  background-color: var(--bg); /* 배경색 설정 */
+
+  p,
+  input {
+    color: var(--primary); /* 글자색 설정 */
   }
 }
 
@@ -25,25 +27,27 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out; /* 모든 속성에 대한 전환 효과 */
   background: transparent;
   border: none;
   outline: none;
-  user-select: none;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  user-select: none; /* 사용자 선택 금지 */
+  -ms-overflow-style: none; /* IE에서 스크롤바 숨김 */
+  scrollbar-width: none; /* 스크롤바 숨김 */
+
   &::-webkit-scrollbar {
-    display: none;
+    display: none; /* 스크롤바 숨김 */
   }
-  word-break: keep-all;
+
+  word-break: keep-all; /* 단어 단위 줄바꿈 방지 */
 }
 
 i {
-  font-style: normal;
+  font-style: normal; /* i 태그 기본 스타일로 변경 */
 }
 
 .toast {
   font-size: 1.2rem;
-  color: var(--primary);
-  font-weight: 700;
+  color: var(--primary); /* 글자색 설정 */
+  font-weight: 700; /* 글자 굵기 설정 */
 }

@@ -1,180 +1,187 @@
-@import "../../styles/_variabled";
-@import "../../styles/reset.scss";
+@import "../../styles/_variabled"; // _variabled.scss 파일 import
+@import "../../styles/reset.scss"; // reset.scss 파일 import
 
 .wrapper {
-  height: 100vh;
-  background-color: transparent;
+  height: 100vh; // 높이 100vh
+  background-color: transparent; // 배경색 투명
 }
 
 .box {
-  position: fixed;
-  top: 46%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30rem;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  grid-gap: 2.4rem;
+  position: fixed; // 위치 고정
+  top: 46%; // 위에서 46% 위치
+  left: 50%; // 왼쪽에서 50% 위치
+  transform: translate(-50%, -50%); // 위치 조정
+  width: 30rem; // 너비 30rem
+  margin: auto; // 가운데 정렬
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가운데 정렬
+  justify-content: center; // 가운데 정렬
+  gap: 2.4rem; // 아이템 간격 2.4rem
 }
 
 .headText {
-  text-align: center;
+  text-align: center; // 가운데 정렬
 }
 
 .githubBtn {
-  width: 100%;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  padding: 0.8rem 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-gap: 0.8rem;
-  border-radius: 0.8rem;
+  width: 100%; // 너비 100%
+  background-color: black; // 배경색 검정색
+  color: white; // 글자색 흰색
+  cursor: pointer; // 커서 모양 변경
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+  display: flex; // flex로 배치
+  justify-content: center; // 가운데 정렬
+  align-items: center; // 가운데 정렬
+  gap: 0.8rem; // 아이템 간격 0.8rem
+  border-radius: 0.8rem; // 모서리 둥글게
+
   * {
-    color: white;
+    color: white; // 하위 요소 글자색 흰색
   }
 }
 
 .github {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.4rem; // 너비 2.4rem
+  height: 2.4rem; // 높이 2.4rem
 }
 
 .formParent {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 0.8rem;
+  width: 100%; // 너비 100%
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  gap: 0.8rem; // 아이템 간격 0.8rem
 }
 
 .formGroup {
-  width: 100%;
-  padding: 0.8rem 1.2rem;
-  border: 0.1rem solid var(--sub-light);
-  border-radius: 0.8rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 4.8rem;
-  background-color: var(--sub-bg);
+  width: 100%; // 너비 100%
+  padding: 0.8rem 1.2rem; // 안쪽 여백
+  border: 0.1rem solid var(--sub-light); // 테두리 설정
+  border-radius: 0.8rem; // 모서리 둥글게
+  position: relative; // 상대 위치
+  display: flex; // flex로 배치
+  align-items: center; // 가운데 정렬
+  height: 4.8rem; // 높이 4.8rem
+  background-color: var(--sub-bg); // 배경색 설정
+
   &.active {
-    align-items: flex-end;
+    align-items: flex-end; // 하단 정렬
   }
+
   &:hover {
-    border-color: var(--accent);
+    border-color: var(--accent); // 마우스 호버 시 테두리 색상 변경
   }
 }
 
 .input {
-  width: 92.5%;
-  border: none;
-  position: absolute;
-  color: var(--sub);
+  width: 92.5%; // 너비 92.5%
+  border: none; // 테두리 없음
+  position: absolute; // 절대 위치
+  color: var(--sub); // 글자색 설정
+
   &:focus {
-    outline: none;
-    color: var(--accent);
+    outline: none; // 포커스 테두리 없앰
+    color: var(--accent); // 포커스 시 글자색 변경
   }
 }
 
 .inputDes {
-  width: fit-content;
-  position: absolute;
-  left: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--sub-light);
-  cursor: text;
+  width: fit-content; // 너비 내용에 맞게
+  position: absolute; // 절대 위치
+  left: 1.2rem; // 왼쪽에서 1.2rem 위치
+  top: 50%; // 위에서 50% 위치
+  transform: translateY(-50%); // 위치 조정
+  color: var(--sub-light); // 글자색 설정
+  cursor: text; // 커서 모양 변경
 
   &.active {
-    top: 0.4rem;
-    transform: none;
+    top: 0.4rem; // 위에서 0.4rem 위치
+    transform: none; // 위치 조정 없음
   }
 }
 
 .inputToggle {
-  width: 2.4rem;
-  height: 2.4rem;
-  position: absolute;
-  top: 50%;
-  right: 0.8rem;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: var(--accent);
+  width: 2.4rem; // 너비 2.4rem
+  height: 2.4rem; // 높이 2.4rem
+  position: absolute; // 절대 위치
+  top: 50%; // 위에서 50% 위치
+  right: 0.8rem; // 오른쪽에서 0.8rem 위치
+  transform: translateY(-50%); // 위치 조정
+  cursor: pointer; // 커서 모양 변경
+  color: var(--accent); // 글자색 설정
 }
 
 .message {
-  margin-right: 30px;
-  width: 350px;
-  line-height: 1rem;
-  color: var(--accent);
+  margin-right: 30px; // 오른쪽 여백 30px
+  width: 350px; // 너비 350px
+  line-height: 1rem; // 줄 높이 1rem
+  color: var(--accent); // 글자색 설정
 }
 
 .loginBtn {
-  width: 100%;
-  background-color: var(--accent-light);
-  cursor: pointer;
-  color: white;
-  border-radius: 0.8rem;
-  padding: 0.8rem 1.6rem;
+  width: 100%; // 너비 100%
+  background-color: var(--accent-light); // 배경색 설정
+  cursor: pointer; // 커서 모양 변경
+  color: white; // 글자색 흰색
+  border-radius: 0.8rem; // 모서리 둥글게
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+
   &:hover {
-    background-color: var(--accent);
+    background-color: var(--accent); // 마우스 호버 시 배경색 변경
   }
 }
 
 .hrBox {
-  width: 100%;
-  height: 1.8rem;
-  display: flex;
-  align-items: center;
-  > hr {
-    width: 100%;
-    height: 0.1rem;
-    background-color: var(--sub);
+  width: 100%; // 너비 100%
+  height: 1.8rem; // 높이 1.8rem
+  display: flex; // flex로 배치
+  align-items: center; // 가운데 정렬
+
+  >hr {
+    width: 100%; // 너비 100%
+    height: 0.1rem; // 높이 0.1rem
+    background-color: var(--sub); // 배경색 설정
   }
-  > p {
-    width: 34%;
-    color: var(--sub);
-    text-align: center;
+
+  >p {
+    width: 34%; // 너비 34%
+    color: var(--sub); // 글자색 설정
+    text-align: center; // 가운데 정렬
   }
 }
 
 .intoLogin {
-  display: flex;
-  align-items: center;
-  grid-gap: 0.4rem;
+  display: flex; // flex로 배치
+  align-items: center; // 가운데 정렬
+  gap: 0.4rem; // 아이템 간격 0.4rem
 }
 
 .loginDes {
-  color: var(--sub);
+  color: var(--sub); // 글자색 설정
 }
 
 .intoLoginLink {
-  width: fit-content;
-  align-self: flex-end;
-  color: var(--accent);
-  text-decoration: none;
+  width: fit-content; // 너비 내용에 맞게
+  align-self: flex-end; // 오른쪽 정렬
+  color: var(--accent); // 글자색 설정
+  text-decoration: none; // 밑줄 없앰
 }
 
 .logoImg {
-  height: 2.8rem;
+  height: 2.8rem; // 높이 2.8rem
 }
 
 .company {
-  position: fixed;
-  bottom: 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed; // 위치 고정
+  bottom: 1.6rem; // 아래에서 1.6rem 위치
+  display: flex; // flex로 배치
+  justify-content: center; // 가운데 정렬
+  align-items: center; // 가운데 정렬
+  flex-direction: column; // 세로 방향으로 배치
+  left: 50%; // 왼쪽에서 50% 위치
+  transform: translateX(-50%); // 위치 조정
 }
 
 .companyName {
-  color: var(--accent);
+  color: var(--accent); // 글자색 설정
 }
