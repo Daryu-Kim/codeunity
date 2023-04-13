@@ -9,6 +9,8 @@ const LogOut = () => {
     try {
       await signOut(auth);
       localStorage.setItem("uid", "");
+      localStorage.removeItem("lastName");
+      localStorage.removeItem("lastChatID");
     } catch (error) {
       console.error(error.message);
     }

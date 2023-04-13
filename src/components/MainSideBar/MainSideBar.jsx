@@ -19,7 +19,7 @@ import { useReactPWAInstall } from "react-pwa-install";
 import { ToastContainer } from "react-toastify";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 
 const MainSideBar = () => {
@@ -79,7 +79,7 @@ const MainSideBar = () => {
     setCodeValue(value);
   };
 
-  const handleFriendClick = async (targetID) => {
+  const handleFriendClick = async (targetID, name) => {
     const tempArr = [userID, targetID];
     const filter = query(
       collection(firestore, "Chats"),
@@ -88,11 +88,24 @@ const MainSideBar = () => {
     )
     const chatData = await getDocs(filter);
     if (chatData.docs.length !== 0) {
-      
+      localStorage.setItem("lastChatID", chatData.docs[0].data().chatID);
+      localStorage.setItem("lastName", name);
+      navigate("/chat", { replace: true });
+    } else {
+      await addDoc(collection(firestore, "Chats"), {
+        user1: userID,
+        user2: targetID,
+        userArr: [userID, targetID],
+      }).then(async (result) => {
+        localStorage.setItem("lastChatID", result.id);
+        localStorage.setItem("lastName", name);
+        await updateDoc(doc(firestore, "Chats", result.id), {
+          chatID: result.id,
+        }).then(() => {
+          navigate("/chat", { replace: true });
+        })
+      })
     }
-    console.log(chatData.docs.length)
-    // sessionStorage.setItem("tempChat", userID);
-    // navigate("/chat", { replace: true });
   }
 
   return (
@@ -168,9 +181,9 @@ const MainSideBar = () => {
           <p className={`${font.fw_7} ${font.fs_20}`}>팔로잉</p>
         <div className={styles.friendsBox}>
           {
-            followingUser.length && (
+            followingUser.length !== 0 && (
               followingUser.map((item, index) => (
-                <div className={styles.friends} onClick={() => handleFriendClick(item.userID)} key={index}>
+                <div className={styles.friends} onClick={() => handleFriendClick(item.userID, item.userName)} key={index}>
                   <div>
                     <div
                       className={styles.profileImg}

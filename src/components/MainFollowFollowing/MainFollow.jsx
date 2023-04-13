@@ -2,20 +2,22 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./MainFollow.module.scss";
 import font from "../../styles/Font.module.scss";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 import baseImg from "../../assets/svgs/352174_user_icon.svg";
-import { useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom"
 
-const MainFollow = ({ closeModal, userID }) => {
+const MainFollow = ({ closeModal, userID, modalType }) => {
   const [activeTab, setActiveTab] = useState("");
   const modalRef = useRef(null);
+  const myUID = localStorage.getItem("uid");
+  const navigate = useNavigate();
 
-  const [follower, followerLoad, followerError] = useCollectionData(
+  const [follower] = useCollectionData(
     collection(firestore, `Follows/${userID}/Follower`)
   );
-  const [following, followingLoad, followingError] = useCollectionData(
+  const [following] = useCollectionData(
     collection(firestore, `Follows/${userID}/Following`)
   );
   const [followerData, setFollowerData] = useState([]);
@@ -57,11 +59,45 @@ const MainFollow = ({ closeModal, userID }) => {
   }, [following]);
 
   const profileClick = (
-    userID // profileClick 함수 선언, 매개변수로 userID 전달
+    userID, userName // profileClick 함수 선언, 매개변수로 userID 전달
   ) => {
-    sessionStorage.setItem("tempState", userID);
-    closeModal();
+    if (modalType == "Profile") {
+      sessionStorage.setItem("tempState", userID);
+      closeModal();
+    } else if (modalType == "Chat") {
+      handleFriendClick(userID, userName)
+      closeModal();
+    }
   };
+
+  const handleFriendClick = async (targetID, name) => {
+    const tempArr = [myUID, targetID];
+    const filter = query(
+      collection(firestore, "Chats"),
+      where("user1", "in", tempArr),
+      where("user2", "in", tempArr),
+    )
+    const chatData = await getDocs(filter);
+    if (chatData.docs.length !== 0) {
+      localStorage.setItem("lastChatID", chatData.docs[0].data().chatID);
+      localStorage.setItem("lastName", name);
+      navigate("/chat", { replace: true });
+    } else {
+      await addDoc(collection(firestore, "Chats"), {
+        user1: myUID,
+        user2: targetID,
+        userArr: [myUID, targetID],
+      }).then(async (result) => {
+        localStorage.setItem("lastChatID", result.id);
+        localStorage.setItem("lastName", name);
+        await updateDoc(doc(firestore, "Chats", result.id), {
+          chatID: result.id,
+        }).then(() => {
+          navigate("/chat", { replace: true });
+        })
+      })
+    }
+  }
 
   return (
     <div className={styles.modal} onClick={overlayClick} ref={modalRef}>
@@ -98,7 +134,8 @@ const MainFollow = ({ closeModal, userID }) => {
             <ul className={styles.modalList}>
               {followerData &&
                 followerData.map((item) => (
-                  <li key={item.userID} className={styles.modalItem}>
+                  <li key={item.userID} className={styles.modalItem}
+                  onClick={() => profileClick(item.userID, item.userName)}>
                     <div
                       className={styles.modalAvatar}
                       style={
@@ -106,7 +143,6 @@ const MainFollow = ({ closeModal, userID }) => {
                           ? { backgroundImage: `url(${item.userImg})` }
                           : { backgroundImage: `url(${baseImg})` }
                       }
-                      onClick={() => profileClick(item.userID)}
                     ></div>
                     <div className={styles.modalUser}>
                       <p className={`${font.fs_12} ${font.fw_5}`}>
@@ -123,7 +159,8 @@ const MainFollow = ({ closeModal, userID }) => {
             <ul className={styles.modalList}>
               {following &&
                 followingData.map((item) => (
-                  <li key={item.userID} className={styles.modalItem}>
+                  <li key={item.userID} className={styles.modalItem}
+                  onClick={() => profileClick(item.userID, item.userName)}>
                     <div
                       className={styles.modalAvatar}
                       style={
@@ -131,7 +168,6 @@ const MainFollow = ({ closeModal, userID }) => {
                           ? { backgroundImage: `url(${item.userImg})` }
                           : { backgroundImage: `url(${baseImg})` }
                       }
-                      onClick={() => profileClick(item.userID)}
                     ></div>
                     <div className={styles.modalUser}>
                       <p className={`${font.fs_12} ${font.fw_5}`}>

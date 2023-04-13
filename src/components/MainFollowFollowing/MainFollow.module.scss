@@ -2,6 +2,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 10;
 }
 .modalContent {
   position: absolute;
@@ -75,21 +76,28 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .modalItem {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  gap: 0.8rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--sub-bg);
+  }
 }
 
 .modalAvatar {
-  width: 4.4rem;
-  height: 4.4rem;
-  margin-right: 1rem;
+  width: 4rem;
+  height: 4rem;
   aspect-ratio: 1 / 1;
-  cursor: pointer;
 
   background: {
     position: center;
@@ -102,10 +110,6 @@
     width: 0.2rem;
     color: var(--accent);
     style: solid;
-  }
-
-  &:hover {
-    filter: opacity(75%);
   }
 }
 
@@ -140,8 +144,8 @@
 }
 
 .modalName {
+  margin-top: 0.4rem;
   color: var(--sub-semi-light);
-  margin-top: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {

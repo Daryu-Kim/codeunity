@@ -452,7 +452,7 @@ const MainProfile = () => {
           )}
         </div>
         {isModalOpen && (
-          <MainFollow userID={document.userID} closeModal={handleModalClose} />
+          <MainFollow userID={document.userID} closeModal={handleModalClose} modalType="Profile" />
         )}
       </div>
     );

@@ -76,13 +76,13 @@ const MainCmtsModal = ({
   const modalRef = useRef(null);
   const navigate = useNavigate();
 
-  const [modalData, modalDataLoad, modalDataError] = useDocumentData(
+  const [modalData] = useDocumentData(
     doc(firestore, modalType, modalPostID)
   );
-  const [userData, userDataLoad, userDataError] = useDocumentData(
+  const [userData] = useDocumentData(
     doc(firestore, "Users", modalUserID)
   );
-  const [cmtData, cmtDataLoad, cmtDataError] = useCollectionData(
+  const [cmtData] = useCollectionData(
     query(
       collection(firestore, `${modalType}/${modalPostID}/Cmts`),
       orderBy("createdAt", "desc")
