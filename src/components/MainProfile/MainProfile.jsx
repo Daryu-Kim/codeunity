@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./MainProfile.module.scss";
 import font from "../../styles/Font.module.scss";
-import { useLocation } from "react-router-dom";
 import {
   doc,
   getFirestore,
@@ -20,20 +19,23 @@ import baseImg from "../../assets/svgs/352174_user_icon.svg";
 import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
 import MainFollow from "../MainFollowFollowing/MainFollow";
 import { toastError, toastSuccess } from "../../modules/Functions";
+import { followUser, unfollowUser } from "../../modules/Firebase";
 
 const MainProfile = () => {
   const firestore = getFirestore();
-  const { state } = useLocation();
   const uid = sessionStorage.getItem("tempState");
   const myUID = localStorage.getItem("uid");
-  const [document, loading, error, snapshot] = useDocumentData(
+  const [document] = useDocumentData(
     doc(firestore, "Users", uid)
+  );
+  const [myFollowing] = useCollectionData(
+    collection(firestore, `Follows/${myUID}/Following`)
   );
   const [modalState, setModalState] = useState(false);
   const [modalPostID, setModalPostID] = useState("");
   const [modalType, setModalType] = useState("");
   const [menuTab, setMenuTab] = useState(true);
-  const [userPost, userPostLoad, userPostError] = useCollectionData(
+  const [userPost] = useCollectionData(
     query(
       collection(firestore, "Posts"),
       where("userID", "==", uid),
@@ -60,6 +62,18 @@ const MainProfile = () => {
   const [modifySearchID, setModifySearchID] = useState("");
   const [modifyDesc, setModifyDesc] = useState("");
   const [modifyTags, setModifyTags] = useState([]);
+
+  const [isFollowed, setIsFollowed] = useState(false);
+
+  useEffect(() => {
+    if (myFollowing) {
+      let temp = 0;
+      myFollowing.map((item) => {
+        item.userID == uid && temp++;
+      })
+      temp > 0 ? setIsFollowed(true) : setIsFollowed(false)
+    }
+  }, [myFollowing])
 
   useEffect(() => {
     if (userPost != undefined) {
@@ -188,6 +202,22 @@ const MainProfile = () => {
     setModifyTags(tempTags)
   }
 
+  const followClick = async (targetID) => {
+    try {
+      await followUser(targetID); // targetID를 팔로우하는 함수 호출
+      setIsFollowed(true);
+      toastSuccess("팔로우를 완료하였습니다!"); // 팔로우 완료 메시지 출력
+    } catch (err) {} // 에러 발생 시 무시
+  };
+
+  const unfollowClick = async (targetID) => {
+    try {
+      await unfollowUser(targetID); // targetID를 언팔로우하는 함수 호출
+      setIsFollowed(false);
+      toastSuccess("언팔로우를 완료하였습니다!"); // 언팔로우 완료 메시지 출력
+    } catch (err) {} // 에러 발생 시 무시
+  };
+
   if (document) {
     return (
       <div className={styles.wrapper}>
@@ -212,7 +242,7 @@ const MainProfile = () => {
               }
             ></div>
             <div className={styles.btnBox}>
-              {document.userID == myUID && (
+              {document.userID == myUID ? (
                 (
                   <button
                       className={`${styles.modifyBtn} ${font.fs_14} ${font.fw_7}`}
@@ -232,7 +262,23 @@ const MainProfile = () => {
                       }
                     </button>
                 ) 
-              )}
+              ) : (
+                !isFollowed ? (
+                  <button
+                    className={`${styles.followBtn} ${font.fs_12} ${font.fw_5}`}
+                    onClick={() => followClick(uid)}
+                  >
+                    팔로우
+                  </button>
+                ) : (
+                  <button
+                    className={`${styles.unfollowBtn} ${font.fs_12} ${font.fw_5}`}
+                    onClick={() => unfollowClick(uid)}
+                  >
+                    언팔로우
+                  </button>
+                ))
+            }
             </div>
           </div>
           <div className={styles.nameBox}>

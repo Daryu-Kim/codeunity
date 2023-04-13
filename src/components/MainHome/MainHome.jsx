@@ -160,7 +160,7 @@ function MainHome() {
                 onClick={() => profileClick(item.userID)} // 클릭 시 profileClick 함수 실행
               >
                 프로필 보기
-                {/* '팔로우' 버튼 출력 */}
+                {/* '프로필 보기' 버튼 출력 */}
               </button>
             </SwiperSlide>
           )
@@ -613,6 +613,8 @@ function MainHome() {
       toastError("게시물을 삭제하지 못했습니다!");
     });
   }
+
+  
 
   if (document) {
     return (

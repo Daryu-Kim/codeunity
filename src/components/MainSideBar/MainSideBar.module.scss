@@ -1,27 +1,97 @@
 @import "../../styles/reset.scss";
 @import "../../styles/_variabled";
 
-li {
-  list-style: none;
-}
-
-#code {
-  &:focus {
-    border: none;
-    outline: none;
-  }
-}
-
 .mainSideBar {
-  position: relative;
   display: flex;
   height: 100%;
   overflow: hidden;
   background-color: var(--sub-bg);
   z-index: 10;
 
-  > .contBox {
-    > .codeBox {
+  >.contBox {
+    width: calc(25vw - 4.8rem);
+    height: 100%;
+    background-color: var(--thd-bg);
+    padding: 1.6rem;
+    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    >.friendsBox {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      overflow: scroll;
+
+      > .friends {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.8rem 1.6rem;
+        border-radius: 0.8rem;
+        background-color: var(--bg);
+        cursor: pointer;
+        box-shadow: 0 0.2rem 0.4rem rgba($color: #000000, $alpha: 0.15);
+
+        &:hover {
+          background-color: var(--sub-bg);
+        }
+
+        > div {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+
+        > .profileImg {
+          width: 2.8rem;
+          height: 2.8rem;
+          aspect-ratio: 1 / 1;
+        
+          background: {
+            position: center;
+            repeat: no-repeat;
+            size: cover;
+          }
+        
+          border: {
+            radius: 50%;
+            width: 0.2rem;
+            color: var(--accent);
+            style: solid;
+          }
+        
+          cursor: pointer;
+        
+          &:hover {
+            filter: opacity(75%);
+          }
+        }
+        }
+      }
+    }
+
+    >.codeBox {
+      >button {
+        width: 100%;
+        padding: 0.4rem 0.8rem;
+        background-color: var(--accent);
+        border: none;
+        border-radius: 0 0 0.4rem 0.4rem;
+        cursor: pointer;
+        color: #fff;
+
+        &:hover {
+          opacity: 75%;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
     }
   }
 }
@@ -72,7 +142,8 @@ li {
   display: flex;
   flex-direction: column;
   grid-gap: 1.6rem;
-  > * {
+
+  >* {
     cursor: pointer;
   }
 }
@@ -84,16 +155,17 @@ li {
 
   background: {
     position: center;
-    image: url("/assets/svgs/352174_user_icon.svg");
     repeat: no-repeat;
     size: cover;
   }
+
   border: {
     radius: 50%;
     width: 0.2rem;
     color: var(--accent);
     style: solid;
   }
+
   cursor: pointer;
 
   &:hover {
@@ -101,71 +173,14 @@ li {
   }
 }
 
-.contBox {
-  width: calc(25vw - 4.8rem);
-  height: 100%;
-  background-color: var(--thd-bg);
-  padding: 0.8rem;
-  color: var(--primary);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.contBoxIcon {
-  width: 1.5rem;
-}
-
-.friendList {
-  display: flex;
-  flex-direction: column;
-}
-
-.memoBox {
-  width: 100%;
-
-  select {
-    width: 100%;
-    font-weight: 700;
-  }
-
-  &Memo {
-    border-radius: 0.8rem;
-    width: 100%;
-    padding: 0.8rem 1.6rem;
-    height: 20rem;
-    font-size: 8;
-    overflow-x: hidden;
-    background-color: var(--bg);
-  }
-
-  &Btn {
-    width: 100%;
-    padding: 0.4rem 0.8rem;
-    background-color: var(--accent);
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    color: #fff;
-
-    &:hover {
-      opacity: 75%;
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-}
-
 @media screen and (min-width: 1280px) {
-  .contBox {
+  .mainSideBar>.contBox {
     display: flex;
   }
 }
 
 @media screen and (max-width: 1279px) {
-  .contBox {
+  .mainSideBar>.contBox {
     display: none;
   }
 }

@@ -64,6 +64,30 @@
         color: white;
         border-radius: 0.8rem;
       }
+
+      > .followBtn {
+        color: white;
+        background-color: var(--accent);
+        padding: 0.6rem 1.6rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--accent-light);
+        }
+      }
+
+      > .unfollowBtn {
+        color: var(--accent);
+        background-color: var(--sub-bg);
+        padding: 0.6rem 1.6rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--thd-bg);
+        }
+      }
     }
   }
 
@@ -102,7 +126,6 @@
     gap: 0.8rem;
 
     > p {
-      color: var(--sub-light);
       cursor: pointer;
       padding: 0.2rem 1.2rem;
       border: {

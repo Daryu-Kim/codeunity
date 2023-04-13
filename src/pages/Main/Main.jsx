@@ -6,6 +6,7 @@ import MainSideBar from "../../components/MainSideBar/MainSideBar";
 import MainHeader from "../../components/MainHeader/MainHeader";
 import MainHome from "../../components/MainHome/MainHome";
 import MainProfile from "../../components/MainProfile/MainProfile";
+import MainChatList from "../../components/MainChatList/MainChatList";
 import MainChat from "../../components/MainChat/MainChat";
 import MainQnA from "../../components/MainQnA/MainQnA";
 import MainSettings from "../../components/MainSettings/MainSettings";
@@ -46,6 +47,7 @@ const Main = () => {
         <Routes>
           <Route path="" element={<MainHome />}></Route>
           <Route path="chat" element={<MainChat />}></Route>
+          <Route path="chatlist" element={<MainChatList />}></Route>
           <Route path="profile" element={<MainProfile />}></Route>
           <Route path="qna" element={<MainQnA />}></Route>
           <Route path="settings" element={<MainSettings />}></Route>

@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import imageCompression from "browser-image-compression";
-import axios from "axios"
 
 export const toastError = (msg) => {
   if (isDarkMode()) {
