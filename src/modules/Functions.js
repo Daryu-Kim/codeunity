@@ -45,7 +45,7 @@ export const convertTimestamp = (current, created) => {
   const tempTime = current - created;
   // 시간 단위와 해당 시간 단위의 범위를 객체로 저장한 배열
   const timeUnits = [
-    { unit: "방금 전", time: 60 },
+    { unit: "초 전", time: 60 },
     { unit: "분 전", time: 3600 },
     { unit: "시간 전", time: 86400 },
     { unit: "일 전", time: 604800 },
@@ -58,7 +58,7 @@ export const convertTimestamp = (current, created) => {
   for (let i = 0; i < timeUnits.length; i++) {
     if (tempTime < timeUnits[i].time) {
       // 해당 시간 단위로 시간 차이를 계산하여 문자열로 반환
-      return `${Math.floor(tempTime / (timeUnits[i - 1]?.time ?? 1))}${timeUnits[i - 1]?.unit ?? ""}`;
+      return `${Math.floor(tempTime / (timeUnits[i - 1]?.time ?? 1))}${timeUnits[i]?.unit ?? ""}`;
     }
   }
 };

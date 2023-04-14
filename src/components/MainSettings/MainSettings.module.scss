@@ -1,48 +1,58 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  padding: 3rem;
+  padding: 3rem; // 패딩 3rem
+
 }
 
 .settingMenu {
-  color: var(--primary);
+  color: var(--primary); // 색상 변수 사용
 
-  > h1 {
-    margin-bottom: 2rem;
-  }
   &Option {
-    padding: 0.8rem;
-    margin-bottom: 1.5rem;
-    border-radius: 0.8rem;
+    // settingMenu 하위 요소
+    padding: 0.8rem; // 패딩 0.8rem
+    margin-bottom: 1.5rem; // 하단 마진 1.5rem
+    border-radius: 0.8rem; // border-radius 0.8rem
 
     &:hover {
-      opacity: 95%;
-      background-color: var(--sub-bg);
+      // 마우스 호버 시
+      opacity: 0.95; // 투명도 0.95
+      background-color: var(--sub-bg); // 배경색 변수 사용
     }
-    > button {
-      padding: 0.5rem 1rem;
-      margin-top: 0.3rem;
-      background-color: var(--accent-light);
-      border: none;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #fff;
+
+    >button {
+      // 하위 버튼 요소
+      padding: 0.5rem 1rem; // 패딩 0.5rem 1rem
+      margin-top: 0.3rem; // 상단 마진 0.3rem
+      background-color: var(--accent-light); // 배경색 변수 사용
+      border: none; // 테두리 없음
+      border-radius: 0.25rem; // border-radius 0.25rem
+      font-size: 1rem; // 폰트 사이즈 1rem
+      cursor: pointer; // 커서 포인터
+      color: #fff; // 글자색 흰색
 
       &:disabled {
-        background-color: var(--thd-bg);
-        color: var(--primary);
-        cursor: not-allowed;
+        // 비활성화 상태일 때
+        background-color: var(--thd-bg); // 배경색 변수 사용
+        color: var(--primary); // 글자색 변수 사용
+        cursor: not-allowed; // 커서 not-allowed
       }
 
       &:hover {
-        opacity: 75%;
+        // 마우스 호버 시
+        opacity: 0.75; // 투명도 0.75
       }
 
       &:focus {
-        outline: none;
+        // 포커스 시
+        outline: none; // 아웃라인 없음
       }
     }
+  }
+
+  >h1 {
+    // 직계 하위 h1 요소
+    margin-bottom: 2rem; // 하단 마진 2rem
   }
 }

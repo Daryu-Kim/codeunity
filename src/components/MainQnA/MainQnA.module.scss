@@ -1,73 +1,69 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  display: flex;
-  justify-content: center;
-  height: calc(100vh - 3.6rem);
-  overflow-y: scroll;
-  overflow-x: hidden;
+  display: flex; // flex로 배치
+  justify-content: center; // 가로 중앙 정렬
+  height: calc(100vh - 3.6rem); // 높이는 뷰포트 높이에서 3.6rem을 뺀 값
+  overflow-y: scroll; // 세로 스크롤바 표시
+  overflow-x: hidden; // 가로 스크롤바 숨김
 }
 
 .box {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.6rem 2.4rem;
-  background-color: var(--bg);
-  grid-gap: 2.4rem;
+  width: 100%; // 너비는 100%
+  height: 100%; // 높이는 100%
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 세로 중앙 정렬
+  padding: 1.6rem 2.4rem; // 안쪽 여백
+  background-color: var(--bg); // 배경색은 변수로 지정한 값
+  grid-gap: 2.4rem; // 그리드 간격
 }
 
 .writePostBtn {
-  width: 100%;
-  max-width: 64rem;
-  padding: 0.8rem 1.6rem;
-  background-color: var(--sub-bg);
-  border-radius: 0.8rem;
+  width: 100%; // 너비는 100%
+  max-width: 64rem; // 최대 너비는 64rem
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+  background-color: var(--sub-bg); // 배경색은 변수로 지정한 값
+  border-radius: 0.8rem; // 모서리 둥글기
 
   >.writePostTopBox {
-    display: flex;
-    align-items: center;
-    grid-gap: 0.8rem;
+    // 자식 요소 선택자
+    display: flex; // flex로 배치
+    align-items: center; // 세로 중앙 정렬
+    grid-gap: 0.8rem; // 그리드 간격
 
-    > .writePostTopImg {
-      width: 3.6rem;
-      height: 3.6rem;
-      aspect-ratio: 1 / 1;
-      cursor: pointer;
-    
-      background: {
-        position: center;
-        repeat: no-repeat;
-        size: cover;
-      }
-    
-      border: {
-        radius: 50%;
-        width: 0.2rem;
-        color: var(--accent);
-        style: solid;
-      }
-    
+    >.writePostTopImg {
+      // 자식 요소 선택자
+      width: 3.6rem; // 너비는 3.6rem
+      height: 3.6rem; // 높이는 3.6rem
+      aspect-ratio: 1 / 1; // 가로 세로 비율은 1:1
+      cursor: pointer; // 커서 모양 변경
+      background: center / cover no-repeat; // 배경 이미지 설정
+
+      border: 0.2rem solid var(--accent); // 테두리 설정
+      border-radius: 50%; // 모서리 둥글기
+
       &:hover {
-        filter: opacity(75%);
+        // 호버 상태일 때
+        filter: opacity(75%); // 투명도 75%로 변경
       }
     }
 
     >.writePostTopInputBox {
-      border-radius: 100rem;
-      width: 100%;
-      height: 3.6rem;
-      padding: 0.8rem 1.6rem;
-      background-color: var(--thd-bg);
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    
+      // 자식 요소 선택자
+      border-radius: 100rem; // 모서리 둥글기
+      width: 100%; // 너비는 100%
+      height: 3.6rem; // 높이는 3.6rem
+      padding: 0.8rem 1.6rem; // 안쪽 여백
+      background-color: var(--thd-bg); // 배경색은 변수로 지정한 값
+      display: flex; // flex로 배치
+      align-items: center; // 세로 중앙 정렬
+      cursor: pointer; // 커서 모양 변경
+
       &:hover {
-        filter: opacity(75%);
+        // 호버 상태일 때
+        filter: opacity(75%); // 투명도 75%로 변경
       }
     }
   }
@@ -75,143 +71,231 @@
 
 .postBox {
   width: 100%;
+  /* 전체 너비 100% */
   max-width: 64rem;
+  /* 최대 너비 64rem */
   border-radius: 0.8rem;
+  /* 모서리 둥글기 0.8rem */
   display: flex;
+  /* 플렉스 박스 */
   flex-direction: column;
+  /* 세로 방향으로 쌓기 */
   align-items: center;
-  grid-gap: 2.4rem;
+  /* 가운데 정렬 */
+  gap: 2.4rem;
+  /* 아이템 간격 2.4rem */
 
-  > .postRecommendBox {
+  >.postRecommendBox {
+    /* 자식 요소 중 postRecommendBox 선택 */
     width: 100%;
+    /* 전체 너비 100% */
     display: flex;
+    /* 플렉스 박스 */
     flex-direction: column;
+    /* 세로 방향으로 쌓기 */
     align-items: flex-start;
+    /* 왼쪽 정렬 */
     gap: 1.6rem;
+    /* 아이템 간격 1.6rem */
 
-    > .titleBox {
+    >.titleBox {
+      /* 자식 요소 중 titleBox 선택 */
       width: 100%;
+      /* 전체 너비 100% */
       display: flex;
+      /* 플렉스 박스 */
       align-items: center;
+      /* 가운데 정렬 */
       justify-content: space-between;
+      /* 양쪽 정렬 */
 
-    > .navBox {
-      display: flex;
-      align-items: center;
-      gap: 1.6rem;
-      .nav {
-        width: 2.8rem;
-        height: 2.8rem;
-        cursor: pointer;
-        polyline {
-          stroke: var(--sub-light);
-        }
+      >.navBox {
+        /* 자식 요소 중 navBox 선택 */
+        display: flex;
+        /* 플렉스 박스 */
+        align-items: center;
+        /* 가운데 정렬 */
+        gap: 1.6rem;
+        /* 아이템 간격 1.6rem */
 
-        &:hover {
+        .nav {
+          /* 자식 요소 중 nav 선택 */
+          width: 2.8rem;
+          /* 너비 2.8rem */
+          height: 2.8rem;
+          /* 높이 2.8rem */
+          cursor: pointer;
+          /* 커서 포인터 */
+
           polyline {
+            /* polyline 선택 */
+            stroke: var(--sub-light);
+            /* 선 색상 var(--sub-light) */
+          }
+
+          &:hover polyline {
+            /* hover 시 polyline 선택 */
             stroke: var(--accent);
+            /* 선 색상 var(--accent) */
           }
         }
       }
     }
-    }
 
-    > .swiper {
+    >.swiper {
+      /* 자식 요소 중 swiper 선택 */
       width: 100%;
+      /* 전체 너비 100% */
 
       .slide {
+        /* 자식 요소 중 slide 선택 */
         text-align: center;
+        /* 가운데 정렬 */
         display: flex;
+        /* 플렉스 박스 */
         flex-direction: column;
+        /* 세로 방향으로 쌓기 */
         justify-content: space-between;
+        /* 양쪽 정렬 */
         height: 16rem;
+        /* 높이 16rem */
         background-color: var(--accent-dark);
+        /* 배경 색상 var(--accent-dark) */
         border-radius: 0.8rem;
+        /* 모서리 둥글기 0.8rem */
         padding: 0.8rem 1.6rem;
+        /* 안쪽 여백 0.8rem 1.6rem */
         cursor: pointer;
+        /* 커서 포인터 */
         transition: all 150ms ease-in-out;
+        /* 모든 속성에 대해 150ms 이내로 변화 */
 
         &:hover {
+          /* hover 시 */
           background-color: var(--accent-more-dark);
+          /* 배경 색상 var(--accent-more-dark) */
         }
 
-        > .box {
+        >.box {
+          /* 자식 요소 중 box 선택 */
           display: flex;
+          /* 플렉스 박스 */
           justify-content: center;
+          /* 가운데 정렬 */
           align-items: center;
+          /* 가운데 정렬 */
           background-color: transparent;
-        
-        > p {
-          color: white;
-        }
+          /* 배경 색상 투명 */
+
+          >p {
+            /* 자식 요소 중 p 선택 */
+            color: white;
+            /* 글자 색상 흰색 */
+          }
         }
 
-        > .infoBox {
+        >.infoBox {
+          /* 자식 요소 중 infoBox 선택 */
           display: flex;
+          /* 플렉스 박스 */
           align-items: center;
+          /* 가운데 정렬 */
           justify-content: space-between;
+          /* 양쪽 정렬 */
 
-          > .leftBox {
+          >.leftBox {
+            /* 자식 요소 중 leftBox 선택 */
             display: flex;
+            /* 플렉스 박스 */
             align-items: center;
+            /* 가운데 정렬 */
             gap: 0.8rem;
+            /* 아이템 간격 0.8rem */
           }
         }
       }
     }
   }
-    
-    > .allPostBox {
+
+  >.allPostBox {
+    /* 자식 요소 중 allPostBox 선택 */
+    width: 100%;
+    /* 전체 너비 100% */
+
+    >.postItem {
+      /* 자식 요소 중 postItem 선택 */
       width: 100%;
-      > .postItem {
-        width: 100%;
-        border: {
-          top: 0.1rem solid var(--sub-light);
-        };
-        padding: 1.2rem 1.8rem;
+      /* 전체 너비 100% */
+      border-top: 0.1rem solid var(--sub-light);
+      /* 상단 테두리 0.1rem var(--sub-light) */
+      padding: 1.2rem 1.8rem;
+      /* 안쪽 여백 1.2rem 1.8rem */
+      display: flex;
+      /* 플렉스 박스 */
+      flex-direction: column;
+      /* 세로 방향으로 쌓기 */
+      gap: 1.2rem;
+      /* 아이템 간격 1.2rem */
+      cursor: pointer;
+      /* 커서 포인터 */
+
+      &:hover {
+        /* hover 시 */
+        background-color: var(--sub-bg);
+        /* 배경 색상 var(--sub-bg) */
+      }
+
+      >.tagBox {
+        /* 자식 요소 중 tagBox 선택 */
         display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-        cursor: pointer;
+        /* 플렉스 박스 */
+        flex-wrap: wrap;
+        /* 아이템이 넘칠 경우 줄바꿈 */
+        gap: 0.8rem;
+        /* 아이템 간격 0.8rem */
 
-        &:hover {
-          background-color: var(--sub-bg);
-        }
+        >.tagItem {
+          /* 자식 요소 중 tagItem 선택 */
+          padding: 0.4rem 1.6rem;
+          /* 안쪽 여백 0.4rem 1.6rem */
+          cursor: pointer;
+          /* 커서 포인터 */
+          border: 0.2rem solid var(--sub);
+          /* 테두리 0.2rem var(--sub) */
+          border-radius: 0.8rem;
+          /* 모서리 둥글기 0.8rem */
 
-        > .tagBox {
-          display: flex;
-          flex-wrap: wrap;
-          grid-gap: 0.8rem;
-
-          > .tagItem {
-            padding: 0.4rem 1.6rem;
-            cursor: pointer;
-            border: {
-              style: solid;
-              width: 0.2rem;
-              color: var(--sub);
-              radius: 0.8rem
-            };
-
-            &:hover {
-              border-color: transparent;
-              background-color: var(--accent);
-              color: white;
-            }
-          }
-        }
-
-        > .funcBox {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-
-          > div {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+          &:hover {
+            /* hover 시 */
+            border-color: transparent;
+            /* 테두리 색상 투명 */
+            background-color: var(--accent);
+            /* 배경 색상 var(--accent) */
+            color: white;
+            /* 글자 색상 흰색 */
           }
         }
       }
+
+      >.funcBox {
+        /* 자식 요소 중 funcBox 선택 */
+        display: flex;
+        /* 플렉스 박스 */
+        align-items: center;
+        /* 가운데 정렬 */
+        justify-content: space-between;
+        /* 양쪽 정렬 */
+
+        >div {
+          /* 자식 요소 중 div 선택 */
+          display: flex;
+          /* 플렉스 박스 */
+          align-items: center;
+          /* 가운데 정렬 */
+          gap: 0.8rem;
+          /* 아이템 간격 0.8rem */
+        }
+      }
     }
+  }
 }

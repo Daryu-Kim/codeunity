@@ -11,59 +11,48 @@ import {
 } from "firebase/firestore";
 
 const handleDeleteAccount = async () => {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const uid = localStorage.getItem("uid");
+  const auth = getAuth(); // Firebase 인증 객체 생성
+  const user = auth.currentUser; // 현재 로그인한 사용자 정보 가져오기
+  const uid = localStorage.getItem("uid"); // 로컬 스토리지에서 uid 가져오기
 
   if (user) {
+    // 사용자가 로그인한 경우
     try {
-      const db = getFirestore();
-      const q = query(collection(db, "Posts"), where("userID", "==", uid));
-      const querySnapshot = await getDocs(q);
+      const db = getFirestore(); // Firestore 데이터베이스 객체 생성
+      const q = query(collection(db, "Posts"), where("userID", "==", uid)); // 해당 사용자가 작성한 게시물 쿼리
+      const querySnapshot = await getDocs(q); // 쿼리 실행
 
-      // 개별 도큐먼트를 삭제한다.
-      // const promises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
-      // await Promise.all(promises);
-
-      querySnapshot.forEach(async (snapshot) => {
-        const postID = snapshot.data().postID;
+      for (const snapshot of querySnapshot.docs) {
+        // 해당 사용자가 작성한 모든 게시물에 대해 반복문 실행
+        const postID = snapshot.data().postID; // 게시물 ID 가져오기
         const likesCol = await getDocs(
-          query(collection(db, `Posts/${postID}/Likes`))
+          query(collection(db, `Posts/${postID}/Likes`)) // 해당 게시물의 좋아요 컬렉션 쿼리
         );
         const cmtsCol = await getDocs(
-          query(collection(db, `Posts/${postID}/Cmts`))
+          query(collection(db, `Posts/${postID}/Cmts`)) // 해당 게시물의 댓글 컬렉션 쿼리
         );
-        await deleteDoc(doc(db, "Posts", postID));
-        likesCol.forEach(async (likesSnap) => {
+        await deleteDoc(doc(db, "Posts", postID)); // 해당 게시물 삭제
+        for (const likesSnap of likesCol.docs) {
+          // 해당 게시물의 좋아요 컬렉션에 대해 반복문 실행
           await deleteDoc(
-            doc(db, `Posts/${postID}/Likes`, likesSnap.data().userID)
+            doc(db, `Posts/${postID}/Likes`, likesSnap.data().userID) // 해당 좋아요 삭제
           );
-        });
-        cmtsCol.forEach(async (cmtsSnap) => {
+        }
+        for (const cmtsSnap of cmtsCol.docs) {
+          // 해당 게시물의 댓글 컬렉션에 대해 반복문 실행
           await deleteDoc(
-            doc(db, `Posts/${postID}/Cmts`, cmtsSnap.data().userID)
+            doc(db, `Posts/${postID}/Cmts`, cmtsSnap.data().userID) // 해당 댓글 삭제
           );
-        });
-      });
+        }
+      }
 
-      // 해당 사용자에 대한 보안 규칙을 변경하여
-      // 삭제된 도큐먼트를 다른 사용자가 읽을 수 없도록 한다.
-      // await db.collection("Posts").setSettings({
-      //   rules: {
-      //     // 해당 사용자가 작성한 도큐먼트만 수정/삭제 가능하도록 한다.
-      //     ".read": false,
-      //     ".write": "request.auth.uid == resource.data.userID",
-      //   },
-      // });
-
-      // 사용자 정보 도큐먼트를 삭제한다.
-      await deleteDoc(doc(db, "Users", uid));
+      await deleteDoc(doc(db, "Users", uid)); // 해당 사용자 정보 삭제
     } catch (error) {
-      console.error(error);
+      console.error(error); // 에러 발생 시 콘솔에 출력
     }
 
-    await deleteUser(user);
-    alert("정상적으로 탈퇴되었습니다.");
+    await deleteUser(user); // Firebase 인증에서 해당 사용자 삭제
+    alert("정상적으로 탈퇴되었습니다."); // 탈퇴 완료 메시지 출력
   }
 };
 

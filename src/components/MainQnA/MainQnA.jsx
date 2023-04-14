@@ -23,95 +23,99 @@ import "swiper/css/navigation";
 import "swiper/css";
 import MainCmtsModal from "../MainCmtsModal/MainCmtsModal";
 import { convertTimestamp } from "../../modules/Functions";
-import { GrNext, GrPrevious } from "react-icons/gr"
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 const MainQnA = () => {
-  const uid = localStorage.getItem("uid");
-  const currentTime = Timestamp.fromDate(new Date());
+  const uid = localStorage.getItem("uid"); // 로컬 스토리지에서 uid 가져오기
+  const currentTime = Timestamp.fromDate(new Date()); // 현재 시간 가져오기
 
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate(); // react-router-dom의 useNavigate hook 사용
+  const [posts, setPosts] = useState([]); // 게시물 상태와 상태 업데이트 함수 정의
+  const [modalState, setModalState] = useState(false); // 모달 상태와 상태 업데이트 함수 정의
+  const [modalPostState, setModalPostState] = useState(false); // 모달 게시물 상태와 상태 업데이트 함수 정의
+  const [modalPostID, setModalPostID] = useState(""); // 모달 게시물 ID 상태와 상태 업데이트 함수 정의
+  const [modalUserID, setModalUserID] = useState(""); // 모달 사용자 ID 상태와 상태 업데이트 함수 정의
+  const [htmlWidth, setHtmlWidth] = useState(0); // HTML 너비 상태와 상태 업데이트 함수 정의
+  const [qnaData, setQnAData] = useState([]); // QnA 데이터 상태와 상태 업데이트 함수 정의
+  const [recommendQnAData, setRecommendQnAData] = useState([]); // 추천 QnA 데이터 상태와 상태 업데이트 함수 정의
+
   const [myData, myDataLoad, myDataError] = useDocumentData(
+    // Firestore에서 현재 사용자 데이터 가져오기
     doc(firestore, "Users", uid)
   );
-  const [modalState, setModalState] = useState(false);
-  const [modalPostState, setModalPostState] = useState(false);
-  const [modalPostID, setModalPostID] = useState("");
-  const [modalUserID, setModalUserID] = useState("");
-  const [htmlWidth, setHtmlWidth] = useState(0);
   const [recommendQnA, recommendQnALoad, recommendQnAError] = useCollectionData(
+    // Firestore에서 추천 QnA 데이터 가져오기
     query(
       collection(firestore, "QnAs"),
-      orderBy("postViews", "desc"),
-      limit(10)
-    ) // 생성일 기준으로 내림차순 정렬
+      orderBy("postViews", "desc"), // postViews 필드를 기준으로 내림차순 정렬
+      limit(10) // 10개의 데이터만 가져오기
+    )
   );
   const [qnaPost, qnaPostLoad, qnaPostError] = useCollectionData(
-    query(collection(firestore, "QnAs"), orderBy("createdAt", "desc")) // 생성일 기준으로 내림차순 정렬
+    // Firestore에서 QnA 게시물 데이터 가져오기
+    query(collection(firestore, "QnAs"), orderBy("createdAt", "desc")) // createdAt 필드를 기준으로 내림차순 정렬
   );
-  const [qnaData, setQnAData] = useState([]);
-  const [recommendQnAData, setRecommendQnAData] = useState([]);
 
-  const swiperRef = useRef(null);
+  const swiperRef = useRef(null); // Swiper 컴포넌트의 ref 생성
 
   const handlePrev = useCallback(() => {
-    if (!swiperRef.current.swiper.slidePrev());
+    // 이전 슬라이드로 이동하는 함수 생성
+    if (!swiperRef.current.swiper.slidePrev()); // Swiper 컴포넌트의 이전 슬라이드로 이동하는 함수 호출
   }, []);
 
   const handleNext = useCallback(() => {
-    if (!swiperRef.current.swiper.slideNext());
+    // 다음 슬라이드로 이동하는 함수 생성
+    if (!swiperRef.current.swiper.slideNext()); // Swiper 컴포넌트의 다음 슬라이드로 이동하는 함수 호출
   }, []);
 
+  // 윈도우 창 크기가 변경될 때마다 handleResize 함수를 실행하는 이벤트 리스너를 추가합니다.
   useEffect(() => {
-    // 창 크기 조절 이벤트 리스너 등록
     window.addEventListener("resize", handleResize);
-    return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
-      window.removeEventListener("resize", handleResize);
-    };
+    // 컴포넌트가 언마운트될 때, 이벤트 리스너를 제거합니다.
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
+    // qnaPost가 변경될 때마다 실행되는 useEffect
     if (qnaPost) {
-      const tempQnAData = [...qnaData];
-      qnaPost.map((item, index) => {
-        tempQnAData[index] = item;
-      });
-      setQnAData(tempQnAData);
+      setQnAData((prevQnAData) =>
+        // qnaPost의 각 item을 prevQnAData의 index에 할당하여 새로운 배열을 만듦
+        qnaPost.map((item, index) => (prevQnAData[index] = item))
+      );
     }
   }, [qnaPost]);
 
   useEffect(() => {
+    // recommendQnA가 변경될 때마다 실행
     if (recommendQnA) {
-      const tempQnAData = [...recommendQnAData];
-      recommendQnA.map((item, index) => {
-        tempQnAData[index] = item;
-      });
-      setRecommendQnAData(tempQnAData);
+      // recommendQnA가 존재하면 recommendQnAData를 업데이트
+      setRecommendQnAData(recommendQnA);
     }
   }, [recommendQnA]);
 
-  const handleResize = () => {
-    // 창 크기 조절 이벤트 핸들러
-    setHtmlWidth(window.innerWidth); // 현재 창 너비 상태 업데이트
+  const handleResize = () => setHtmlWidth(window.innerWidth); // handleResize 함수 선언, 윈도우 창의 너비를 htmlWidth 상태값으로 설정
+
+  // 유저 프로필 클릭 시 실행되는 함수
+  const profileClick = (userID) => {
+    // sessionStorage에 userID를 저장
+    sessionStorage.tempState = userID;
+    // "/profile" 경로로 이동하며, state에 userID를 전달하고, 이전 페이지를 대체함
+    navigate("/profile", { state: userID, replace: true });
   };
 
-  const profileClick = (
-    userID // profileClick 함수 선언, 매개변수로 userID 전달
-  ) => {
-    sessionStorage.setItem("tempState", userID);
-    navigate("/profile", { state: userID, replace: true });
-  }; // "/profile" 경로로 이동하며, state에 userID를 전달하고, replace 옵션을 true로 설정하여 브라우저 히스토리를 변경하지 않음
-
   const showModal = (postID, userID) => {
+    // postID와 userID를 모달 상태에 저장
     setModalPostID(postID);
     setModalUserID(userID);
+    // 모달 상태를 true로 변경하여 모달을 열도록 함
     setModalState(true);
   };
 
   const showPostModal = (postID, userID) => {
+    // postID와 userID를 받아와서 각각의 state를 업데이트한다.
     setModalPostID(postID);
     setModalUserID(userID);
+    // modalPostState를 true로 변경하여 모달을 보여준다.
     setModalPostState(true);
   };
 
@@ -165,7 +169,7 @@ const MainQnA = () => {
                 </div>
               </div>
               <Swiper
-              ref={swiperRef}
+                ref={swiperRef}
                 slidesPerView={1}
                 breakpoints={{
                   768: {

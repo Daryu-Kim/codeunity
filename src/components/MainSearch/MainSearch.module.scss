@@ -1,161 +1,152 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  grid-gap: 2.4rem;
-  height: calc(100vh - 3.6rem);
-  overflow-y: scroll;
-  padding: 1.6rem 2.4rem;
-  overflow-x: hidden;
+  width: 100%; // 너비 100%
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가운데 정렬
+  grid-gap: 2.4rem; // grid 간격
+  height: calc(100vh - 3.6rem); // 높이 계산
+  overflow-y: scroll; // 세로 스크롤바 표시
+  padding: 1.6rem 2.4rem; // padding
+  overflow-x: hidden; // 가로 스크롤바 숨김
 
   >* {
-    width: 100%;
-    max-width: 64rem;
+    width: 100%; // 너비 100%
+    max-width: 64rem; // 최대 너비 64rem
   }
 }
 
 .box {
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  gap: 2.4rem; // 간격
 
   >.searchBox {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: var(--sub-bg);
-    padding: 0.8rem 1.6rem;
-    border-radius: 0.8rem;
+    width: 100%; // 너비 100%
+    display: flex; // flex로 배치
+    align-items: center; // 가운데 정렬
+    background-color: var(--sub-bg); // 배경색
+    padding: 0.8rem 1.6rem; // padding
+    border-radius: 0.8rem; // border-radius
 
     >input {
-      flex: 1;
+      flex: 1; // flex 1
 
       &:focus {
-        color: var(--accent);
+        color: var(--accent); // 포커스 시 글자색 변경
       }
     }
 
     >button {
-      cursor: pointer;
+      cursor: pointer; // 커서 모양 변경
 
-      &:hover {
-        >svg {
-          fill: var(--accent);
-        }
+      &:hover>svg {
+        fill: var(--accent); // 호버 시 svg 색상 변경
       }
 
       >svg {
-        fill: var(--accent-more-light);
-        width: 2.4rem;
-        height: 2.4rem;
+        fill: var(--accent-more-light); // svg 색상
+        width: 2.4rem; // 너비 2.4rem
+        height: 2.4rem; // 높이 2.4rem
       }
     }
 
   }
 
-  >.userBox, .tagBox {
-    display: flex;
-    flex-direction: column;
-    gap: 2.4rem;
+  >.userBox,
+  // userBox 클래스
+  .tagBox {
+    // tagBox 클래스
+    display: flex; // flex로 배치
+    flex-direction: column; // 세로 방향으로 배치
+    gap: 2.4rem; // 간격
 
-    > div {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 1.2rem;
+    >div {
+      display: flex; // flex로 배치
+      flex-direction: column; // 세로 방향으로 배치
+      width: 100%; // 너비 100%
+      gap: 1.2rem; // 간격
 
-      > p {
-        padding-bottom: 0.8rem;
-        border-bottom: 0.2rem solid var(--accent);
+      >p {
+        padding-bottom: 0.8rem; // 하단 padding
+        border-bottom: 0.2rem solid var(--accent); // 하단 border
       }
     }
 
     .gridBox {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.2rem;
+      display: grid; // grid로 배치
+      grid-template-columns: repeat(2, 1fr); // 2개의 열로 구성
+      gap: 1.2rem; // 간격
     }
 
     .postBox {
-      > .postItem {
-        width: 100%;
-        border: {
-          top: 0.1rem solid var(--sub-light);
-        };
-        padding: 1.2rem 1.8rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-        cursor: pointer;
+      >.postItem {
+        width: 100%; // 너비 100%
+        border-top: 0.1rem solid var(--sub-light); // 상단 border
+        padding: 1.2rem 1.8rem; // padding
+        display: flex; // flex로 배치
+        flex-direction: column; // 세로 방향으로 배치
+        gap: 1.2rem; // 간격
+        cursor: pointer; // 커서 모양 변경
 
         &:hover {
-          background-color: var(--sub-bg);
+          background-color: var(--sub-bg); // 호버 시 배경색 변경
         }
 
-        > .qnaTagBox {
-          display: flex;
-          flex-wrap: wrap;
-          grid-gap: 0.8rem;
+        >.qnaTagBox {
+          display: flex; // flex로 배치
+          flex-wrap: wrap; // wrap 속성 적용
+          grid-gap: 0.8rem; // grid 간격
 
-          > .tagItem {
-            padding: 0.4rem 1.6rem;
-            cursor: pointer;
-            border: {
-              style: solid;
-              width: 0.2rem;
-              color: var(--sub);
-              radius: 0.8rem
-            };
+          >.tagItem {
+            padding: 0.4rem 1.6rem; // padding
+            cursor: pointer; // 커서 모양 변경
+            border-style: solid; // border 스타일
+            border-width: 0.2rem; // border 두께
+            border-color: var(--sub); // border 색상
+            border-radius: 0.8rem; // border-radius
 
             &:hover {
-              border-color: transparent;
-              background-color: var(--accent);
-              color: white;
+              border-color: transparent; // 호버 시 border 색상 변경
+              background-color: var(--accent); // 호버 시 배경색 변경
+              color: white; // 호버 시 글자색 변경
             }
           }
         }
 
-        > .funcBox {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+        >.funcBox {
+          display: flex; // flex로 배치
+          align-items: center; // 가운데 정렬
+          justify-content: space-between; // 양쪽 정렬
 
-          > div {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+          >div {
+            display: flex; // flex로 배치
+            align-items: center; // 가운데 정렬
+            gap: 0.8rem; // 간격
           }
         }
       }
     }
 
     .profileBox {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      cursor: pointer;
+      display: flex; // flex로 배치
+      align-items: center; // 가운데 정렬
+      gap: 0.8rem; // 간격
+      cursor: pointer; // 커서 모양 변경
 
       >.profileImg {
-        width: 4.2rem;
-        height: 4.2rem;
-        aspect-ratio: 1/1;
-
-        background: {
-          position: center;
-          repeat: no-repeat;
-          size: cover;
-        }
-
-        border: {
-          radius: 50%;
-          width: 0.2rem;
-          color: var(--accent);
-          style: solid;
-        }
+        width: 4.2rem; // 너비 4.2rem
+        height: 4.2rem; // 높이 4.2rem
+        aspect-ratio: 1/1; // 가로 세로 비율 1:1
+        background-position: center; // 배경 위치
+        background-repeat: no-repeat; // 배경 반복 없음
+        background-size: cover; // 배경 크기 cover
+        border-radius: 50%; // border-radius
+        border-width: 0.2rem; // border 두께
+        border-color: var(--accent); // border 색상
+        border-style: solid; // border 스타일
       }
     }
   }
@@ -163,6 +154,6 @@
 
 @media screen and (max-width: 767px) {
   .box>.userBox>.gridBox {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr); // 1개의 열로 구성
   }
 }

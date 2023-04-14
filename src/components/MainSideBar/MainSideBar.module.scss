@@ -1,95 +1,110 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .mainSideBar {
-  display: flex;
-  height: 100%;
-  overflow: hidden;
-  background-color: var(--sub-bg);
-  z-index: 10;
+  // 메인 사이드바 스타일
+  display: flex; // flex로 배치
+  height: 100%; // 높이 100%
+  overflow: hidden; // 넘치는 부분 숨김 처리
+  background-color: var(--sub-bg); // 배경색 지정
+  z-index: 10; // z-index 값 지정
 
   >.contBox {
-    width: calc(25vw - 4.8rem);
-    height: 100%;
-    background-color: var(--thd-bg);
-    padding: 1.6rem;
-    color: var(--primary);
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
+    // 메인 사이드바 내용 스타일
+    width: calc(25vw - 4.8rem); // 너비 계산
+    height: 100%; // 높이 100%
+    background-color: var(--thd-bg); // 배경색 지정
+    padding: 1.6rem; // 패딩 지정
+    color: var(--primary); // 글자색 지정
+    display: flex; // flex로 배치
+    flex-direction: column; // 세로 방향으로 배치
+    gap: 1.6rem; // 아이템 간격 지정
 
     >.friendsBox {
-      width: 100%;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      overflow: scroll;
+      // 친구 목록 박스 스타일
+      width: 100%; // 너비 100%
+      flex: 1; // 남은 공간 모두 차지
+      display: flex; // flex로 배치
+      flex-direction: column; // 세로 방향으로 배치
+      gap: 0.8rem; // 아이템 간격 지정
+      overflow: scroll; // 넘치는 부분 스크롤 처리
 
-      > .friends {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.8rem 1.6rem;
-        border-radius: 0.8rem;
-        background-color: var(--bg);
-        cursor: pointer;
-        box-shadow: 0 0.2rem 0.4rem rgba($color: #000000, $alpha: 0.15);
+      >.friends {
+        // 친구 목록 스타일
+        width: 100%; // 너비 100%
+        display: flex; // flex로 배치
+        align-items: center; // 수직 방향으로 가운데 정렬
+        justify-content: space-between; // 수평 방향으로 양쪽 끝으로 정렬
+        padding: 0.8rem 1.6rem; // 패딩 지정
+        border-radius: 0.8rem; // 모서리 둥글게 처리
+        background-color: var(--bg); // 배경색 지정
+        cursor: pointer; // 마우스 커서 모양 변경
+        box-shadow: 0 0.2rem 0.4rem rgba($color: #000000, $alpha: 0.15); // 그림자 효과 지정
 
         &:hover {
-          background-color: var(--sub-bg);
+          // 마우스를 올렸을 때 스타일
+          background-color: var(--sub-bg); // 배경색 지정
         }
 
-        > div {
-          display: flex;
-          align-items: center;
-          gap: 0.8rem;
+        >div {
+          // 친구 목록 내용 스타일
+          display: flex; // flex로 배치
+          align-items: center; // 수직 방향으로 가운데 정렬
+          gap: 0.8rem; // 아이템 간격 지정
 
-        > .profileImg {
-          width: 2.8rem;
-          height: 2.8rem;
-          aspect-ratio: 1 / 1;
-        
-          background: {
-            position: center;
-            repeat: no-repeat;
-            size: cover;
+          >.profileImg {
+            // 프로필 이미지 스타일
+            width: 2.8rem; // 너비 지정
+            height: 2.8rem; // 높이 지정
+            aspect-ratio: 1 / 1; // 가로 세로 비율 1:1
+
+            background: {
+              // 배경 이미지 지정
+              position: center; // 가운데 정렬
+              repeat: no-repeat; // 반복 없음
+              size: cover; // 크기에 맞게 조절
+            }
+
+            border: {
+              // 테두리 스타일
+              radius: 50%; // 모서리 둥글게 처리
+              width: 0.2rem; // 두께 지정
+              color: var(--accent); // 색상 지정
+              style: solid; // 실선 스타일
+            }
+
+            cursor: pointer; // 마우스 커서 모양 변경
+
+            &:hover {
+              // 마우스를 올렸을 때 스타일
+              filter: opacity(75%); // 투명도 75%
+            }
           }
-        
-          border: {
-            radius: 50%;
-            width: 0.2rem;
-            color: var(--accent);
-            style: solid;
-          }
-        
-          cursor: pointer;
-        
-          &:hover {
-            filter: opacity(75%);
-          }
-        }
         }
       }
     }
 
     >.codeBox {
+
+      // 코드 박스 스타일
       >button {
-        width: 100%;
-        padding: 0.4rem 0.8rem;
-        background-color: var(--accent);
-        border: none;
-        border-radius: 0 0 0.4rem 0.4rem;
-        cursor: pointer;
-        color: #fff;
+        // 버튼 스타일
+        width: 100%; // 너비 100%
+        padding: 0.4rem 0.8rem; // 패딩 지정
+        background-color: var(--accent); // 배경색 지정
+        border: none; // 테두리 없음
+        border-radius: 0 0 0.4rem 0.4rem; // 모서리 둥글게 처리
+        cursor: pointer; // 마우스 커서 모양 변경
+        color: #fff; // 글자색 지정
 
         &:hover {
-          opacity: 75%;
+          // 마우스를 올렸을 때 스타일
+          opacity: 75%; // 투명도 75%
         }
 
         &:focus {
-          outline: none;
+          // 포커스 스타일
+          outline: none; // 아웃라인 없음
         }
       }
     }
@@ -97,90 +112,108 @@
 }
 
 .sidebarIcon {
-  cursor: pointer;
-  filter: opacity(0.5);
-  transition: filter 100ms ease-in-out;
+  // 사이드바 아이콘 스타일
+  cursor: pointer; // 마우스 커서 모양 변경
+  filter: opacity(0.5); // 투명도 50%
+  transition: filter 100ms ease-in-out; // 트랜지션 효과 지정
 
   &:hover {
-    filter: opacity(1);
+    // 마우스를 올렸을 때 스타일
+    filter: opacity(1); // 투명도 100%
   }
 }
 
 .iconBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  background-color: var(--accent);
-  width: 4.8rem;
-  height: 100%;
-  padding: 0.8rem 0rem;
-  color: var(--accent-more-dark);
+  // 아이콘 박스 스타일
+  display: flex; // flex로 배치
+  align-items: center; // 수직 방향으로 가운데 정렬
+  justify-content: space-between; // 수평 방향으로 양쪽 끝으로 정렬
+  flex-direction: column; // 세로 방향으로 배치
+  background-color: var(--accent); // 배경색 지정
+  width: 4.8rem; // 너비 지정
+  height: 100%; // 높이 100%
+  padding: 0.8rem 0rem; // 패딩 지정
+  color: var(--accent-more-dark); // 글자색 지정
 }
 
 .onIconBox {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  grid-gap: 2.4rem;
+  // 아이콘 박스 내용 스타일
+  display: flex; // flex로 배치
+  align-items: center; // 수직 방향으로 가운데 정렬
+  flex-direction: column; // 세로 방향으로 배치
+  gap: 2.4rem; // 아이템 간격 지정
 }
 
 .logo {
-  width: 3.6rem;
-  aspect-ratio: 1/1;
-  margin-bottom: -0.8rem;
+  // 로고 스타일
+  width: 3.6rem; // 너비 지정
+  aspect-ratio: 1/1; // 가로 세로 비율 1:1
+  margin-bottom: -0.8rem; // 아래쪽으로 0.8rem만큼 이동
 
   background: {
-    position: center;
-    image: url("/assets/svgs/Codeunity_logo_대지 1 사본 4.svg");
-    repeat: no-repeat;
-    size: contain;
+    // 배경 이미지 지정
+    position: center; // 가운데 정렬
+    image: url("/assets/svgs/Codeunity_logo_대지 1 사본 4.svg"); // 이미지 경로 지정
+    repeat: no-repeat; // 반복 없음
+    size: contain; // 크기에 맞게 조절
   }
 }
 
 .underIconBox {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 1.6rem;
+  // 아이콘 박스 하단 스타일
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  gap: 1.6rem; // 아이템 간격 지정
 
   >* {
-    cursor: pointer;
+    // 모든 자식 요소에 대해서
+    cursor: pointer; // 마우스 커서 모양 변경
   }
 }
 
 .myProfile {
-  width: 2.8rem;
-  height: 2.8rem;
-  aspect-ratio: 1 / 1;
+  // 내 프로필 이미지 스타일
+  width: 2.8rem; // 너비 지정
+  height: 2.8rem; // 높이 지정
+  aspect-ratio: 1 / 1; // 가로 세로 비율 1:1
 
   background: {
-    position: center;
-    repeat: no-repeat;
-    size: cover;
+    // 배경 이미지 지정
+    position: center; // 가운데 정렬
+    repeat: no-repeat; // 반복 없음
+    size: cover; // 크기에 맞게 조절
   }
 
   border: {
-    radius: 50%;
-    width: 0.2rem;
-    color: var(--accent);
-    style: solid;
+    // 테두리 스타일
+    radius: 50%; // 모서리 둥글게 처리
+    width: 0.2rem; // 두께 지정
+    color: var(--accent); // 색상 지정
+    style: solid; // 실선 스타일
   }
 
-  cursor: pointer;
+  cursor: pointer; // 마우스 커서 모양 변경
 
   &:hover {
-    filter: opacity(75%);
+    // 마우스를 올렸을 때 스타일
+    filter: opacity(75%); // 투명도 75%
   }
 }
 
 @media screen and (min-width: 1280px) {
+
+  // 화면 너비가 1280px 이상일 때 스타일
   .mainSideBar>.contBox {
-    display: flex;
+    // 메인 사이드바 내용 스타일
+    display: flex; // flex로 배치
   }
 }
 
 @media screen and (max-width: 1279px) {
+
+  // 화면 너비가 1279px 이하일 때 스타일
   .mainSideBar>.contBox {
-    display: none;
+    // 메인 사이드바 내용 스타일
+    display: none; // 숨김 처리
   }
 }

@@ -1,269 +1,296 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  grid-gap: 2.4rem;
-  height: calc(100vh - 3.6rem);
-  overflow-y: scroll;
-  padding: 1.6rem 2.4rem;
-  overflow-x: hidden;
+  width: 100%; // 너비 100%
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가운데 정렬
+  grid-gap: 2.4rem; // 그리드 간격
+  height: calc(100vh - 3.6rem); // 높이 계산
+  overflow-y: scroll; // 세로 스크롤바 표시
+  padding: 1.6rem 2.4rem; // 패딩
+  overflow-x: hidden; // 가로 스크롤바 숨김
 
-  > * {
-    width: 100%;
-    max-width: 64rem;
+  >* {
+    width: 100%; // 너비 100%
+    max-width: 64rem; // 최대 너비 64rem
   }
 }
 
 .none {
-  display: none;
+  display: none; // 화면에서 숨김
 }
 
 .profileBox {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 1.6rem;
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  grid-gap: 1.6rem; // 그리드 간격
 
-  > .imgBox {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  >.imgBox {
+    width: 100%; // 너비 100%
+    display: flex; // flex로 배치
+    justify-content: space-between; // 양쪽 정렬
+    align-items: center; // 가운데 정렬
 
-    > .img {
-      width: 7.2rem;
-      height: 7.2rem;
-      aspect-ratio: 1 / 1;
+    >.img {
+      width: 7.2rem; // 너비 7.2rem
+      height: 7.2rem; // 높이 7.2rem
+      aspect-ratio: 1 / 1; // 가로 세로 비율 1:1
+      background: center / cover no-repeat; // 배경 이미지 중앙 정렬, 크기 맞춤
 
-      background: {
-        position: center;
-        repeat: no-repeat;
-        size: cover;
-      }
-
-      border: {
-        radius: 50%;
-        width: 0.4rem;
-        color: var(--accent);
-        style: solid;
-      }
+      border: 0.4rem solid var(--accent); // 테두리 설정
+      border-radius: 50%; // 원형 모양으로 둥글게 처리
     }
 
-    > .btnBox {
-      display: flex;
-      align-items: center;
-      grid-gap: 0.8rem;
+    >.btnBox {
+      display: flex; // flex로 배치
+      align-items: center; // 가운데 정렬
+      grid-gap: 0.8rem; // 그리드 간격
 
       button {
-        cursor: pointer;
-        background-color: var(--accent);
-        padding: 0.4rem 1.6rem;
-        color: white;
-        border-radius: 0.8rem;
+        cursor: pointer; // 커서 모양 변경
+        background-color: var(--accent); // 배경 색상
+        padding: 0.4rem 1.6rem; // 패딩
+        color: white; // 글자 색상
+        border-radius: 0.8rem; // 둥글게 처리
       }
 
-      > .followBtn {
-        color: white;
-        background-color: var(--accent);
-        padding: 0.6rem 1.6rem;
-        border-radius: 0.8rem;
-        cursor: pointer;
+      >.followBtn {
+        color: white; // 글자 색상
+        background-color: var(--accent); // 배경 색상
+        padding: 0.6rem 1.6rem; // 패딩
+        border-radius: 0.8rem; // 둥글게 처리
+        cursor: pointer; // 커서 모양 변경
 
         &:hover {
-          background-color: var(--accent-light);
+          background-color: var(--accent-light); // 배경 색상 변경
         }
       }
 
-      > .unfollowBtn {
-        color: var(--accent);
-        background-color: var(--sub-bg);
-        padding: 0.6rem 1.6rem;
-        border-radius: 0.8rem;
-        cursor: pointer;
+      >.unfollowBtn {
+        color: var(--accent); // 글자 색상
+        background-color: var(--sub-bg); // 배경 색상
+        padding: 0.6rem 1.6rem; // 패딩
+        border-radius: 0.8rem; // 둥글게 처리
+        cursor: pointer; // 커서 모양 변경
 
         &:hover {
-          background-color: var(--thd-bg);
+          background-color: var(--thd-bg); // 배경 색상 변경
         }
       }
     }
   }
 
-  > .nameBox {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  >.nameBox {
+    width: 100%; // 너비 100%
+    display: flex; // flex로 배치
+    flex-direction: column; // 세로 방향으로 배치
   }
 
-  > .followBox {
-    display: flex;
-    align-items: center;
-    grid-gap: 1.6rem;
-    cursor: pointer;
+  >.followBox {
+    display: flex; // flex로 배치
+    align-items: center; // 가운데 정렬
+    grid-gap: 1.6rem; // 그리드 간격
+    cursor: pointer; // 커서 모양 변경
 
-    > div {
-      display: flex;
-      align-items: center;
-      grid-gap: 0.8rem;
+    >div {
+      display: flex; // flex로 배치
+      align-items: center; // 가운데 정렬
+      grid-gap: 0.8rem; // 그리드 간격
     }
   }
 
   input::placeholder {
-    transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out; // 전환 효과 설정
   }
 
-  input:focus {
-    &::placeholder {
-      color: var(--accent-more-light);
+  input:focus::placeholder {
+    color: var(--accent-more-light); // 글자 색상 변경
+  }
+}
+
+.userTagBox {
+  display: flex; // flex로 배치
+  flex-wrap: wrap; // 줄바꿈 처리
+  gap: 0.8rem; // 그리드 간격
+
+  >p {
+    cursor: pointer; // 커서 모양 변경
+    padding: 0.2rem 1.2rem; // 패딩
+    border: 0.2rem solid var(--sub); // 테두리 설정
+    border-radius: 0.8rem; // 둥글게 처리
+
+    &:hover {
+      border-color: transparent; // 테두리 색상 변경
+      color: white; // 글자 색상 변경
+      background-color: var(--accent); // 배경 색상 변경
     }
   }
 }
- .userTagBox {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-
-    > p {
-      cursor: pointer;
-      padding: 0.2rem 1.2rem;
-      border: {
-        radius: 0.8rem;
-        style: solid;
-        width: 0.2rem;
-        color: var(--sub);
-      };
-
-      &:hover {
-        border-color: transparent;
-        color: white;
-        background-color: var(--accent);
-      }
-    }
-  }
 
 .tagBox {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  gap: 0.8rem; // 그리드 간격
 }
 
 .contBox {
   border-radius: 0.8rem;
+  /* 박스의 모서리를 둥글게 처리 */
   background-color: var(--thd-bg);
-  > .menuTab {
-    display: flex;
-    align-items: center;
+  /* 박스의 배경색 지정 */
 
-    > input {
+  >.menuTab {
+    display: flex;
+    /* 메뉴 탭을 가로로 나열 */
+    align-items: center;
+    /* 메뉴 탭을 수직 중앙 정렬 */
+
+    >input {
       display: none;
-      &:checked + label {
+      /* input 요소를 화면에서 감춤 */
+
+      &:checked+label {
+        /* input 요소가 체크되면 label 요소에 스타일 적용 */
         background-color: var(--thd-bg);
+        /* 배경색 지정 */
         color: var(--accent);
+        /* 글자색 지정 */
       }
     }
 
-    > label {
+    >label {
       width: 100%;
+      /* label 요소의 너비를 100%로 설정 */
       text-align: center;
+      /* label 요소의 텍스트를 가운데 정렬 */
       background-color: var(--sub-bg);
+      /* 배경색 지정 */
       padding: 0.8rem 0;
+      /* 위아래 여백 지정 */
       color: var(--sub);
+      /* 글자색 지정 */
       cursor: pointer;
+      /* 마우스 커서를 손가락 모양으로 변경 */
     }
 
-    > .menuTabPost {
+    >.menuTabPost {
       border-radius: 0.8rem 0 0 0;
+      /* 왼쪽 모서리를 둥글게 처리 */
     }
 
-    > .menuTabQnA {
+    >.menuTabQnA {
       border-radius: 0 0.8rem 0 0;
+      /* 오른쪽 모서리를 둥글게 처리 */
     }
   }
 
-  > .postBox {
+  >.postBox {
     padding: 0.8rem;
+    /* 내부 여백 지정 */
     display: grid;
+    /* 그리드 레이아웃 사용 */
     grid-gap: 0.8rem;
+    /* 그리드 셀 사이의 간격 지정 */
 
-    > .postItem {
+    >.postItem,
+    .qnaItem {
       width: 100%;
+      /* 그리드 셀의 너비를 100%로 설정 */
       overflow: hidden;
+      /* 내용이 넘칠 경우 숨김 처리 */
       aspect-ratio: 1 / 1;
+      /* 가로 세로 비율을 1:1로 설정 */
       border-radius: 0.8rem;
+      /* 모서리를 둥글게 처리 */
       background-color: var(--bg);
+      /* 배경색 지정 */
       color: var(--primary);
+      /* 글자색 지정 */
       padding: 0.8rem;
+      /* 내부 여백 지정 */
       cursor: pointer;
+      /* 마우스 커서를 손가락 모양으로 변경 */
       filter: blur(0.15rem) brightness(85%);
+      /* 흐림 효과와 밝기 조절 효과 적용 */
 
       &:hover {
         filter: none;
+        /* 마우스 오버 시 효과 제거 */
       }
-      > .postItemMd {
+
+      >.postItemMd {
         background-color: var(--bg);
-        > * {
+        /* 배경색 지정 */
+
+        >* {
           color: var(--primary);
+          /* 글자색 지정 */
           border-color: var(--sub-light);
+          /* 테두리 색 지정 */
         }
       }
     }
 
-    > .qnaItem {
-      width: 100%;
-      overflow: hidden;
-      aspect-ratio: 1 / 1;
-      border-radius: 0.8rem;
-      background-color: var(--bg);
-      color: var(--primary);
-      padding: 0.8rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
+    >.postItem {
       filter: blur(0.15rem) brightness(85%);
-      text-align: center;
+      /* 흐림 효과와 밝기 조절 효과 적용 */
+      border-radius: 0.8rem 0 0 0;
+      /* 왼쪽 모서리를 둥글게 처리 */
+    }
 
-      &:hover {
-        filter: none;
-      }
-      > .postItemMd {
-        background-color: var(--bg);
-        > * {
-          color: var(--primary);
-          border-color: var(--sub-light);
-        }
-      }
+    >.qnaItem {
+      display: flex;
+      /* 요소를 가로로 나열 */
+      justify-content: center;
+      /* 요소를 수평 중앙 정렬 */
+      align-items: center;
+      /* 요소를 수직 중앙 정렬 */
+      text-align: center;
+      /* 텍스트를 가운데 정렬 */
+      border-radius: 0 0.8rem 0 0;
+      /* 오른쪽 모서리를 둥글게 처리 */
     }
   }
 }
 
-    .postNone {
-      width: 100%;
-      padding: 1.6rem 2.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 0.8rem;
-      text-align: center;
-    }
+.postNone {
+  width: 100%;
+  /* 너비를 100%로 설정 */
+  padding: 1.6rem 2.4rem;
+  /* 내부 여백 지정 */
+  display: flex;
+  /* 요소를 가로로 나열 */
+  align-items: center;
+  /* 요소를 수직 중앙 정렬 */
+  justify-content: center;
+  /* 요소를 수평 중앙 정렬 */
+  flex-direction: column;
+  /* 요소를 수직으로 나열 */
+  gap: 0.8rem;
+  /* 요소 사이의 간격 지정 */
+  text-align: center;
+  /* 텍스트를 가운데 정렬 */
+}
 
 @media screen and (min-width: 0px) {
   .postBox {
     grid-template-columns: repeat(1, 1fr);
+    /* 그리드 레이아웃에서 열의 개수를 1개로 설정 */
   }
 }
 
 @media screen and (min-width: 768px) {
   .postBox {
     grid-template-columns: repeat(2, 1fr);
+    /* 그리드 레이아웃에서 열의 개수를 2개로 설정 */
   }
 }
 
 @media screen and (min-width: 1280px) {
   .postBox {
     grid-template-columns: repeat(3, 1fr);
+    /* 그리드 레이아웃에서 열의 개수를 3개로 설정 */
   }
 }
