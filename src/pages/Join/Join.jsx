@@ -22,12 +22,6 @@ import { getAuth } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const Join = () => {
-  const [emailMessage, setEmailMessage] = useState(""); // 이메일 입력 시 에러 메시지
-  const [nameMessage, setNameMessage] = useState(""); // 이름 입력 시 에러 메시지
-  const [passwordMessage, setPasswordMessage] = useState(""); // 비밀번호 입력 시 에러 메시지
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState(""); // 비밀번호 확인 입력 시 에러 메시지
-  const [phoneMessage, setPhoneMessage] = useState(""); // 전화번호 입력 시 에러 메시지
-
   const [isEmailActive, setIsEmailActive] = useState(false); // 이메일 입력창 활성화 여부
   const [isIDActive, setIsIDActive] = useState(false); // 아이디 입력창 활성화 여부
   const [isPWActive, setIsPWActive] = useState(false); // 비밀번호 입력창 활성화 여부
@@ -54,83 +48,107 @@ const Join = () => {
   ] = useCreateUserWithEmailAndPassword(auth); // Firebase 인증을 이용한 회원가입 함수, 회원가입 함수 실행 여부, 회원가입 에러 메시지
 
   if (createError) {
-    toastClear();
-    switch (createError.code) {
-      case "auth/email-already-in-use":
-        toastError("이미 사용 중인 이메일입니다.");
+    toastClear(); // toastClear 함수 호출
+    switch (
+      createError.code // createError.code 값에 따라 분기
+    ) {
+      case "auth/email-already-in-use": // 이메일이 이미 사용 중인 경우
+        toastError("이미 사용 중인 이메일입니다."); // 에러 메시지 출력
         break;
-      case "auth/invalid-email":
-        toastError("유효하지 않은 이메일입니다. 다시 확인해주세요.");
+      case "auth/invalid-email": // 유효하지 않은 이메일인 경우
+        toastError("유효하지 않은 이메일입니다. 다시 확인해주세요."); // 에러 메시지 출력
         break;
-      case "auth/weak-password":
-        toastError("비밀번호는 최소 6자리 이상이어야 합니다!");
+      case "auth/weak-password": // 비밀번호가 약한 경우
+        toastError("비밀번호는 최소 6자리 이상이어야 합니다!"); // 에러 메시지 출력
         break;
-      case "auth/too-many-requests":
-        toastError("잠시 후 다시 시도해주세요!");
+      case "auth/too-many-requests": // 요청이 너무 많은 경우
+        toastError("잠시 후 다시 시도해주세요!"); // 에러 메시지 출력
         break;
       default:
         break;
     }
   }
 
-  createLoading && toastLoading("회원가입 중입니다...");
+  createLoading && toastLoading("회원가입 중입니다..."); // createLoading이 true일 경우에만 toastLoading 함수를 실행하여 "회원가입 중입니다..." 메시지를 띄움
 
   if (createUser) {
-    const user = createUser.user;
+    const user = createUser.user; // createUser 객체에서 user 객체를 가져옴
     setDoc(doc(firestore, "Users", user.uid), {
-      followerCount: 0,
-      followingCount: 0,
-      userDesc: "",
-      userID: user.uid,
-      userImg: "",
-      userName: idValue,
-      verifiedEmail: user.emailVerified,
-      userTag: [],
-      userSearchID: `@${user.uid}`,
+      // firestore의 Users 컬렉션에 새로운 문서를 생성하고 user 정보를 저장
+      followerCount: 0, // 팔로워 수 초기값 0으로 설정
+      followingCount: 0, // 팔로잉 수 초기값 0으로 설정
+      userDesc: "", // 사용자 설명 초기값 빈 문자열로 설정
+      userID: user.uid, // 사용자 ID를 user.uid로 설정
+      userImg: "", // 사용자 이미지 초기값 빈 문자열로 설정
+      userName: idValue, // 사용자 이름을 idValue로 설정
+      verifiedEmail: user.emailVerified, // 이메일 인증 여부를 user.emailVerified로 설정
+      userTag: [], // 사용자 태그 초기값 빈 배열로 설정
+      userSearchID: `@${user.uid}`, // 사용자 검색 ID를 @와 user.uid를 조합하여 설정
     }).then(() => {
-      localStorage.setItem("uid", user.uid);
-      setTimeout(() => navigate("/", { replace: true }), 500);
+      localStorage.setItem("uid", user.uid); // 로컬 스토리지에 사용자 ID를 저장
+      setTimeout(() => navigate("/", { replace: true }), 500); // 0.5초 후에 "/" 경로로 이동
     });
   }
 
   const togglePasswordVisiblity = () =>
-    setIsPasswordVisible(!isPasswordVisible);
+    // 비밀번호 가리기/보이기를 토글하는 함수
+    setIsPasswordVisible(!isPasswordVisible); // isPasswordVisible의 값을 반전시킨 후, setIsPasswordVisible 함수를 호출하여 상태를 업데이트한다.
 
   const togglePasswordConfirmVisiblity = () =>
-    setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
+    // 비밀번호 확인 가리기/보이기를 토글하는 함수
+    setIsPasswordConfirmVisible(!isPasswordConfirmVisible); // isPasswordConfirmVisible의 값을 반전시킴
 
   const onChangeEmail = (e) => {
+    // 이메일 입력값에서 공백 제거
     const emailValue = e.target.value.trim();
+    // 이메일 상태 업데이트
     setEmailValue(emailValue);
+    // 이메일 입력값이 있으면 이메일 활성화
     setIsEmailActive(emailValue.length > 0);
   };
 
   const onChangeName = (e) => {
+    // 입력값의 공백을 제거하여 trimmedValue 변수에 할당
     const trimmedValue = e.target.value.trim();
+    // setIdValue 함수를 호출하여 trimmedValue 변수 값을 idValue 상태 변수에 할당
     setIdValue(trimmedValue);
+    // trimmedValue 변수의 길이가 0보다 크면 setIsIDActive 함수를 호출하여 isIDActive 상태 변수 값을 true로 설정
     setIsIDActive(trimmedValue.length > 0);
   };
 
   const onChangePassword = (e) => {
+    // 비밀번호 입력값에서 공백 제거
     const trimmedValue = e.target.value.trim();
+    // 상태값 업데이트: 비밀번호 입력값
     setPwValue(trimmedValue);
+    // 상태값 업데이트: 비밀번호 입력값이 있는지 여부
     setIsPWActive(trimmedValue.length > 0);
   };
 
   const onChangePasswordConfirm = (e) => {
+    // 입력값에서 공백 제거
     const value = e.target.value.trim();
+    // 입력값을 state에 저장
     setPwCValue(value);
+    // 입력값이 있으면 isActive 상태를 true로 변경
     setIsPWCActive(value.length > 0);
   };
 
   const emailLogin = (emailValue, idValue, pwValue, pwCValue) => {
+    // 이메일, 아이디, 비밀번호, 비밀번호 확인 필드가 모두 입력되었는지 확인
     if (!emailValue || !idValue || !pwValue || !pwCValue) {
       toastError("모든 필드를 입력해주세요!");
-    } else if (pwValue.length < 6) {
+    }
+    // 비밀번호가 6자리 이상인지 확인
+    else if (pwValue.length < 6) {
       toastError("비밀번호는 최소 6자리 이상이어야 합니다!");
-    } else if (pwValue !== pwCValue) {
+    }
+    // 비밀번호와 비밀번호 확인이 일치하는지 확인
+    else if (pwValue !== pwCValue) {
       toastError("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-    } else {
+    }
+    // 모든 조건을 만족하면 이메일과 비밀번호로 계정 생성
+    else {
       createUserWithEmailAndPassword(emailValue, pwValue);
     }
   };
@@ -191,7 +209,6 @@ const Join = () => {
               }
               autocomplete="off"
             />
-            <p className={styles.message}>{emailMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -222,7 +239,6 @@ const Join = () => {
               }
               autocomplete="off"
             />
-            <p className={styles.message}>{nameMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -259,7 +275,6 @@ const Join = () => {
               className={styles.inputToggle}
               onClick={togglePasswordVisiblity}
             />
-            <p className={styles.message}>{passwordMessage}</p>
           </label>
           <label
             htmlFor="idInput"
@@ -296,7 +311,6 @@ const Join = () => {
               className={styles.inputToggle}
               onClick={togglePasswordConfirmVisiblity}
             />
-            <p className={styles.message}>{passwordConfirmMessage}</p>
           </label>
           {/* <label
             htmlFor="idInput"
@@ -326,8 +340,6 @@ const Join = () => {
                   : `${styles.input} ${font.fs_14}`
               }
             />
-
-            <p className={styles.message}>{phoneMessage}</p>
           </label> */}
         </div>
 
