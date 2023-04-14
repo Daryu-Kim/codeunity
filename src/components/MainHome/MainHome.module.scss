@@ -1,300 +1,416 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  display: flex;
-  justify-content: center;
-  height: calc(100vh - 3.6rem);
-  overflow-y: scroll;
-  overflow-x: hidden;
+  display: flex; // flex로 배치
+  justify-content: center; // 가로 중앙 정렬
+  height: calc(100vh - 3.6rem); // 높이는 뷰포트 높이에서 3.6rem을 뺀 값
+  overflow-y: scroll; // 세로 스크롤바 표시
+  overflow-x: hidden; // 가로 스크롤바 숨김
 }
 
 .box {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.6rem 2.4rem;
-  background-color: var(--bg);
-  grid-gap: 2.4rem;
+  width: 100%; // 너비 100%
+  height: 100%; // 높이 100%
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가로 중앙 정렬
+  padding: 1.6rem 2.4rem; // 안쪽 여백
+  background-color: var(--bg); // 배경색은 변수로 지정한 값
+  grid-gap: 2.4rem; // 그리드 간격
 }
 
 .writePostBtn {
-  width: 100%;
-  max-width: 64rem;
-  padding: 0.8rem 1.6rem;
-  background-color: var(--sub-bg);
-  border-radius: 0.8rem;
+  width: 100%; // 너비 100%
+  max-width: 64rem; // 최대 너비 64rem
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+  background-color: var(--sub-bg); // 배경색은 변수로 지정한 값
+  border-radius: 0.8rem; // 모서리 둥글게 처리
 }
 
 .writePostTopBox {
-  display: flex;
-  align-items: center;
-  grid-gap: 0.8rem;
+  display: flex; // flex로 배치
+  align-items: center; // 가로 중앙 정렬
+  grid-gap: 0.8rem; // 그리드 간격
 }
 
 .writePostTopImg {
-  width: 3.6rem;
-  height: 3.6rem;
-  aspect-ratio: 1 / 1;
-  cursor: pointer;
+  width: 3.6rem; // 너비 3.6rem
+  height: 3.6rem; // 높이 3.6rem
+  aspect-ratio: 1 / 1; // 가로 세로 비율 1:1
+  cursor: pointer; // 커서 모양 변경
 
   background: {
-    position: center;
-    repeat: no-repeat;
-    size: cover;
+    // 배경 설정
+    position: center; // 가운데 정렬
+    repeat: no-repeat; // 반복 없음
+    size: cover; // 크기는 커버
   }
 
   border: {
-    radius: 50%;
-    width: 0.2rem;
-    color: var(--accent);
-    style: solid;
+    // 테두리 설정
+    radius: 50%; // 모서리 둥글게 처리
+    width: 0.2rem; // 두께 0.2rem
+    color: var(--accent); // 색상은 변수로 지정한 값
+    style: solid; // 실선 스타일
   }
 
   &:hover {
-    filter: opacity(75%);
+    // 호버 상태일 때
+    filter: opacity(75%); // 투명도 75%로 변경
   }
 }
 
 .writePostTopInputBox {
-  border-radius: 100rem;
-  width: 100%;
-  height: 3.6rem;
-  padding: 0.8rem 1.6rem;
-  background-color: var(--thd-bg);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+  border-radius: 100rem; // 모서리를 매우 둥글게 처리
+  width: 100%; // 너비 100%
+  height: 3.6rem; // 높이 3.6rem
+  padding: 0.8rem 1.6rem; // 안쪽 여백
+  background-color: var(--thd-bg); // 배경색은 변수로 지정한 값
+  display: flex; // flex로 배치
+  align-items: center; // 가로 중앙 정렬
+  cursor: pointer; // 커서 모양 변경
 
   &:hover {
-    filter: opacity(75%);
+    // 호버 상태일 때
+    filter: opacity(75%); // 투명도 75%로 변경
   }
 }
 
 .postBox {
-  width: 100%;
-  max-width: 64rem;
-  border-radius: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  grid-gap: 1.6rem;
+  width: 100%; // 너비 100%
+  max-width: 64rem; // 최대 너비 64rem
+  border-radius: 0.8rem; // 모서리 둥글게 처리
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가로 중앙 정렬
+  grid-gap: 1.6rem; // 그리드 간격
 }
 
 .popularBox {
-  width: 100%;
-  max-width: 64rem;
-  background-color: var(--sub-bg);
-  padding: 1.6rem;
-  border-radius: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 1.2rem;
+  width: 100%; // 너비 100%
+  max-width: 64rem; // 최대 너비 64rem
+  background-color: var(--sub-bg); // 배경색은 변수로 지정한 값
+  padding: 1.6rem; // 안쪽 여백
+  border-radius: 0.8rem; // 모서리 둥글게 처리
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  grid-gap: 1.2rem; // 그리드 간격
 }
 
 #popularSwiper {
-  width: 100%;
-  z-index: 0;
+  width: 100%; // 너비 100%
+  z-index: 0; // z-index 값 0
 }
 
 #popularItem {
-  width: 16rem;
-  border-radius: 0.8rem;
-  background-color: var(--bg);
-  padding: 1.6rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  grid-gap: 0.8rem;
-  cursor: grab;
+  width: 16rem; // 너비 16rem
+  border-radius: 0.8rem; // 모서리 둥글게 처리
+  background-color: var(--bg); // 배경색은 변수로 지정한 값
+  padding: 1.6rem; // 안쪽 여백
+  display: flex; // flex로 배치
+  flex-direction: column; // 세로 방향으로 배치
+  align-items: center; // 가로 중앙 정렬
+  grid-gap: 0.8rem; // 그리드 간격
+  cursor: grab; // 커서 모양 변경
 
   &:hover {
-    filter: opacity(75%);
+    // 호버 상태일 때
+    filter: opacity(75%); // 투명도 75%로 변경
   }
 
-  > .profileImg {
-    width: 6.4rem;
-    height: 6.4rem;
-    aspect-ratio: 1 / 1;
+  >.profileImg {
+    // 자식 요소 중 클래스 이름이 profileImg인 요소
+    width: 6.4rem; // 너비 6.4rem
+    height: 6.4rem; // 높이 6.4rem
+    aspect-ratio: 1 / 1; // 가로 세로 비율 1:1
 
     border: {
-      radius: 50%;
-      style: solid;
-      width: 0.25rem;
-      color: var(--accent);
+      // 테두리 설정
+      radius: 50%; // 모서리 둥글게 처리
+      style: solid; // 실선 스타일
+      width: 0.25rem; // 두께 0.25rem
+      color: var(--accent); // 색상은 변수로 지정한 값
     }
 
     background: {
-      position: center;
-      size: cover;
-      repeat: no-repeat;
+      // 배경 설정
+      position: center; // 가운데 정렬
+      size: cover; // 크기는 커버
+      repeat: no-repeat; // 반복 없음
     }
   }
 
-  > .profileDesc {
-    text-align: center;
-    line-height: 115%;
-    width: 12.8rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  >.profileDesc {
+    // 자식 요소 중 클래스 이름이 profileDesc인 요소
+    text-align: center; // 가운데 정렬
+    line-height: 115%; // 줄 간격 115%
+    width: 12.8rem; // 너비 12.8rem
+    text-overflow: ellipsis; // 텍스트가 넘칠 경우 생략 부호(...) 표시
+    overflow: hidden; // 넘치는 부분 숨김
+    white-space: nowrap; // 줄바꿈 없음
   }
 
-  > .followBtn {
-    border-radius: 0.8rem;
-    background-color: var(--accent);
-    width: 100%;
-    padding: 0.6rem 1.6rem;
-    color: white;
-    cursor: pointer;
+  >.followBtn {
+    // 자식 요소 중 클래스 이름이 followBtn인 요소
+    border-radius: 0.8rem; // 모서리 둥글게 처리
+    background-color: var(--accent); // 배경색은 변수로 지정한 값
+    width: 100%; // 너비 100%
+    padding: 0.6rem 1.6rem; // 안쪽 여백
+    color: white; // 글자색 흰색
+    cursor: pointer; // 커서 모양 변경
   }
 }
 
 .postItem {
   width: 100%;
+  /* 전체 너비 100% */
   border-radius: 0.8rem;
+  /* 모서리 둥글게 */
   background-color: var(--sub-bg);
+  /* 배경색 */
   padding: 1.6rem;
+  /* 안쪽 여백 */
   display: flex;
+  /* 플렉스 박스 */
   flex-direction: column;
+  /* 세로 방향으로 쌓기 */
   grid-gap: 1.2rem;
+  /* 그리드 간격 */
 
-  > .topBox {
+  >.topBox {
+    /* 자식 요소 중 클래스 이름이 topBox인 요소 선택 */
     display: flex;
+    /* 플렉스 박스 */
     justify-content: space-between;
+    /* 양쪽 정렬 */
     align-items: center;
+    /* 수직 정렬 */
 
-    > .topLeftBox {
+    >.topLeftBox {
+      /* 자식 요소 중 클래스 이름이 topLeftBox인 요소 선택 */
       display: flex;
+      /* 플렉스 박스 */
       align-items: center;
+      /* 수직 정렬 */
       grid-gap: 0.8rem;
+      /* 그리드 간격 */
       cursor: pointer;
+      /* 커서 모양 변경 */
 
-      > .profileImg {
+      >.profileImg {
+        /* 자식 요소 중 클래스 이름이 profileImg인 요소 선택 */
         width: 3.2rem;
+        /* 너비 */
         height: 3.2rem;
+        /* 높이 */
         aspect-ratio: 1 / 1;
+        /* 가로 세로 비율 */
 
         border: {
+          /* 테두리 */
           radius: 50%;
+          /* 모서리 둥글게 */
           style: solid;
+          /* 실선 */
           width: 0.25rem;
+          /* 두께 */
           color: var(--accent);
+          /* 색상 */
         }
 
         background: {
+          /* 배경 */
           position: center;
+          /* 가운데 정렬 */
           size: cover;
+          /* 크기 */
           repeat: no-repeat;
+          /* 반복 없음 */
         }
       }
 
-      > .nameBox {
+      >.nameBox {
+        /* 자식 요소 중 클래스 이름이 nameBox인 요소 선택 */
         display: flex;
+        /* 플렉스 박스 */
         flex-direction: column;
+        /* 세로 방향으로 쌓기 */
         justify-content: center;
+        /* 수직 정렬 */
       }
     }
 
-    > .removeBtn {
+    >.removeBtn {
+      /* 자식 요소 중 클래스 이름이 removeBtn인 요소 선택 */
       color: var(--sub);
+      /* 색상 */
       width: 2.4rem;
+      /* 너비 */
       height: 2.4rem;
+      /* 높이 */
       cursor: pointer;
+      /* 커서 모양 변경 */
 
       &:hover {
+        /* 호버 상태일 때 */
         color: var(--accent);
+        /* 색상 변경 */
       }
     }
 
-    > .topRightBox {
-      > .followBtn {
+    >.topRightBox {
+
+      /* 자식 요소 중 클래스 이름이 topRightBox인 요소 선택 */
+      >.followBtn {
+        /* 자식 요소 중 클래스 이름이 followBtn인 요소 선택 */
         color: white;
+        /* 색상 */
         background-color: var(--accent);
+        /* 배경색 */
         padding: 0.6rem 1.6rem;
+        /* 안쪽 여백 */
         border-radius: 0.8rem;
+        /* 모서리 둥글게 */
         cursor: pointer;
+        /* 커서 모양 변경 */
 
         &:hover {
+          /* 호버 상태일 때 */
           background-color: var(--accent-light);
+          /* 배경색 변경 */
         }
       }
 
-      > .unfollowBtn {
+      >.unfollowBtn {
+        /* 자식 요소 중 클래스 이름이 unfollowBtn인 요소 선택 */
         color: var(--accent);
+        /* 색상 */
         background-color: var(--bg);
+        /* 배경색 */
         padding: 0.6rem 1.6rem;
+        /* 안쪽 여백 */
         border-radius: 0.8rem;
+        /* 모서리 둥글게 */
         cursor: pointer;
+        /* 커서 모양 변경 */
 
         &:hover {
+          /* 호버 상태일 때 */
           background-color: var(--thd-bg);
+          /* 배경색 변경 */
         }
       }
     }
   }
-  > .postBox {
-    position: relative;
 
-    > .postContent {
+  >.postBox {
+    /* 자식 요소 중 클래스 이름이 postBox인 요소 선택 */
+    position: relative;
+    /* 상대 위치 */
+
+    >.postContent {
+      /* 자식 요소 중 클래스 이름이 postContent인 요소 선택 */
       width: 100%;
+      /* 전체 너비 100% */
       border-radius: 0.8rem;
+      /* 모서리 둥글게 */
       overflow: auto;
+      /* 스크롤바 표시 */
       aspect-ratio: 4 / 3;
+      /* 가로 세로 비율 */
       background-color: var(--bg);
+      /* 배경색 */
       color: var(--primary);
+      /* 색상 */
     }
   }
 
-  > .postFuncBox {
+  >.postFuncBox {
+    /* 자식 요소 중 클래스 이름이 postFuncBox인 요소 선택 */
     display: flex;
+    /* 플렉스 박스 */
     align-items: center;
+    /* 수직 정렬 */
     grid-gap: 1.2rem;
-    > svg {
+
+    /* 그리드 간격 */
+    >svg {
+      /* 자식 요소 중 svg 요소 선택 */
       width: 2.4rem;
+      /* 너비 */
       height: 2.4rem;
+      /* 높이 */
       aspect-ratio: 1 / 1;
+      /* 가로 세로 비율 */
       cursor: pointer;
+      /* 커서 모양 변경 */
       color: var(--primary);
+      /* 색상 */
 
       &:hover {
+        /* 호버 상태일 때 */
         color: var(--accent);
+        /* 색상 변경 */
       }
     }
   }
 }
+
 .toTopBtn {
+  /* 클래스 이름이 toTopBtn인 요소 선택 */
   position: fixed;
+  /* 고정 위치 */
   bottom: 1.6rem;
+  /* 아래쪽 여백 */
   right: 1.6rem;
+  /* 오른쪽 여백 */
   width: 2.8rem;
+  /* 너비 */
   height: 2em;
+  /* 높이 */
   line-height: 2.4rem;
+  /* 줄 높이 */
   text-align: center;
+  /* 가운데 정렬 */
   border-radius: 50%;
+  /* 모서리 둥글게 */
   cursor: pointer;
+  /* 커서 모양 변경 */
   background-color: var(--accent-light);
+  /* 배경색 */
   color: #fff;
+  /* 색상 */
 
   :hover {
+    /* 호버 상태일 때 */
     opacity: 75%;
+    /* 투명도 변경 */
   }
 }
 
 @media screen and (min-width: 768px) {
+
+  /* 미디어 쿼리 */
   .postBlockTitle {
+    /* 클래스 이름이 postBlockTitle인 요소 선택 */
     display: block;
+    /* 블록 요소로 변경 */
   }
 }
 
 @media screen and (min-width: 1280px) {
+
+  /* 미디어 쿼리 */
   .wrapper {
+    /* 클래스 이름이 wrapper인 요소 선택 */
     height: calc(100vh - 4.8rem);
+    /* 높이 계산 */
   }
 
   .box {
+    /* 클래스 이름이 box인 요소 선택 */
     width: 75%;
+    /* 너비 */
   }
 }

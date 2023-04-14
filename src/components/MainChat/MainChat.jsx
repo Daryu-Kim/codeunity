@@ -31,8 +31,22 @@ import { GrPrevious } from "react-icons/gr";
 import MainFollow from "../MainFollowFollowing/MainFollow";
 
 const MainChat = () => {
-  const myUID = localStorage.getItem("uid");
-  const currentTime = Timestamp.fromDate(new Date());
+  const myUID = localStorage.getItem("uid"); // 로컬 스토리지에서 uid 값을 가져와 myUID 변수에 할당
+  const currentTime = Timestamp.fromDate(new Date()); // 현재 시간을 Timestamp 형태로 currentTime 변수에 할당
+
+  const [targetData, setTargetData] = useState(null); // targetData와 setTargetData를 선언하고 초기값은 null로 설정
+  const [messages, setMessages] = useState([]); // messages와 setMessages를 선언하고 초기값은 빈 배열로 설정
+  const [inputValue, setInputValue] = useState(""); // inputValue와 setInputValue를 선언하고 초기값은 빈 문자열로 설정
+  const [selectedFile, setSelectedFile] = useState(null); // selectedFile과 setSelectedFile을 선언하고 초기값은 null로 설정
+  const [selectedChatID, setSelectedChatID] = useState(null); // selectedChatID와 setSelectedChatID를 선언하고 초기값은 null로 설정
+  const [selectedName, setSelectedName] = useState(null); // selectedName과 setSelectedName을 선언하고 초기값은 null로 설정
+  const [isModalOpen, setIsModalOpen] = useState(false); // isModalOpen과 setIsModalOpen을 선언하고 초기값은 false로 설정
+
+  const inputFileRef = useRef(null); // inputFileRef를 선언하고 초기값은 null로 설정
+  const modalRef = useRef(null); // modalRef를 선언하고 초기값은 null로 설정
+  const chatRef = useRef(null); // chatRef를 선언하고 초기값은 null로 설정
+
+  // firestore의 "Chats" collection에서 "userArr" 필드에 현재 사용자의 UID가 포함된 document들을 가져온다.
   const [chatListData] = useCollectionData(
     query(
       collection(firestore, "Chats"),
@@ -40,126 +54,119 @@ const MainChat = () => {
     )
   );
 
-  const [targetData, setTargetData] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-  const inputFileRef = useRef(null);
-  const [selectedChatID, setSelectedChatID] = useState(null);
-  const [selectedName, setSelectedName] = useState(null);
-  const modalRef = useRef(null);
-  const chatRef = useRef(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalOpen = () => setIsModalOpen(true);
-  const handleModalClose = () => setIsModalOpen(false);
-
   useEffect(() => {
-    if (chatListData !== undefined) {
+    if (chatListData) {
+      // chatListData가 존재할 경우
       Promise.all(
+        // Promise.all로 비동기 처리
         chatListData.map(async (item) => {
-          const filterArr = item.userArr.filter((el) => el !== myUID);
-          const tempData = await getDoc(doc(firestore, "Users", filterArr[0]));
-          return tempData.data();
+          // chatListData를 map으로 순회하며
+          const filterArr = item.userArr.filter((el) => el !== myUID); // userArr에서 myUID를 제외한 값들을 filterArr에 저장
+          const tempData = await getDoc(doc(firestore, "Users", filterArr[0])); // filterArr의 첫 번째 값으로 해당 유저의 데이터를 가져옴
+          return tempData.data(); // 해당 유저의 데이터를 반환
         })
-      ).then((data) => setTargetData(data));
+      ).then(setTargetData); // 모든 Promise가 끝나면 setTargetData로 결과값을 저장
     }
-  }, [chatListData]);
+  }, [chatListData]); // chatListData가 변경될 때마다 useEffect 실행
 
   useEffect(() => {
+    // 로컬 스토리지에서 lastName 값을 가져와 변수에 저장합니다.
+    const lastName = localStorage.getItem("lastName");
+    // 가져온 lastName 값을 setSelectedName 함수를 사용하여 상태값으로 설정합니다.
+    setSelectedName(lastName);
+    // 로컬 스토리지에서 lastChatID 값을 가져와 변수에 저장합니다.
     setSelectedChatID(localStorage.getItem("lastChatID"));
-    console.log(selectedChatID);
-  }, [localStorage.getItem("lastChatID")]);
+  }, []);
 
   useEffect(() => {
-    setSelectedName(localStorage.getItem("lastName"));
-    console.log(selectedName);
-  }, [localStorage.getItem("lastName")]);
-
-  useEffect(() => {
+    // 선택된 채팅방의 메시지들을 가져오기 위한 쿼리 생성
     const filter = query(
       collection(firestore, `Chats/${selectedChatID}/Msgs`),
       orderBy("createdAt")
     );
+    // 쿼리 결과를 실시간으로 감시하며 메시지들을 업데이트
     onSnapshot(filter, (snapshot) => {
-      const tempMessages = [];
-      snapshot.forEach((doc) => {
-        tempMessages.push(doc.data());
-      });
-      setMessages(tempMessages);
+      setMessages(snapshot.docs.map((doc) => doc.data()));
     });
   }, [selectedChatID]);
 
+  // messages 배열이 업데이트 될 때마다 scrollToBottom 함수를 호출하는 타이머를 생성합니다.
   useEffect(() => {
-    setTimeout(() => {
-      scrollToBottom();
-    }, 200);
+    const timeoutId = setTimeout(scrollToBottom, 200);
+    // cleanup 함수를 이용하여 타이머를 제거합니다.
+    return () => clearTimeout(timeoutId);
   }, [messages]);
 
+  // 모달을 열기 위한 함수
+  const handleModalOpen = () => setIsModalOpen(true);
+  // 모달을 닫기 위한 함수
+  const handleModalClose = () => setIsModalOpen(false);
+
   const handleListClick = (chatID, name) => {
+    // chatID와 name을 localStorage에 저장합니다.
     localStorage.setItem("lastChatID", chatID);
     localStorage.setItem("lastName", name);
+    // 선택된 채팅방의 chatID와 name을 state에 저장합니다.
     setSelectedChatID(chatID);
     setSelectedName(name);
+    // 채팅 페이지로 이동합니다.
     handleNext();
   };
 
-  const scrollToBottom = () => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }
-  };
+  const scrollToBottom = () =>
+    // 스크롤을 맨 아래로 이동하는 함수
+    chatRef.current && // chatRef가 존재하면
+    (chatRef.current.scrollTop = chatRef.current.scrollHeight); // chatRef의 scrollTop을 chatRef의 scrollHeight로 설정
 
-  const handlePrev = useCallback(() => {
-    if (!modalRef.current.swiper.slidePrev());
-  }, []);
+  const handlePrev = useCallback(
+    () => !modalRef.current.swiper.slidePrev(), // modalRef의 swiper를 이용하여 이전 슬라이드로 이동하는 함수를 useCallback으로 선언
+    []
+  );
+  const handleNext = useCallback(
+    () => !modalRef.current.swiper.slideNext(), // modalRef의 swiper를 이용하여 다음 슬라이드로 이동하는 함수를 useCallback으로 선언
+    []
+  );
 
-  const handleNext = useCallback(() => {
-    if (!modalRef.current.swiper.slideNext());
-  }, []);
-
-  const handleMessageChange = (event) => {
-    setInputValue(event.target.value);
-  };
+  // 입력값이 변경될 때마다 호출되는 함수
+  const handleMessageChange = ({ target: { value } }) => setInputValue(value);
 
   const handleFileChange = (event) => {
+    // 이벤트에서 파일을 가져온다.
     const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(zipImage(file));
-    }
+    // 파일이 존재하면 zipImage 함수를 이용하여 파일을 압축한다.
+    file && setSelectedFile(zipImage(file));
   };
 
-  const handlePostFunBoxClick = () => {
-    inputFileRef.current.click();
-  };
+  // inputFileRef.current을 클릭하는 함수를 정의합니다.
+  const handlePostFunBoxClick = () => inputFileRef.current.click();
 
   const sendMessage = async (event) => {
-    event.preventDefault();
-    if (inputValue.trim() !== "" || selectedFile !== null) {
-      const chatID = localStorage.getItem("lastChatID");
-      await addDoc(collection(firestore, `Chats/${chatID}/Msgs`), {
-        createdAt: Timestamp.fromDate(new Date()),
-        msgText: inputValue.trim(),
-        msgImg: selectedFile,
-        userID: myUID,
-      })
-        .then(async (result) => {
-          await updateDoc(doc(firestore, `Chats/${chatID}/Msgs`, result.id), {
-            msgID: result.id,
-          })
-            .then((result) => {
-              setInputValue("");
-              setSelectedFile(null);
-            })
-            .catch((err) => {
-              toastError("메시지를 보내지 못했습니다!");
-            });
-        })
-        .catch((err) => {
-          toastError("메시지를 보내지 못했습니다!");
-        });
-    } else {
-      toastError("메시지를 입력해주세요!");
+    event.preventDefault(); // 이벤트 기본 동작 방지
+    if (!inputValue.trim() && !selectedFile) {
+      // 입력값이 없거나 선택된 파일이 없을 경우
+      toastError("메시지를 입력해주세요!"); // 에러 메시지 출력
+      return; // 함수 종료
+    }
+    const chatID = localStorage.getItem("lastChatID"); // 로컬 스토리지에서 마지막 채팅방 ID 가져오기
+    try {
+      const result = await addDoc(
+        // Firestore에 데이터 추가
+        collection(firestore, `Chats/${chatID}/Msgs`), // 채팅방 메시지 컬렉션에 추가
+        {
+          createdAt: Timestamp.fromDate(new Date()), // 현재 시간으로 생성 시간 설정
+          msgText: inputValue.trim(), // 입력된 메시지 텍스트
+          msgImg: selectedFile, // 선택된 이미지 파일
+          userID: myUID, // 사용자 ID
+        }
+      );
+      await updateDoc(doc(firestore, `Chats/${chatID}/Msgs`, result.id), {
+        // Firestore에 데이터 업데이트
+        msgID: result.id, // 메시지 ID 설정
+      });
+      setInputValue(""); // 입력값 초기화
+      setSelectedFile(null); // 선택된 파일 초기화
+    } catch (err) {
+      toastError("메시지를 보내지 못했습니다!"); // 에러 메시지 출력
     }
   };
 

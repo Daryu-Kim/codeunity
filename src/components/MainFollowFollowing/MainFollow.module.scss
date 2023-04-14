@@ -1,9 +1,12 @@
+// 모달 전체를 꽉 채우도록 설정
 .modal {
   position: fixed;
   width: 100%;
   height: 100%;
   z-index: 10;
 }
+
+// 모달 내용을 가운데 정렬하고, 스크롤이 생길 경우 스크롤을 허용
 .modalContent {
   position: absolute;
   top: 50%;
@@ -18,6 +21,7 @@
   padding: 2rem;
 }
 
+// 모달 헤더를 가운데 정렬하고, 헤더 내부에 있는 요소들을 우측 정렬
 .modalHeader {
   display: flex;
   align-items: center;
@@ -25,6 +29,7 @@
   margin-bottom: 1rem;
 }
 
+// 모달 닫기 버튼 스타일 설정
 .modalClose {
   width: 2.4rem;
   height: 2.4rem;
@@ -36,15 +41,18 @@
   }
 }
 
+// 모달 탭 스타일 설정
 .modalTabs {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
-  > button {
+
+  >button {
     margin: 0 3rem;
   }
 }
 
+// 모달 탭 버튼 스타일 설정
 .modalTab {
   border: none;
   background-color: transparent;
@@ -62,16 +70,19 @@
   }
 }
 
+// 모달 탭 버튼 활성화 스타일 설정
 .modalTabActive {
   color: var(--primary);
   border-color: var(--primary);
 }
 
+// 모달 바디 스타일 설정
 .modalBody {
   max-height: 60vh;
   overflow-y: auto;
 }
 
+// 모달 리스트 스타일 설정
 .modalList {
   list-style: none;
   padding: 0;
@@ -81,6 +92,7 @@
   gap: 0.4rem;
 }
 
+// 모달 리스트 아이템 스타일 설정
 .modalItem {
   display: flex;
   align-items: center;
@@ -94,6 +106,7 @@
   }
 }
 
+// 모달 아바타 스타일 설정
 .modalAvatar {
   width: 4rem;
   height: 4rem;
@@ -113,6 +126,7 @@
   }
 }
 
+// 이미지 스타일 설정
 .img {
   width: 4.4rem;
   height: 4.4rem;
@@ -137,17 +151,20 @@
   }
 }
 
+// 모달 유저 스타일 설정
 .modalUser {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
 
+// 모달 이름 스타일 설정
 .modalName {
   margin-top: 0.4rem;
   color: var(--sub-semi-light);
 }
 
+// 화면 크기가 768px 이하일 때 모달 스타일 설정
 @media screen and (max-width: 768px) {
   .modalContent {
     width: 30rem;

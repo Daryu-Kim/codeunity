@@ -1,49 +1,61 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .menu {
-  width: 100%;
-  display: flex;
-  height: 3.6rem;
-  background-color: var(--sub-bg);
-  box-shadow: 0 0.4rem 1.2rem rgba($color: #141018, $alpha: 0.35);
+  width: 100%; // 가로폭 100%
+  display: flex; // flex로 배치
+  height: 3.6rem; // 높이 3.6rem
+  background-color: var(--sub-bg); // 배경색 변수 사용
+  box-shadow: 0 0.4rem 1.2rem rgba($color: #141018, $alpha: 0.35); // 그림자 효과
+
 }
 
 #tabMenu {
-  background-color: var(--thd-bg);
+  background-color: var(--thd-bg); // 배경색 변수 사용
+
   border: {
-    left: 0.1rem solid var(--bg);
-    right: 0.1rem solid var(--bg);
+    // 테두리 스타일
+    left: 0.1rem solid var(--bg); // 왼쪽 테두리 스타일
+    right: 0.1rem solid var(--bg); // 오른쪽 테두리 스타일
   }
-  width: auto !important;
-  padding: 0 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-gap: 0.6rem;
-  color: var(--sub-light);
-  cursor: pointer;
+
+  width: auto !important; // 너비 자동 조정
+  padding: 0 1.6rem; // 내부 여백
+  display: flex; // flex로 배치
+  align-items: center; // 수직 정렬
+  justify-content: center; // 수평 정렬
+  grid-gap: 0.6rem; // 그리드 간격
+  color: var(--sub-light); // 글자색 변수 사용
+  cursor: pointer; // 커서 모양 변경
+
   &.active {
-    background-color: var(--bg);
-    font-weight: 700;
-    color: var(--primary);
+    // active 클래스 적용시
+    background-color: var(--bg); // 배경색 변수 사용
+    font-weight: 700; // 글자 굵기
+    color: var(--primary); // 글자색 변수 사용
   }
+
   &:hover {
-    filter: opacity(75%);
+    // hover 효과
+    filter: opacity(75%); // 투명도 조절
   }
 
   .xBtn {
-    width: 1.8rem;
-    height: 1.8rem;
-    cursor: pointer;
-    > svg {
-      width: 100%;
-      height: 100%;
-      color: var(--primary);
+    // xBtn 클래스
+    width: 1.8rem; // 가로폭 1.8rem
+    height: 1.8rem; // 높이 1.8rem
+    cursor: pointer; // 커서 모양 변경
+
+    >svg {
+      // svg 태그
+      width: 100%; // 가로폭 100%
+      height: 100%; // 높이 100%
+      color: var(--primary); // 글자색 변수 사용
     }
   }
 
-  > img {
-    height: 1.4rem;
+  >img {
+    // img 태그
+    height: 1.4rem; // 높이 1.4rem
   }
 }

@@ -1,122 +1,138 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  width: 100%;
-  height: calc(100vh - 3.6rem);
-  padding: 1.6rem 2.4rem;
-  background-color: var(--bg);
-  display: flex;
-  justify-content: center;
+  width: 100%; // 너비 100%
+  height: calc(100vh - 3.6rem); // 높이는 뷰포트 높이에서 3.6rem을 뺀 값
+  padding: 1.6rem 2.4rem; // 패딩 값
+  background-color: var(--bg); // 배경색은 변수로 지정한 값
+  display: flex; // flex로 정렬
+  justify-content: center; // 가로 중앙 정렬
 
   >.swiper {
-    width: 100%;
-    height: 100%;
-    max-width: 64rem;
-    border-radius: 0.8rem;
-    box-shadow: 0 0.4rem 0.8rem rgba($color: #000000, $alpha: 0.35);
+    // swiper 클래스
+    width: 100%; // 너비 100%
+    height: 100%; // 높이 100%
+    max-width: 64rem; // 최대 너비 64rem
+    border-radius: 0.8rem; // 모서리 둥글게 처리
+    box-shadow: 0 0.4rem 0.8rem rgba($color: #000000, $alpha: 0.35); // 그림자 효과
 
     .listBox {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-      max-width: 64rem;
-      text-align: center;
-      padding: 0.8rem 1.6rem;
+      // listBox 클래스
+      display: flex; // flex로 정렬
+      flex-direction: column; // 세로 방향으로 정렬
+      width: 100%; // 너비 100%
+      height: 100%; // 높이 100%
+      max-width: 64rem; // 최대 너비 64rem
+      text-align: center; // 가운데 정렬
+      padding: 0.8rem 1.6rem; // 패딩 값
 
       >div {
-        padding: 0.8rem 1.6rem;
+        // 자식 div 태그
+        padding: 0.8rem 1.6rem; // 패딩 값
       }
 
       >.titleBox {
-        border-bottom: 0.2rem solid var(--sub-light);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        // titleBox 클래스
+        border-bottom: 0.2rem solid var(--sub-light); // 아래쪽 경계선
+        display: flex; // flex로 정렬
+        align-items: center; // 세로 중앙 정렬
+        justify-content: space-between; // 가로 방향으로 공간을 동일하게 배분
 
         >.title {
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
+          // title 클래스
+          display: flex; // flex로 정렬
+          align-items: center; // 세로 중앙 정렬
+          gap: 0.4rem; // 아이템 간격
         }
 
         >.newChat {
-          cursor: pointer;
-          color: var(--accent-more-light);
+          // newChat 클래스
+          cursor: pointer; // 커서 모양 변경
+          color: var(--accent-more-light); // 글자 색상
 
           &:hover {
-            color: var(--accent);
+            // 호버 효과
+            color: var(--accent); // 글자 색상 변경
           }
         }
       }
 
-      > .paddingBox {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        padding: 0.8rem;
-        gap: 0.8rem;
-        overflow: scroll;
+      >.paddingBox {
+        // paddingBox 클래스
+        display: flex; // flex로 정렬
+        flex: 1; // flex-grow 속성
+        flex-direction: column; // 세로 방향으로 정렬
+        padding: 0.8rem; // 패딩 값
+        gap: 0.8rem; // 아이템 간격
+        overflow: scroll; // 스크롤바 표시
 
-        > .chatListBox {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0.8rem 1.6rem;
-          border-radius: 0.8rem;
-          background-color: var(--sub-bg);
-          cursor: pointer;
-          box-shadow: 0 0.2rem 0.4rem rgba($color: #000000, $alpha: 0.15);
-    
+        >.chatListBox {
+          // chatListBox 클래스
+          width: 100%; // 너비 100%
+          display: flex; // flex로 정렬
+          align-items: center; // 세로 중앙 정렬
+          justify-content: space-between; // 가로 방향으로 공간을 동일하게 배분
+          padding: 0.8rem 1.6rem; // 패딩 값
+          border-radius: 0.8rem; // 모서리 둥글게 처리
+          background-color: var(--sub-bg); // 배경색은 변수로 지정한 값
+          cursor: pointer; // 커서 모양 변경
+          box-shadow: 0 0.2rem 0.4rem rgba($color: #000000, $alpha: 0.15); // 그림자 효과
+
           &:hover {
-            background-color: var(--thd-bg);
+            // 호버 효과
+            background-color: var(--thd-bg); // 배경색 변경
           }
-    
-          > div {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-    
-          > .profileImg {
-            width: 2.8rem;
-            height: 2.8rem;
-            aspect-ratio: 1 / 1;
-          
-            background: {
-              position: center;
-              repeat: no-repeat;
-              size: cover;
+
+          >div {
+            // 자식 div 태그
+            display: flex; // flex로 정렬
+            align-items: center; // 세로 중앙 정렬
+            gap: 0.8rem; // 아이템 간격
+
+            >.profileImg {
+              // profileImg 클래스
+              width: 2.8rem; // 너비 2.8rem
+              height: 2.8rem; // 높이 2.8rem
+              aspect-ratio: 1 / 1; // 가로 세로 비율 1:1
+
+              background: {
+                // 배경 설정
+                position: center; // 가운데 정렬
+                repeat: no-repeat; // 반복 없음
+                size: cover; // 크기 cover
+              }
+
+              border: {
+                // 테두리 설정
+                radius: 50%; // 모서리 둥글게 처리
+                width: 0.2rem; // 테두리 두께
+                color: var(--accent); // 테두리 색상
+                style: solid; // 테두리 스타일
+              }
+
+              cursor: pointer; // 커서 모양 변경
+
+              &:hover {
+                // 호버 효과
+                filter: opacity(75%); // 투명도 75%로 변경
+              }
             }
-          
-            border: {
-              radius: 50%;
-              width: 0.2rem;
-              color: var(--accent);
-              style: solid;
-            }
-          
-            cursor: pointer;
-          
-            &:hover {
-              filter: opacity(75%);
-            }
-          }
           }
         }
       }
 
-        
+
 
       >.noExistsBox {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 0.8rem;
+        // noExistsBox 클래스
+        width: 100%; // 너비 100%
+        height: 100%; // 높이 100%
+        display: flex; // flex로 정렬
+        justify-content: center; // 가로 중앙 정렬
+        align-items: center; // 세로 중앙 정렬
+        flex-direction: column; // 세로 방향으로 정렬
+        gap: 0.8rem; // 아이템 간격
       }
     }
   }
@@ -124,129 +140,218 @@
 
 .chatContainer {
   display: flex;
+  /* Flex 컨테이너로 설정 */
   flex-direction: column;
+  /* 세로 방향으로 정렬 */
   width: 100%;
+  /* 가로 너비 100% */
   height: 100%;
+  /* 세로 높이 100% */
   max-width: 64rem;
+  /* 최대 가로 너비 64rem */
   padding: 0.8rem 1.6rem;
+  /* 내부 여백 설정 */
   box-sizing: border-box;
+  /* 박스 모델 설정 */
   background-color: var(--sub-bg);
+  /* 배경색 설정 */
 
   >.titleBox {
+    /* 자식 요소 중 클래스명이 titleBox인 요소 선택 */
     padding: 0.8rem 1.6rem;
+    /* 내부 여백 설정 */
     border-bottom: 0.2rem solid var(--sub-light);
+    /* 하단 테두리 설정 */
     display: flex;
+    /* Flex 컨테이너로 설정 */
     align-items: center;
+    /* 수직 정렬 */
     justify-content: space-between;
+    /* 양쪽 정렬 */
 
     >.title {
+      /* 자식 요소 중 클래스명이 title인 요소 선택 */
       width: 100%;
+      /* 가로 너비 100% */
       display: flex;
+      /* Flex 컨테이너로 설정 */
       align-items: center;
+      /* 수직 정렬 */
 
-      > .mobile {
+      >.mobile {
+        /* 자식 요소 중 클래스명이 mobile인 요소 선택 */
         display: none;
+        /* 화면에 표시하지 않음 */
       }
     }
   }
 
   >.messageList {
+    /* 자식 요소 중 클래스명이 messageList인 요소 선택 */
     flex: 1;
+    /* Flex 속성 설정 */
     overflow-y: scroll;
+    /* 세로 스크롤바 표시 */
     display: flex;
+    /* Flex 컨테이너로 설정 */
     flex-direction: column;
+    /* 세로 방향으로 정렬 */
     gap: 0.8rem;
+    /* 자식 요소 사이의 간격 설정 */
     justify-content: start;
+    /* 시작점을 기준으로 정렬 */
     width: 100%;
+    /* 가로 너비 100% */
     padding: 0.8rem 0;
+    /* 내부 여백 설정 */
 
     >.message {
+      /* 자식 요소 중 클래스명이 message인 요소 선택 */
       display: flex;
+      /* Flex 컨테이너로 설정 */
       justify-content: flex-start;
+      /* 시작점을 기준으로 정렬 */
       align-self: flex-start;
+      /* 시작점을 기준으로 정렬 */
 
       &.user {
+        /* 클래스명이 user인 요소 선택 */
         align-self: flex-end;
+        /* 끝점을 기준으로 정렬 */
         justify-content: flex-end;
+        /* 끝점을 기준으로 정렬 */
 
         .messageText {
+          /* 클래스명이 messageText인 요소 선택 */
           background-color: var(--accent);
+          /* 배경색 설정 */
           color: white;
+          /* 글자색 설정 */
         }
       }
 
       >.messageBox {
+        /* 자식 요소 중 클래스명이 messageBox인 요소 선택 */
         display: flex;
+        /* Flex 컨테이너로 설정 */
         flex-direction: column;
+        /* 세로 방향으로 정렬 */
         justify-content: flex-end;
+        /* 끝점을 기준으로 정렬 */
 
         .onMessageBox {
+          /* 클래스명이 onMessageBox인 요소 선택 */
           max-width: 80%;
+          /* 최대 가로 너비 80% */
 
           img {
+            /* img 태그 선택 */
             width: 100%;
+            /* 가로 너비 100% */
             margin-bottom: 0.8rem;
+            /* 하단 여백 설정 */
             object-fit: cover;
+            /* 이미지 크기 조절 */
             cursor: zoom-in;
+            /* 마우스 커서 모양 변경 */
           }
         }
 
         .underMessageBox {
+          /* 클래스명이 underMessageBox인 요소 선택 */
           display: flex;
+          /* Flex 컨테이너로 설정 */
           justify-content: flex-end;
+          /* 끝점을 기준으로 정렬 */
         }
       }
 
       >.messageBoxN {
+        /* 자식 요소 중 클래스명이 messageBoxN인 요소 선택 */
         display: flex;
+        /* Flex 컨테이너로 설정 */
         flex-direction: column;
+        /* 세로 방향으로 정렬 */
         justify-content: flex-start;
+        /* 시작점을 기준으로 정렬 */
 
         .onMessageBoxN {
+          /* 클래스명이 onMessageBoxN인 요소 선택 */
           max-width: 80%;
+          /* 최대 가로 너비 80% */
 
           img {
+            /* img 태그 선택 */
             width: 100%;
+            /* 가로 너비 100% */
             margin-bottom: 0.8rem;
+            /* 하단 여백 설정 */
             object-fit: cover;
+            /* 이미지 크기 조절 */
             cursor: zoom-in;
+            /* 마우스 커서 모양 변경 */
           }
         }
 
         .underMessageBoxN {
+          /* 클래스명이 underMessageBoxN인 요소 선택 */
           display: flex;
+          /* Flex 컨테이너로 설정 */
           justify-content: flex-start;
+          /* 시작점을 기준으로 정렬 */
         }
       }
     }
 
     .messageText {
+      /* 클래스명이 messageText인 요소 선택 */
       display: inline-block;
+      /* 인라인 블록 요소로 설정 */
       padding: 0.8rem 1.2rem;
+      /* 내부 여백 설정 */
       max-width: 25rem;
+      /* 최대 가로 너비 25rem */
       border-radius: 0.8rem;
+      /* 테두리 반경 설정 */
       background-color: var(--thd-bg);
+      /* 배경색 설정 */
       color: var(--primary);
+      /* 글자색 설정 */
       font-size: 1.4rem;
+      /* 글자 크기 설정 */
       line-height: 1.8rem;
+      /* 줄 간격 설정 */
       white-space: pre-wrap;
+      /* 공백 처리 방법 설정 */
     }
 
     .messageTime {
+      /* 클래스명이 messageTime인 요소 선택 */
       color: var(--primary);
+      /* 글자색 설정 */
       display: flex;
+      /* Flex 컨테이너로 설정 */
       align-items: end;
+      /* 끝점을 기준으로 정렬 */
       margin: 0 0.6rem;
+      /* 외부 여백 설정 */
     }
   }
 
   .nav {
+    /* 클래스명이 nav인 요소 선택 */
     width: 2.4rem;
+    /* 가로 너비 2.4rem */
     height: 2.4rem;
-    // display: none;
+    /* 세로 높이 2.4rem */
+    // display: none; /* 화면에 표시하지 않음 */
     cursor: pointer;
+
+    /* 마우스 커서 모양 변경 */
     * {
+      /* 모든 자식 요소 선택 */
       stroke: var(--accent);
+      /* 테두리 색상 설정 */
     }
   }
 }
@@ -258,6 +363,7 @@
   padding-top: 0.8rem;
 
   &Box {
+    /* 채팅 입력창의 입력박스 */
     display: flex;
     gap: 0.4rem;
     flex: 1;
@@ -269,18 +375,21 @@
     box-shadow: none;
 
     >.postFunBox {
+      /* 입력박스 내 게시물 추가 버튼 */
       width: 2rem;
       height: 2rem;
       aspect-ratio: 1/1;
       cursor: pointer;
 
       >svg {
+        /* 게시물 추가 아이콘 */
         width: 2rem;
         height: 2rem;
         aspect-ratio: 1 / 1;
         color: var(--primary);
 
         &:hover {
+          /* 마우스 호버시 색상 변경 */
           color: var(--accent);
         }
       }
@@ -288,14 +397,17 @@
   }
 
   &In {
+    /* 채팅 입력창의 입력 필드 */
     width: 100%;
 
     &:disabled {
+      /* 비활성화 상태일 때 커서 변경 */
       cursor: not-allowed;
     }
   }
 
   &Btn {
+    /* 채팅 입력창의 전송 버튼 */
     height: 100%;
     padding: 0.8rem 1.6rem;
     border: none;
@@ -306,25 +418,28 @@
     cursor: pointer;
 
     &:disabled {
+      /* 비활성화 상태일 때 커서 변경 및 배경색 변경 */
       cursor: not-allowed;
       background-color: var(--sub);
     }
   }
 
   .imgInput {
+    /* 이미지 업로드 입력 필드 */
     display: none;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .chatContainer > .titleBox > .title {
-    
+  .chatContainer>.titleBox>.title {
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     text-align: center;
 
-    > .mobile {
-    display: block;
-  }
+    >.mobile {
+      /* 모바일 화면에서만 보이는 요소 */
+      display: block;
+    }
   }
 }

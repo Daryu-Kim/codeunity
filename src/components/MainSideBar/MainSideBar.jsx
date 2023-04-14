@@ -37,6 +37,7 @@ import { firestore } from "../../modules/Firebase";
 const MainSideBar = () => {
   const userID = localStorage.getItem("uid"); // 로컬 스토리지에서 uid 가져오기
   const { pwaInstall, supported, isInstalled } = useReactPWAInstall(); // PWA 설치를 위한 hook 사용
+  const location = useLocation();
   const navigate = useNavigate(); // React Router의 useNavigate hook 사용
   const [codeValue, setCodeValue] = useState(); // 코드 값과 값을 변경하는 함수를 state로 관리
   const [userData] = useDocumentData(doc(firestore, "Users", userID)); // Firestore에서 현재 사용자의 데이터 가져오기
@@ -80,13 +81,13 @@ const MainSideBar = () => {
       features: (
         // 앱 기능 목록
         <ul>
-          <li>Cool feature 1</li>
-          <li>Cool feature 2</li>
-          <li>Even cooler feature</li>
-          <li>Works offline</li>
+          <li>개발자들만의 SNS</li>
+          <li>마크다운 에디터 지원</li>
+          <li>익숙한 IDE 디자인</li>
+          <li>v1.0</li>
         </ul>
       ),
-      description: "CodeUnity PWA 설치 테스트입니다.", // 앱 설명
+      description: "설치하려면 아래 버튼을 눌러주세요", // 앱 설명
     })
       .then(() =>
         // 설치 성공 시 실행되는 함수
@@ -141,6 +142,7 @@ const MainSideBar = () => {
     localStorage.setItem("lastName", name);
     // 채팅방으로 이동한다.
     navigate("/chat", { replace: true });
+    window.location.reload(false)
   };
 
   return (

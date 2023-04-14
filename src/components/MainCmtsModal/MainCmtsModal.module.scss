@@ -1,110 +1,119 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .modalWrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100vw;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 15;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // 모달 래퍼 스타일
+  position: fixed; // 위치 고정
+  top: 0; // 위쪽에 붙임
+  right: 0; // 오른쪽에 붙임
+  width: 100vw; // 너비 100vw
+  height: 100%; // 높이 100%
+  display: flex; // 플렉스 박스로 정렬
+  justify-content: center; // 가로 중앙 정렬
+  align-items: center; // 세로 중앙 정렬
+  background-color: rgba(0, 0, 0, 0.5); // 배경색 검은색, 투명도 50%
+  z-index: 15; // z-index 값 15
+  display: flex; // 플렉스 박스로 정렬
+  justify-content: center; // 가로 중앙 정렬
+  align-items: center; // 세로 중앙 정렬
 }
 
-// |이 코드는 모달 요소의 스타일을 정의하는 SCSS 코드입니다. // |
-// |좋은 점:
-// |- 그리드 레이아웃을 사용하여 요소를 배치하므로, 반응형 디자인에 적합합니다.
-// |- 변수를 사용하여 배경색을 지정하므로, 유지보수가 용이합니다.
-// |- 내부 여백, 높이, 가로 세로 비율, 모서리, 그림자 등 다양한 스타일 속성을 설정하여 모달 요소를 깔끔하고 세련된 디자인으로 만들었습니다.
-
 .modal {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 90%;
-  max-width: 96rem;
-  max-height: 64rem;
-  background-color: var(--sub-bg);
-  height: 90%;
-  aspect-ratio: 2/1;
-  border-radius: 0.8rem;
-  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3);
-  overflow: scroll;
+  // 모달 스타일
+  display: grid; // 그리드로 정렬
+  grid-template-columns: repeat(2, 1fr); // 2개의 열 생성
+  width: 90%; // 너비 90%
+  max-width: 96rem; // 최대 너비 96rem
+  max-height: 64rem; // 최대 높이 64rem
+  background-color: var(--sub-bg); // 배경색 변수 사용
+  height: 90%; // 높이 90%
+  aspect-ratio: 2/1; // 가로 세로 비율 2:1
+  border-radius: 0.8rem; // 모서리 둥글게 처리
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3); // 그림자 효과
+  overflow: scroll; // 스크롤 생성
 }
 
 .nav {
-  width: 2.4rem;
-  height: 2.4rem;
-  display: none;
-  cursor: pointer;
+  // 네비게이션 스타일
+  width: 2.4rem; // 너비 2.4rem
+  height: 2.4rem; // 높이 2.4rem
+  display: none; // 숨김 처리
+  cursor: pointer; // 커서 모양 변경
+
   * {
-    stroke: var(--accent);
+    // 모든 하위 요소에 대해
+    stroke: var(--accent); // 테두리 색상 변수 사용
   }
 }
 
 .postBox {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: calc(100vh - 10vh);
-  max-height: 64rem;
-  gap: 1.6rem;
+  // 포스트 박스 스타일
+  padding: 2rem; // 안쪽 여백 2rem
+  display: flex; // 플렉스 박스로 정렬
+  flex-direction: column; // 세로 방향으로 정렬
+  justify-content: space-between; // 위아래 여백을 동일하게 설정
+  height: calc(100vh - 10vh); // 높이 계산
+  max-height: 64rem; // 최대 높이 64rem
+  gap: 1.6rem; // 요소 사이 여백 1.6rem
 
-  > .titleBox {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.8rem;
+  >.titleBox {
+    // 타이틀 박스 스타일
+    display: flex; // 플렉스 박스로 정렬
+    justify-content: space-between; // 양쪽 끝으로 정렬
+    align-items: baseline; // 기준선에 맞춰 정렬
+    gap: 0.8rem; // 요소 사이 여백 0.8rem
 
-    > p {
-      flex: 1;
+    >p {
+      // 문단 스타일
+      flex: 1; // 남은 공간 모두 차지
     }
   }
 
   >.postContBox {
-    flex: 1;
-    overflow: scroll;
-    background-color: var(--bg);
-    border-radius: 0.8rem;
-    padding: 1.6rem;
+    // 포스트 내용 박스 스타일
+    flex: 1; // 남은 공간 모두 차지
+    overflow: scroll; // 스크롤 생성
+    background-color: var(--bg); // 배경색 변수 사용
+    border-radius: 0.8rem; // 모서리 둥글게 처리
+    padding: 1.6rem; // 안쪽 여백 1.6rem
 
     >.postContent {
-      background-color: var(--bg);
-      overflow: hidden;
+      // 포스트 내용 스타일
+      background-color: var(--bg); // 배경색 변수 사용
+      overflow: hidden; // 넘치는 부분 숨김 처리
 
       >* {
-        color: var(--primary);
-        border-color: var(--sub-light);
+        // 모든 하위 요소에 대해
+        color: var(--primary); // 글자색 변수 사용
+        border-color: var(--sub-light); // 테두리 색상 변수 사용
       }
     }
   }
 
   >.postTagBox {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
+    // 포스트 태그 박스 스타일
+    display: flex; // 플렉스 박스로 정렬
+    flex-wrap: wrap; // 넘치면 줄바꿈 처리
+    gap: 0.8rem; // 요소 사이 여백 0.8rem
 
     >.postTagItem {
-      padding: 0.4rem 1.6rem;
-      cursor: pointer;
+      // 포스트 태그 아이템 스타일
+      padding: 0.4rem 1.6rem; // 안쪽 여백 설정
+      cursor: pointer; // 커서 모양 변경
 
       border: {
-        style: solid;
-        width: 0.2rem;
-        color: var(--sub);
-        radius: 0.8rem;
+        // 테두리 스타일
+        style: solid; // 실선
+        width: 0.2rem; // 두께 0.2rem
+        color: var(--sub); // 색상 변수 사용
+        radius: 0.8rem; // 모서리 둥글게 처리
       }
 
       &:hover {
-        border-color: transparent;
-        background-color: var(--accent);
-        color: white;
+        // 호버 스타일
+        border-color: transparent; // 테두리 색상 투명하게 처리
+        background-color: var(--accent); // 배경색 변수 사용
+        color: white; // 글자색 흰색으로 변경
       }
     }
   }
@@ -112,290 +121,462 @@
 
 .cmtsBox {
   display: flex;
+  /* flex 컨테이너로 설정 */
   flex-direction: column;
+  /* 세로 방향으로 아이템 정렬 */
   background-color: var(--thd-bg);
+  /* 배경색 지정 */
   height: 100%;
+  /* 높이 100%로 설정 */
 
   >.cmtsProfileBox {
+    /* 자식 요소 중 클래스명이 cmtsProfileBox인 요소 선택 */
     display: flex;
+    /* flex 컨테이너로 설정 */
     align-items: center;
+    /* 수직 정렬 */
     justify-content: space-between;
+    /* 양쪽 정렬 */
     padding: 1.2rem 1.6rem;
+    /* 안쪽 여백 지정 */
     border-bottom: 0.1rem solid var(--sub);
+    /* 아래쪽 테두리 지정 */
 
-    > .leftBox {
+    >.leftBox {
+      /* 자식 요소 중 클래스명이 leftBox인 요소 선택 */
       display: flex;
+      /* flex 컨테이너로 설정 */
       align-items: center;
+      /* 수직 정렬 */
       gap: 0.8rem;
+      /* 아이템 간격 지정 */
 
       >.userBox {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-
-      >.cmtsImg {
-        width: 3.6rem;
-        height: 3.6rem;
-        aspect-ratio: 1/1;
-
-        background: {
-          radius: 50%;
-          size: cover;
-          position: center;
-        }
-
-        border: {
-          radius: 50%;
-          width: 0.2rem;
-          color: var(--accent);
-          style: solid;
-        }
-      }
-
-      >.nameBox {
+        /* 자식 요소 중 클래스명이 userBox인 요소 선택 */
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        /* flex 컨테이너로 설정 */
+        align-items: center;
+        /* 수직 정렬 */
+        gap: 0.8rem;
+        /* 아이템 간격 지정 */
+
+        >.cmtsImg {
+          /* 자식 요소 중 클래스명이 cmtsImg인 요소 선택 */
+          width: 3.6rem;
+          /* 너비 지정 */
+          height: 3.6rem;
+          /* 높이 지정 */
+          aspect-ratio: 1/1;
+          /* 가로 세로 비율 1:1로 설정 */
+
+          background: {
+            /* 배경 설정 */
+            radius: 50%;
+            /* 반지름 50%로 설정 */
+            size: cover;
+            /* 크기 cover로 설정 */
+            position: center;
+            /* 위치 center로 설정 */
+          }
+
+          border: {
+            /* 테두리 설정 */
+            radius: 50%;
+            /* 반지름 50%로 설정 */
+            width: 0.2rem;
+            /* 두께 0.2rem으로 설정 */
+            color: var(--accent);
+            /* 색상 지정 */
+            style: solid;
+            /* 스타일 solid로 설정 */
+          }
+        }
+
+        >.nameBox {
+          /* 자식 요소 중 클래스명이 nameBox인 요소 선택 */
+          display: flex;
+          /* flex 컨테이너로 설정 */
+          flex-direction: column;
+          /* 세로 방향으로 아이템 정렬 */
+          justify-content: center;
+          /* 수직 정렬 */
+        }
       }
     }
-    }
 
-    
+
 
     >.funcBox {
+      /* 자식 요소 중 클래스명이 funcBox인 요소 선택 */
       display: flex;
+      /* flex 컨테이너로 설정 */
       align-items: center;
+      /* 수직 정렬 */
       gap: 0.8rem;
+      /* 아이템 간격 지정 */
 
       .removeBtn,
+      /* 클래스명이 removeBtn인 요소 선택 */
       .upBtn {
+        /* 클래스명이 upBtn인 요소 선택 */
         color: var(--sub);
+        /* 색상 지정 */
         width: 2.4rem;
+        /* 너비 지정 */
         height: 2.4rem;
+        /* 높이 지정 */
         cursor: pointer;
+        /* 커서 모양 pointer로 설정 */
 
         &:hover {
+          /* 호버 상태일 때 */
           color: var(--accent);
+          /* 색상 지정 */
         }
       }
     }
   }
 
   >.cmtsCommentBox {
+    /* 자식 요소 중 클래스명이 cmtsCommentBox인 요소 선택 */
     overflow: hidden;
+    /* 넘치는 부분 숨김 처리 */
     padding: 1.6rem;
+    /* 안쪽 여백 지정 */
 
     >.noExistsBox {
+      /* 자식 요소 중 클래스명이 noExistsBox인 요소 선택 */
       display: flex;
+      /* flex 컨테이너로 설정 */
       height: 100%;
+      /* 높이 100%로 설정 */
       width: 100%;
+      /* 너비 100%로 설정 */
       flex-direction: column;
+      /* 세로 방향으로 아이템 정렬 */
       justify-content: center;
+      /* 수직 정렬 */
       align-items: center;
+      /* 수평 정렬 */
 
       >div {
+        /* 자식 요소 중 div 요소 선택 */
         display: flex;
+        /* flex 컨테이너로 설정 */
         flex-direction: column;
+        /* 세로 방향으로 아이템 정렬 */
         gap: 0.4rem;
+        /* 아이템 간격 지정 */
         text-align: center;
+        /* 텍스트 정렬 방식 center로 설정 */
       }
     }
 
-    > .existsBox {
+    >.existsBox {
+      /* 자식 요소 중 클래스명이 existsBox인 요소 선택 */
       width: 100%;
+      /* 너비 100%로 설정 */
       height: 100%;
+      /* 높이 100%로 설정 */
       overflow: scroll;
+      /* 스크롤바 표시 */
       display: flex;
+      /* flex 컨테이너로 설정 */
       flex-direction: column;
+      /* 세로 방향으로 아이템 정렬 */
       gap: 0.8rem;
+      /* 아이템 간격 지정 */
       border-radius: 0.8rem;
+      /* 모서리 둥글게 처리 */
 
-      > .commentBox {
+      >.commentBox {
+        /* 자식 요소 중 클래스명이 commentBox인 요소 선택 */
         border-radius: 0.8rem;
+        /* 모서리 둥글게 처리 */
         background-color: var(--bg);
+        /* 배경색 지정 */
         padding: 1.2rem 1.6rem;
+        /* 안쪽 여백 지정 */
         display: flex;
+        /* flex 컨테이너로 설정 */
         flex-direction: column;
+        /* 세로 방향으로 아이템 정렬 */
         gap: 0.8rem;
+        /* 아이템 간격 지정 */
 
-        > .titleBox {
+        >.titleBox {
+          /* 자식 요소 중 클래스명이 titleBox인 요소 선택 */
           display: flex;
+          /* flex 컨테이너로 설정 */
           align-items: center;
+          /* 수직 정렬 */
           justify-content: space-between;
-          > .profileBox {
-          display: flex;
-          align-items: center;
-          gap: 0.8rem;
-  
-          > .profileImg {
-            width: 2.8rem;
-            height: 2.8rem;
-            aspect-ratio: 1 / 1;
-  
-            border: {
-              radius: 50%;
-              style: solid;
-              width: 0.25rem;
-              color: var(--accent);
-            }
-  
-            background: {
-              position: center;
-              size: cover;
-              repeat: no-repeat;
+
+          /* 양쪽 정렬 */
+          >.profileBox {
+            /* 자식 요소 중 클래스명이 profileBox인 요소 선택 */
+            display: flex;
+            /* flex 컨테이너로 설정 */
+            align-items: center;
+            /* 수직 정렬 */
+            gap: 0.8rem;
+            /* 아이템 간격 지정 */
+
+            >.profileImg {
+              /* 자식 요소 중 클래스명이 profileImg인 요소 선택 */
+              width: 2.8rem;
+              /* 너비 지정 */
+              height: 2.8rem;
+              /* 높이 지정 */
+              aspect-ratio: 1 / 1;
+              /* 가로 세로 비율 1:1로 설정 */
+
+              border: {
+                /* 테두리 설정 */
+                radius: 50%;
+                /* 반지름 50%로 설정 */
+                style: solid;
+                /* 스타일 solid로 설정 */
+                width: 0.25rem;
+                /* 두께 0.25rem으로 설정 */
+                color: var(--accent);
+                /* 색상 지정 */
+              }
+
+              background: {
+                /* 배경 설정 */
+                position: center;
+                /* 위치 center로 설정 */
+                size: cover;
+                /* 크기 cover로 설정 */
+                repeat: no-repeat;
+                /* 반복 없음으로 설정 */
+              }
             }
           }
         }
-        }
-        
-        > .comment {
-      background-color: var(--sub-bg);
-      border-radius: 0.8rem;
-      padding: 1.6rem;
+
+        >.comment {
+          /* 자식 요소 중 클래스명이 comment인 요소 선택 */
+          background-color: var(--sub-bg);
+          /* 배경색 지정 */
+          border-radius: 0.8rem;
+          /* 모서리 둥글게 처리 */
+          padding: 1.6rem;
+          /* 안쪽 여백 지정 */
         }
       }
     }
   }
 
-  >.cmtsFunctionBox {
-    padding: 1.6rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
-    border-top: 0.1rem solid var(--sub);
-
-    >.cmtsFunctionBtnBox {
+    >.cmtsFunctionBox {
+      padding: 1.6rem;
+      /* 패딩 */
       display: flex;
-      align-items: center;
-      grid-gap: 1.2rem;
-
-      >.followBtn {
-        color: white;
-        background-color: var(--accent);
-        padding: 0.6rem 1.6rem;
-        border-radius: 0.8rem;
-        cursor: pointer;
-
-        &:hover {
-          background-color: var(--accent-light);
-        }
-      }
-
-      >.unfollowBtn {
-        color: var(--accent);
-        background-color: var(--bg);
-        padding: 0.6rem 1.6rem;
-        border-radius: 0.8rem;
-        cursor: pointer;
-
-        &:hover {
-          background-color: var(--thd-bg);
-        }
-      }
-
-      >svg {
-        width: 2.4rem;
-        height: 2.4rem;
-        aspect-ratio: 1 / 1;
-        cursor: pointer;
-        color: var(--primary);
-
-        &:hover {
-          color: var(--accent);
-        }
-      }
-    }
-
-    >.cmtsFunctionWriteBox {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      height: 100%;
-
-      >div {
-        height: 100%;
+      /* 플렉스 박스 */
+      flex-direction: column;
+      /* 컬럼 방향 */
+      gap: 1.6rem;
+      /* 갭 */
+      border-top: 0.1rem solid var(--sub);
+      /* 상단 테두리 */
+  
+      >.cmtsFunctionBtnBox {
         display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-
-        input {
-          display: none;
-        }
-
-        >button {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100%;
-          background-color: var(--accent);
+        /* 플렉스 박스 */
+        align-items: center;
+        /* 수직 정렬 */
+        grid-gap: 1.2rem;
+        /* 그리드 갭 */
+  
+        >.followBtn {
           color: white;
-          padding: 0.4rem 1.6rem;
+          /* 글자 색상 */
+          background-color: var(--accent);
+          /* 배경 색상 */
+          padding: 0.6rem 1.6rem;
+          /* 패딩 */
           border-radius: 0.8rem;
+          /* 테두리 반경 */
           cursor: pointer;
-
+          /* 커서 */
+  
           &:hover {
             background-color: var(--accent-light);
+            /* 배경 색상 */
           }
-
-          svg,
-          path {
-            width: 1.6rem;
-            height: 1.6rem;
+        }
+  
+        >.unfollowBtn {
+          color: var(--accent);
+          /* 글자 색상 */
+          background-color: var(--bg);
+          /* 배경 색상 */
+          padding: 0.6rem 1.6rem;
+          /* 패딩 */
+          border-radius: 0.8rem;
+          /* 테두리 반경 */
+          cursor: pointer;
+          /* 커서 */
+  
+          &:hover {
+            background-color: var(--thd-bg);
+            /* 배경 색상 */
+          }
+        }
+  
+        >svg {
+          width: 2.4rem;
+          /* 너비 */
+          height: 2.4rem;
+          /* 높이 */
+          aspect-ratio: 1 / 1;
+          /* 가로 세로 비율 */
+          cursor: pointer;
+          /* 커서 */
+          color: var(--primary);
+          /* 색상 */
+  
+          &:hover {
+            color: var(--accent);
+            /* 색상 */
           }
         }
       }
-
-
-
-      >.inputComment {
-        flex: 1;
-        max-width: calc(100% - 4.8rem - 0.8rem);
-        height: 7.2rem;
-        border-radius: 0.8rem;
-        background-color: var(--bg);
-
-        >div:first-child {
+  
+      >.cmtsFunctionWriteBox {
+        display: flex;
+        /* 플렉스 박스 */
+        align-items: center;
+        /* 수직 정렬 */
+        gap: 0.8rem;
+        /* 갭 */
+        height: 100%;
+        /* 높이 */
+  
+        >div {
+          height: 100%;
+          /* 높이 */
+          display: flex;
+          /* 플렉스 박스 */
+          flex-direction: column;
+          /* 컬럼 방향 */
+          gap: 0.8rem;
+          /* 갭 */
+  
+          input {
+            display: none;
+            /* 표시하지 않음 */
+          }
+  
+          >button {
+            display: flex;
+            /* 플렉스 박스 */
+            justify-content: center;
+            /* 수평 정렬 */
+            align-items: center;
+            /* 수직 정렬 */
+            height: 100%;
+            /* 높이 */
+            background-color: var(--accent);
+            /* 배경 색상 */
+            color: white;
+            /* 글자 색상 */
+            padding: 0.4rem 1.6rem;
+            /* 패딩 */
+            border-radius: 0.8rem;
+            /* 테두리 반경 */
+            cursor: pointer;
+            /* 커서 */
+  
+            &:hover {
+              background-color: var(--accent-light);
+              /* 배경 색상 */
+            }
+  
+            svg,
+            path {
+              width: 1.6rem;
+              /* 너비 */
+              height: 1.6rem;
+              /* 높이 */
+            }
+          }
+        }
+  
+  
+  
+        >.inputComment {
+          flex: 1;
+          /* 플렉스 */
+          max-width: calc(100% - 4.8rem - 0.8rem);
+          /* 최대 너비 */
+          height: 7.2rem;
+          /* 높이 */
           border-radius: 0.8rem;
+          /* 테두리 반경 */
+          background-color: var(--bg);
+          /* 배경 색상 */
+  
+          >div:first-child {
+            border-radius: 0.8rem;
+            /* 테두리 반경 */
+          }
         }
       }
     }
-  }
-}
-
-.closeBtn {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 0.8rem;
-  color: #fff;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 75%;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1279px) {
-  .modal {
-    grid-template-columns: 1fr 0.75fr;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .modal {
-    grid-template-columns: repeat(1, 1fr);
-    height: unset;
-    max-height: 90%;
-    aspect-ratio: unset;
-  }
-
-  .postBox {
-    height: fit-content;
-  }
-
-  .nav {
-    display: block;
-  }
-}
+    }
+  
+    .closeBtn {
+      position: absolute;
+      /* 절대 위치 */
+      top: 0.8rem;
+      /* 위쪽 여백 */
+      right: 0.8rem;
+      /* 오른쪽 여백 */
+      width: 2.4rem;
+      /* 너비 */
+      height: 2.4rem;
+      /* 높이 */
+      border-radius: 0.8rem;
+      /* 테두리 반경 */
+      color: #fff;
+      /* 글자 색상 */
+      cursor: pointer;
+      /* 커서 */
+  
+      &:hover {
+        opacity: 75%;
+        /* 불투명도 */
+      }
+    }
+  
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      .modal {
+        grid-template-columns: 1fr 0.75fr;
+        /* 그리드 템플릿 열 */
+      }
+    }
+  
+    @media screen and (max-width: 767px) {
+      .modal {
+        grid-template-columns: repeat(1, 1fr);
+        /* 그리드 템플릿 열 */
+        height: unset;
+        /* 높이 */
+        max-height: 90%;
+        /* 최대 높이 */
+        aspect-ratio: unset;
+        /* 가로 세로 비율 */
+      }
+  
+      .postBox {
+        height: fit-content;
+        /* 높이 */
+      }
+  
+      .nav {
+        display: block;
+        /* 블록 요소 */
+      }
+    }

@@ -1,83 +1,100 @@
-@import "../../styles/reset.scss";
-@import "../../styles/_variabled";
+@import "../../styles/reset.scss"; // reset 스타일 파일 import
+@import "../../styles/_variabled"; // 변수 파일 import
 
 .wrapper {
-  width: 100%;
-  height: calc(100vh - 3.6rem);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%; // 너비 100%
+  height: calc(100vh - 3.6rem); // 높이는 뷰포트 높이에서 3.6rem을 뺀 값
+  display: flex; // flex로 배치
+  justify-content: center; // 수평 가운데 정렬
+  align-items: center; // 수직 가운데 정렬
 }
 
 .contentBox {
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
-  max-width: 64rem;
-  // border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.8rem 1.6rem;
+  width: 100%; // 너비 100%
+  height: 100%; // 높이 100%
+  overflow: scroll; // 내용이 넘칠 경우 스크롤 표시
+  max-width: 64rem; // 최대 너비 64rem
+  display: flex; // flex로 배치
+  flex-direction: column; // 수직으로 배치
+  align-items: center; // 수직 가운데 정렬
+  padding: 0.8rem 1.6rem; // 내부 여백
 
-  > h3 {
-    margin-top: 4.8rem;
-    margin-bottom: 1.8rem;
-    color: var(--accent);
+  >h3 {
+    // 자식 요소 중 h3 태그
+    margin-top: 4.8rem; // 위쪽 여백 4.8rem
+    margin-bottom: 1.8rem; // 아래쪽 여백 1.8rem
+    color: var(--accent); // 색상은 변수로 지정된 accent 색상 사용
   }
-  > h1 {
-    margin-bottom: 1.8rem;
+
+  >h1 {
+    // 자식 요소 중 h1 태그
+    margin-bottom: 1.8rem; // 아래쪽 여백 1.8rem
   }
 }
 
 .memberBox {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  // 클래스 memberBox
+  width: 100%; // 너비 100%
+  display: flex; // flex로 배치
+  justify-content: space-between; // 자식 요소들 사이에 공간을 동일하게 배분
 }
 
 .member {
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  gap: 0.8rem;
-  > img {
-    width: 100%;
-    border-radius: 0.8rem;
+  // 클래스 member
+  display: flex; // flex로 배치
+  flex-direction: column; // 수직으로 배치
+  width: 45%; // 너비 45%
+  gap: 0.8rem; // 자식 요소들 사이의 간격 0.8rem
+
+  >img {
+    // 자식 요소 중 img 태그
+    width: 100%; // 너비 100%
+    border-radius: 0.8rem; // 모서리를 둥글게 처리
   }
 
   >.infoBox {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
+    // 자식 요소 중 클래스 infoBox
+    display: flex; // flex로 배치
+    flex-direction: column; // 수직으로 배치
+    gap: 1.2rem; // 자식 요소들 사이의 간격 1.2rem
 
-    > .contactBox {
-      display: flex;
-      gap: 1.2rem;
+    >.contactBox {
+      // 자식 요소 중 클래스 contactBox
+      display: flex; // flex로 배치
+      gap: 1.2rem; // 자식 요소들 사이의 간격 1.2rem
 
-      > a {
-        > svg {
-        width: 2rem;
-        height: 2rem;
-        color: var(--sub-light);
+      >a {
 
-        &:hover {
-          color: var(--accent);
+        // 자식 요소 중 a 태그
+        >svg {
+          // 자식 요소 중 svg 태그
+          width: 2rem; // 너비 2rem
+          height: 2rem; // 높이 2rem
+          color: var(--sub-light); // 색상은 변수로 지정된 sub-light 색상 사용
+
+          &:hover {
+            // 마우스를 올렸을 때
+            color: var(--accent); // 색상은 변수로 지정된 accent 색상 사용
+          }
         }
       }
-      }
-      
+
     }
   }
 }
 
 @media screen and (max-width: 767px) {
+
+  // 미디어 쿼리
   .memberBox {
-    flex-direction: column;
-    align-items: center;
-    gap: 3.6rem;
-    > .member {
-      width: 90%;
+    // 클래스 memberBox
+    flex-direction: column; // 수직으로 배치
+    align-items: center; // 수직 가운데 정렬
+    gap: 3.6rem; // 자식 요소들 사이의 간격 3.6rem
+
+    >.member {
+      // 자식 요소 중 클래스 member
+      width: 90%; // 너비 90%
     }
   }
 }

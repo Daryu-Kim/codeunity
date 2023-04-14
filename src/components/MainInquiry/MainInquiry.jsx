@@ -7,26 +7,26 @@ import { AiFillMail } from "react-icons/ai";
 const MainInquiry = () => {
   const members = [
     {
-      name: "김원재",
-      img: "https://avatars.githubusercontent.com/u/86081049?v=4",
-      position: "Fullstack Engineer",
+      name: "김원재", // 멤버 이름
+      img: "https://avatars.githubusercontent.com/u/86081049?v=4", // 멤버 이미지
+      position: "Fullstack Engineer", // 멤버 직무 // 멤버 소개
       comment: `현재 5년차 미드레벨을 달리고 있는 풀스택 & 어플리케이션 개발자입니다!
-      항상 문제 해결과 협업을 위한 공부 및 경험을 끊임없이 하고 있으며, 하루하루 새로운 지식을 찾아 배워나가는 것을 좋아합니다:)
-      언제든 따끔한 지적은 환영입니다!`,
-      phone: "010-6894-1916",
-      email: "dev_daryu@kakao.com",
-      github: "https://github.com/Daryu-Kim",
+    항상 문제 해결과 협업을 위한 공부 및 경험을 끊임없이 하고 있으며, 하루하루 새로운 지식을 찾아 배워나가는 것을 좋아합니다:) 
+    언제든 따끔한 지적은 환영입니다!`, // 멤버 코멘트
+      phone: "010-6894-1916", // 멤버 전화번호
+      email: "dev_daryu@kakao.com", // 멤버 이메일
+      github: "https://github.com/Daryu-Kim", // 멤버 깃허브 주소
     },
     {
-      name: "백승호",
-      img: "https://avatars.githubusercontent.com/u/18731998?v=4",
-      position: "Front-End Developer",
-      comment: `북경이공대학교를 졸업하면서 계속 공부해왔고 앞으로도 계속 공부하고싶은 웹 개발자입니다.
-      저의 강점은 끈기와 성실함 입니다. 또한 부족한 부분은 빠르게 인정하고 더 배우고자 하고 초심을 잃지않고 문제를 해결
-      할 때까지 절대 포기하지 않습니다. `,
-      phone: "010-2045-7967",
-      email: "vudrkd1580@naver.com",
-      github: "https://github.com/baekseungho",
+      name: "백승호", // 멤버 이름
+      img: "https://avatars.githubusercontent.com/u/18731998?v=4", // 멤버 이미지
+      position: "Front-End Developer", // 멤버 직무 // 멤버 소개
+      comment: `북경이공대학교를 졸업하면서 계속 공부해왔고 앞으로도 계속 공부하고싶은 웹 개발자입니다. 
+    저의 강점은 끈기와 성실함 입니다. 또한 부족한 부분은 빠르게 인정하고 더 배우고자 하고 초심을 잃지않고 문제를 해결
+    할 때까지 절대 포기하지 않습니다. `, // 멤버 코멘트
+      phone: "010-2045-7967", // 멤버 전화번호
+      email: "vudrkd1580@naver.com", // 멤버 이메일
+      github: "https://github.com/baekseungho", // 멤버 깃허브 주소
     },
   ];
 
