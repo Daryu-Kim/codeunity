@@ -7,7 +7,19 @@ import imageCompression from "browser-image-compression";
 import { toastError, zipImage } from "../../modules/Functions";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { Timestamp, addDoc, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../../modules/Firebase";
 import { BsChatDotsFill } from "react-icons/bs";
 import { useEffect } from "react";
@@ -52,8 +64,7 @@ const MainChat = () => {
         })
       ).then((data) => setTargetData(data));
     }
-    
-  }, [chatListData])
+  }, [chatListData]);
 
   useEffect(() => {
     setSelectedChatID(localStorage.getItem("lastChatID"));
@@ -71,25 +82,25 @@ const MainChat = () => {
       orderBy("createdAt")
     );
     onSnapshot(filter, (snapshot) => {
-      const tempMessages = []
+      const tempMessages = [];
       snapshot.forEach((doc) => {
         tempMessages.push(doc.data());
-      })
-      setMessages(tempMessages)
-    })
-  }, [selectedChatID])
+      });
+      setMessages(tempMessages);
+    });
+  }, [selectedChatID]);
 
   useEffect(() => {
     setTimeout(() => {
       scrollToBottom();
     }, 200);
-  }, [messages])
+  }, [messages]);
 
   const handleListClick = (chatID, name) => {
     localStorage.setItem("lastChatID", chatID);
     localStorage.setItem("lastName", name);
-    setSelectedChatID(chatID)
-    setSelectedName(name)
+    setSelectedChatID(chatID);
+    setSelectedName(name);
     handleNext();
   };
 
@@ -97,7 +108,7 @@ const MainChat = () => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
-  }
+  };
 
   const handlePrev = useCallback(() => {
     if (!modalRef.current.swiper.slidePrev());
@@ -133,14 +144,10 @@ const MainChat = () => {
         userID: myUID,
       })
         .then(async (result) => {
-          await updateDoc(
-            doc(firestore, `Chats/${chatID}/Msgs`, result.id),
-            {
-              msgID: result.id,
-            }
-          )
+          await updateDoc(doc(firestore, `Chats/${chatID}/Msgs`, result.id), {
+            msgID: result.id,
+          })
             .then((result) => {
-
               setInputValue("");
               setSelectedFile(null);
             })
@@ -159,8 +166,12 @@ const MainChat = () => {
   return (
     <div className={styles.wrapper}>
       {isModalOpen && (
-          <MainFollow userID={myUID} closeModal={handleModalClose} modalType="Chat" />
-        )}
+        <MainFollow
+          userID={myUID}
+          closeModal={handleModalClose}
+          modalType="Chat"
+        />
+      )}
       <Swiper
         ref={modalRef}
         className={styles.swiper}
@@ -180,21 +191,31 @@ const MainChat = () => {
                   {chatListData.length}
                 </p>
               </div>
-              <BsChatDotsFill className={`${font.fs_20} ${styles.newChat}`} onClick={handleModalOpen} />
+              <BsChatDotsFill
+                className={`${font.fs_20} ${styles.newChat}`}
+                onClick={handleModalOpen}
+              />
             </div>
             {chatListData.length > 0 ? (
               <div className={styles.paddingBox}>
                 {chatListData.map((item, index) => (
-                  <div className={styles.chatListBox} key={index} onClick={() => handleListClick(item.chatID, targetData[index].userName)}>
+                  <div
+                    className={styles.chatListBox}
+                    key={index}
+                    onClick={() =>
+                      handleListClick(item.chatID, targetData[index].userName)
+                    }
+                  >
                     <div className={styles.list}>
                       <div
                         className={styles.profileImg}
                         style={
-                          targetData.length && (
-                            targetData[index].userImg ?
-                            {backgroundImage: `url(${targetData[index].userImg})`} :
-                            {backgroundImage: `url(${baseImg})`}
-                          )
+                          targetData.length &&
+                          (targetData[index].userImg
+                            ? {
+                                backgroundImage: `url(${targetData[index].userImg})`,
+                              }
+                            : { backgroundImage: `url(${baseImg})` })
                         }
                       ></div>
                       <p className={`${font.fs_16} ${font.fw_7}`}>
@@ -225,78 +246,89 @@ const MainChat = () => {
         <SwiperSlide className={styles.chatContainer}>
           <div className={styles.titleBox}>
             <div className={styles.title}>
-                <GrPrevious className={`${styles.nav} ${styles.mobile}`} onClick={handlePrev} />
-                <p className={`${font.fs_18} ${font.fw_7}`}>
-                  {selectedName ? selectedName : "대화상대 없음"}
-                </p>
-                <div className={styles.mobile}></div>
+              <GrPrevious
+                className={`${styles.nav} ${styles.mobile}`}
+                onClick={handlePrev}
+              />
+              <p className={`${font.fs_18} ${font.fw_7}`}>
+                {selectedName ? selectedName : "대화상대 없음"}
+              </p>
+              <div className={styles.mobile}></div>
             </div>
           </div>
           <div className={styles.messageList} ref={chatRef}>
-            {
-              selectedChatID ? (
-                messages.map((item, index) =>  item && (
-                  <div
-                    className={`
+            {selectedChatID ? (
+              messages.map(
+                (item, index) =>
+                  item && (
+                    <div
+                      className={`
                     ${styles.message}
                     ${item.userID !== myUID ? null : styles.user}
                     `}
-                    key={index}
-                  >
-                    {item.userID === myUID ? (
-                    <div className={styles.messageBox}>
-                      {item.msgImg && (
-                        <div className={styles.onMessageBox}>
-                          <img
-                            src={item.msgImg}
-                            alt="attached file"
-                          />
+                      key={index}
+                    >
+                      {item.userID === myUID ? (
+                        <div className={styles.messageBox}>
+                          {item.msgImg && (
+                            <div className={styles.onMessageBox}>
+                              <img src={item.msgImg} alt="attached file" />
+                            </div>
+                          )}
+                          {(item.msgText || item.msgImg) && (
+                            <div className={styles.underMessageBox}>
+                              <span
+                                className={`${styles.messageTime} ${font.fs_10}`}
+                              >
+                                {convertTimestamp(
+                                  currentTime.seconds,
+                                  item.createdAt.seconds
+                                )}
+                              </span>
+                              {item.msgText && (
+                                <span
+                                  className={`${styles.messageText} ${font.fw_5}`}
+                                >
+                                  {item.msgText}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {(item.msgText || item.msgImg) && (
-                        <div className={styles.underMessageBox}>
-                          <span className={`${styles.messageTime} ${font.fs_10}`}>
-                            {convertTimestamp(currentTime.seconds, item.createdAt.seconds)}
-                          </span>
-                          {item.msgText && (
-                            <span className={`${styles.messageText} ${font.fw_5}`}>
-                              {item.msgText}
-                            </span>
+                      ) : (
+                        <div className={styles.messageBoxN}>
+                          {item.msgImg && (
+                            <div className={styles.onMessageBoxN}>
+                              <img src={item.msgImg} alt="attached file" />
+                            </div>
+                          )}
+                          {(item.msgText || item.msgImg) && (
+                            <div className={styles.underMessageBoxN}>
+                              {item.msgText && (
+                                <span
+                                  className={`${styles.messageText} ${font.fw_5}`}
+                                >
+                                  {item.msgText}
+                                </span>
+                              )}
+                              <span
+                                className={`${styles.messageTime} ${font.fs_10}`}
+                              >
+                                {convertTimestamp(
+                                  currentTime.seconds,
+                                  item.createdAt.seconds
+                                )}
+                              </span>
+                            </div>
                           )}
                         </div>
                       )}
                     </div>
-                  ) : (
-                    <div className={styles.messageBoxN}>
-                      {item.msgImg && (
-                        <div className={styles.onMessageBoxN}>
-                          <img
-                            src={item.msgImg}
-                            alt="attached file"
-                          />
-                        </div>
-                      )}
-                      {(item.msgText || item.msgImg) && (
-                        <div className={styles.underMessageBoxN}>
-                          {item.msgText && (
-                            <span className={`${styles.messageText} ${font.fw_5}`}>
-                              {item.msgText}
-                            </span>
-                          )}
-                          <span className={`${styles.messageTime} ${font.fs_10}`}>
-                            {convertTimestamp(currentTime.seconds, item.createdAt.seconds)}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  </div>
-                  
-                ))
-              ) :
-              <p>채팅방 내놔</p>
-            }
-            
+                  )
+              )
+            ) : (
+              <p>채팅방이 없습니다!</p>
+            )}
           </div>
           <form className={styles.chatInput} onSubmit={sendMessage}>
             <div className={`${styles.chatInputBox} ${font.fs_14}`}>
@@ -306,9 +338,7 @@ const MainChat = () => {
                 placeholder="메시지를 입력하세요"
                 value={inputValue}
                 onChange={handleMessageChange}
-                disabled={
-                  selectedChatID ? false : true
-                }
+                disabled={selectedChatID ? false : true}
               />
               <div
                 className={styles.postFunBox}
@@ -323,16 +353,12 @@ const MainChat = () => {
               onChange={handleFileChange}
               ref={inputFileRef}
               className={styles.imgInput}
-              disabled={
-                selectedChatID ? false : true
-              }
+              disabled={selectedChatID ? false : true}
             />
             <button
               className={`${styles.chatInputBtn}  ${font.fs_14} ${font.fw_7}`}
               type="submit"
-              disabled={
-                selectedChatID ? false : true
-              }
+              disabled={selectedChatID ? false : true}
             >
               전송
             </button>
